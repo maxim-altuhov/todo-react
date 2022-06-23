@@ -1,15 +1,17 @@
+import classNames from 'classnames';
+
 import './List.scss';
 
-const List = ({ items }) => {
-
+const List = ({ items, addClassName, onClick }) => {
   return (
-  <ul className="list">
-    {items.map(({icon, color, name, active}, i) => (
-      <li className={active ? "list__item list__item_active" : "list__item"} key={i} >
-        <i className={color ? "list__icon list__icon_colored" : "list__icon"} style={{backgroundColor: color}}>
+  <ul onClick={onClick} className={classNames("list", addClassName)}>
+    {items.map(({icon, color, name, isActive}, i) => (
+      <li key={i} className={classNames("list__item", {"list__item_active": isActive})}>
+        <i className={classNames("list__icon", {"list__icon_colored": color})} style={{backgroundColor: color}}>
           {icon}
         </i>
         <span className="list__label">{name}</span>
+        {color ? <span className="list__close"></span> : null}
       </li>
     ))}
   </ul>

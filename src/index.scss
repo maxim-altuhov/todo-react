@@ -10,6 +10,11 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+button {
+  background-color: transparent;
+  border: 0;
+}
+
 .todo {
   position: absolute;
   top: 50%;
@@ -26,7 +31,8 @@
     background-color: #f4f6f8;
     width: 225px;
     height: 100%;
-    padding: 60px 20px;
+    padding: 60px 15px;
     border-right: 1px solid #f1f1f1;
+    border-radius: 10px 0px 0px 10px;
   }
 }
