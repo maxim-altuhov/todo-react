@@ -2,6 +2,8 @@ import { useState } from 'react';
 import classNames from 'classnames';
 
 import List from '../List';
+import Input from '../Input';
+import Button from '../Button';
 
 import './AddList.scss';
 import data from '../../assets/db.json';
@@ -17,30 +19,6 @@ const AddList = () => {
         addClassName="list_type_add-btn"
         items={[
           {
-            icon: (
-              <svg
-                width="12"
-                height="12"
-                viewBox="0 0 16 16"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M8 1V15"
-                  stroke="#000000"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-                <path
-                  d="M1 8H15"
-                  stroke="#000000"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            ),
             name: 'Добавить список',
           },
         ]}
@@ -48,7 +26,7 @@ const AddList = () => {
       {isOpenPopup && <div className="add-list__popup">
         <button onClick={() => setStatusPopup(false)} className="add-list__close"></button>
         <form action="#">
-            <input className="add-list__input" type="text" placeholder="Название списка"/>
+            <Input placeholder="Название списка" type="text"/>
             <ul className="add-list__colors-block">
               {data.colors.map(({id, hex}) => (
                 <li
@@ -58,7 +36,7 @@ const AddList = () => {
                   style={{backgroundColor: hex}}></li>
               ))}
             </ul>
-            <button className="add-list__btn" type="submit">Добавить</button>
+            <Button type="submit" text="Добавить"/>
         </form>
       </div>}
       

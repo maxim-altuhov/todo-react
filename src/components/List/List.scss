@@ -36,16 +36,29 @@
   }
 
   &__icon {
+    width: 18px;
+    height: 18px;
     margin-right: 9px;
-    display: inline-block;
+    background-image: url('../../assets/img/list.svg');
+    background-repeat: no-repeat;
+    background-size: contain;
+    opacity: 0.4;
 
     &_colored {
+      position: relative;
+      left: 2px;
       width: 12px;
       height: 12px;
       border-radius: 50%;
-      position: relative;
-      left: 2px;
+      opacity: 1;
+      background-image: none;
       margin-right: 15px;
+    }
+
+    &_type_add-btn {
+      width: 15px;
+      height: 15px;
+      background-image: url('../../assets/img/add.svg');
     }
   }
 
