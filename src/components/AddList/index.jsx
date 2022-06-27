@@ -1,27 +1,18 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useHttp } from '../../hooks/http.hook';
 import classNames from 'classnames';
 import { v4 as uuidv4 } from 'uuid';
 
-import List from '../List';
-import Input from '../Input';
-import Button from '../Button';
+import { List, Input, Button } from '../index.js';
 
 import './AddList.scss';
 
-const AddList = ({ onAdd }) => {
+const AddList = ({ onAdd, colors }) => {
   const { request } = useHttp();
   const [isOpenPopup, setStatusPopup] = useState(false);
+  const [isLoading, setLoading] = useState(false);
   const [selectedColorId, setSelectedColor] = useState(1);
-  const [colors, setColors] = useState([]);
   const [inputValue, setInputValue] = useState('');
-
-  useEffect(() => {
-    request('http://localhost:3001/colors')
-      .then((data) => setColors(data))
-      .catch((err) => console.log(err));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   const onCreateList = (e) => {
     e.preventDefault();
@@ -30,17 +21,21 @@ const AddList = ({ onAdd }) => {
       id: uuidv4(),
       name: inputValue,
       colorId: selectedColorId,
-      color: colors[selectedColorId - 1].hex,
     };
+
+    setLoading(true);
 
     request('http://localhost:3001/lists', 'POST', JSON.stringify(newList))
       .then((data) => {
-        onAdd(data);
+        const modifData = { ...data, color: { hex: colors[selectedColorId - 1].hex } };
+
+        onAdd(modifData);
         setStatusPopup(false);
         setSelectedColor(1);
         setInputValue('');
       })
-      .catch((err) => console.log(err));
+      .catch((err) => console.log(err))
+      .finally(() => setLoading(false));
   };
 
   return (
@@ -79,7 +74,7 @@ const AddList = ({ onAdd }) => {
               ))}
             </ul>
 
-            <Button type="submit" text="Добавить" />
+            <Button type="submit" text={isLoading ? 'Добавление...' : 'Добавить'} />
           </form>
         </div>
       )}
