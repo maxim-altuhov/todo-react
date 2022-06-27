@@ -1,7 +1,15 @@
-import './Input.scss'
+import './Input.scss';
 
-const Input = ({placeholder = 'Текст', type = 'text',}) => {
-  return (<input className="input-field" type={type} placeholder={placeholder}/>)
-}
+const Input = ({ onChangeValue, placeholder = 'Текст', type = 'text', required = false }) => {
+  return (
+    <input
+      className="input-field"
+      type={type}
+      placeholder={placeholder}
+      onChange={onChangeValue}
+      required={required}
+    />
+  );
+};
 
 export default Input;
