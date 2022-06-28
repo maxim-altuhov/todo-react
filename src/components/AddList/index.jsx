@@ -41,7 +41,7 @@ const AddList = ({ onAdd, colors }) => {
   return (
     <div className="add-list">
       <List
-        onClick={() => setStatusPopup((isOpenPopup) => !isOpenPopup)}
+        onSetStatusPopup={() => setStatusPopup((isOpenPopup) => !isOpenPopup)}
         addClassName="list_type_add-btn"
         items={[
           {
@@ -62,16 +62,20 @@ const AddList = ({ onAdd, colors }) => {
             />
 
             <ul className="add-list__colors-block">
-              {colors.map(({ id, hex }) => (
-                <li
-                  onClick={() => setSelectedColor(id)}
-                  key={id}
-                  className={classNames('add-list__color', {
-                    'add-list__color_active': selectedColorId === id,
-                  })}
-                  style={{ backgroundColor: hex }}
-                ></li>
-              ))}
+              {colors ? (
+                colors.map(({ id, hex }) => (
+                  <li
+                    onClick={() => setSelectedColor(id)}
+                    key={id}
+                    className={classNames('add-list__color', {
+                      'add-list__color_active': selectedColorId === id,
+                    })}
+                    style={{ backgroundColor: hex }}
+                  ></li>
+                ))
+              ) : (
+                <span>Загрузка...</span>
+              )}
             </ul>
 
             <Button type="submit" text={isLoading ? 'Добавление...' : 'Добавить'} />

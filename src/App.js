@@ -38,9 +38,8 @@ const App = () => {
       .catch((err) => console.log(err));
   };
 
-  const onActiveList = (id) => {
-    const activeList = lists.filter((list) => list.id === id);
-    setActiveList(activeList[0]);
+  const onActiveList = (list) => {
+    setActiveList(list);
   };
 
   return (
@@ -48,14 +47,26 @@ const App = () => {
       <div className="todo__sidebar">
         <List items={[{ name: 'Все задачи' }]} />
         {lists ? (
-          <List onRemove={onRemove} onActiveList={onActiveList} items={lists} isRemovable />
+          <>
+            <List
+              onRemove={onRemove}
+              onActiveList={onActiveList}
+              items={lists}
+              isRemovable
+              activeList={activeList}
+            />
+            <AddList onAdd={onAddList} colors={colors} />
+          </>
         ) : (
           <Spinner />
         )}
-        <AddList onAdd={onAddList} colors={colors} />
       </div>
       <div className="todo__tasks">
-        {lists && activeList ? <Task list={activeList} /> : <h2>Список не выбран</h2>}
+        {lists && activeList ? (
+          <Task list={activeList} />
+        ) : (
+          <p className="todo__title">Список не выбран</p>
+        )}
       </div>
     </div>
   );

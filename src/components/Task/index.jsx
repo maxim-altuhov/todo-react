@@ -12,6 +12,7 @@ const Task = ({ list }) => {
         </h2>
         <img className="task__icon" src={editSvg} alt="edit icon" />
       </div>
+      {tasks && tasks.length === 0 && <p className="task__none">Задачи отсутствуют</p>}
       {tasks.map(({ id, text }) => (
         <div key={id} className="task__item">
           <div className="checkbox">

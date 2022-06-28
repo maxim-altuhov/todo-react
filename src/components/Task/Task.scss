@@ -16,7 +16,14 @@
   }
 
   &__icon {
-    opacity: 0.3;
+    opacity: 0.2;
+  }
+
+  &__none {
+    margin-top: 10px;
+    font-size: 25px;
+    font-weight: 500;
+    color: #c9d1d3;
   }
 
   &__item {
