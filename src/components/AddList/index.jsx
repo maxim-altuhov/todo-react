@@ -21,15 +21,15 @@ const AddList = ({ onAdd, colors }) => {
       id: uuidv4(),
       name: inputValue,
       colorId: selectedColorId,
+      color: { hex: colors[selectedColorId - 1].hex },
+      tasks: [],
     };
 
     setLoading(true);
 
     request('http://localhost:3001/lists', 'POST', JSON.stringify(newList))
       .then((data) => {
-        const modifData = { ...data, color: { hex: colors[selectedColorId - 1].hex } };
-
-        onAdd(modifData);
+        onAdd(data);
         setStatusPopup(false);
         setSelectedColor(1);
         setInputValue('');
