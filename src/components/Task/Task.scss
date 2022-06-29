@@ -12,11 +12,11 @@
     font-size: 32px;
     line-height: 39px;
     margin-right: 15px;
-    cursor: pointer;
   }
 
   &__icon {
     opacity: 0.2;
+    cursor: pointer;
   }
 
   &__none {
@@ -24,10 +24,15 @@
     font-size: 25px;
     font-weight: 500;
     color: #c9d1d3;
+    margin: 10px 0 20px 5px;
   }
 
   &__item {
     margin-top: 20px;
+
+    &:last-child {
+      margin-bottom: 20px;
+    }
   }
 
   .checkbox {

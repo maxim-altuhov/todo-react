@@ -25,6 +25,18 @@ const App = () => {
     setActiveList(data);
   };
 
+  const onAddTasks = (listId, data) => {
+    const newList = lists.map((list) => {
+      if (list.id === listId) {
+        list.tasks = [...list.tasks, data];
+      }
+
+      return list;
+    });
+
+    setLists(newList);
+  };
+
   const onRemove = (e, id) => {
     e.stopPropagation();
 
@@ -42,6 +54,16 @@ const App = () => {
     setActiveList(list);
   };
 
+  const onEditListTitle = (id, title) => {
+    const newList = lists.map((list) => {
+      if (list.id === id) list.name = title;
+
+      return list;
+    });
+
+    setLists(newList);
+  };
+
   return (
     <div className="todo">
       <div className="todo__sidebar">
@@ -52,8 +74,8 @@ const App = () => {
               onRemove={onRemove}
               onActiveList={onActiveList}
               items={lists}
-              isRemovable
               activeList={activeList}
+              isRemovable
             />
             <AddList onAdd={onAddList} colors={colors} />
           </>
@@ -63,7 +85,7 @@ const App = () => {
       </div>
       <div className="todo__tasks">
         {lists && activeList ? (
-          <Task list={activeList} />
+          <Task onAddTasks={onAddTasks} onEditListTitle={onEditListTitle} list={activeList} />
         ) : (
           <p className="todo__title">Список не выбран</p>
         )}

@@ -1,0 +1,37 @@
+.add-btn {
+  display: inline-flex;
+  align-items: center;
+  margin-left: 5px;
+  font-weight: 500;
+  font-size: 16px;
+  cursor: pointer;
+  opacity: 0.4;
+  transition: opacity 0.2s linear;
+
+  img {
+    width: 16px;
+    height: 16px;
+    margin-right: 17px;
+  }
+
+  &:hover {
+    opacity: 1;
+  }
+}
+
+.task-form {
+  &__btn-block {
+    display: flex;
+    margin-top: 15px;
+  }
+
+  &__btn-block-item {
+    width: 145px;
+    margin-right: 10px;
+
+    &:last-child {
+      width: 90px;
+      margin-right: 0;
+    }
+  }
+}

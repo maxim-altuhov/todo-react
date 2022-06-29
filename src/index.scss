@@ -30,7 +30,7 @@ button {
 
   &__sidebar {
     background-color: #f4f6f8;
-    width: 225px;
+    min-width: 225px;
     height: auto;
     padding: 60px 15px;
     border-right: 1px solid #f1f1f1;

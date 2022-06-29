@@ -21,15 +21,17 @@ const AddList = ({ onAdd, colors }) => {
       id: uuidv4(),
       name: inputValue,
       colorId: selectedColorId,
-      color: { hex: colors[selectedColorId - 1].hex },
-      tasks: [],
     };
 
     setLoading(true);
 
     request('http://localhost:3001/lists', 'POST', JSON.stringify(newList))
-      .then((data) => {
-        onAdd(data);
+      .then(() => {
+        onAdd({
+          ...newList,
+          color: { hex: colors[selectedColorId - 1].hex },
+          tasks: [],
+        });
         setStatusPopup(false);
         setSelectedColor(1);
         setInputValue('');
@@ -78,7 +80,11 @@ const AddList = ({ onAdd, colors }) => {
               )}
             </ul>
 
-            <Button type="submit" text={isLoading ? 'Добавление...' : 'Добавить'} />
+            <Button
+              type="submit"
+              text={isLoading ? 'Добавление...' : 'Добавить'}
+              disabled={isLoading}
+            />
           </form>
         </div>
       )}
