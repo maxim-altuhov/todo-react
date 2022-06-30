@@ -5,7 +5,14 @@ import './Task.scss';
 import editSvg from '../../assets/img/edit.svg';
 import removeSvg from '../../assets/img/remove.svg';
 
-const Task = ({ list, onEditListTitle, onAddTasks, onToggleStatusTask }) => {
+const Task = ({
+  list,
+  onEditListTitle,
+  onAddTasks,
+  onRemoveTask,
+  onEditTaskName,
+  onToggleStatusTask,
+}) => {
   const { request } = useHttp();
   const { id, tasks, color, name } = list;
 
@@ -22,6 +29,31 @@ const Task = ({ list, onEditListTitle, onAddTasks, onToggleStatusTask }) => {
         }),
       ).catch(() => alert('Не удалось обновить название списка!'));
     }
+  };
+
+  const editTask = (taskId, text) => {
+    const newTaskName = window.prompt('Название задачи', text);
+
+    if (newTaskName) {
+      onEditTaskName(taskId, id, newTaskName);
+
+      request(
+        `http://localhost:3001/tasks/${taskId}`,
+        'PATCH',
+        JSON.stringify({
+          text: newTaskName,
+        }),
+      ).catch(() => alert('Не удалось обновить название задачи!'));
+    }
+  };
+
+  const removeTask = (taskId) => {
+    if (!window.confirm('Удалить задачу?')) return;
+    onRemoveTask(taskId, id);
+
+    request(`http://localhost:3001/tasks/${taskId}`, 'DELETE').catch(() =>
+      alert('Не удалось удалить задачу!'),
+    );
   };
 
   const toggleStatusTask = (taskId, listId, completed) => {
@@ -73,10 +105,10 @@ const Task = ({ list, onEditListTitle, onAddTasks, onToggleStatusTask }) => {
               <span className="task__text">{text}</span>
             </div>
             <div className="task__control">
-              <div className="task__control-item">
+              <div className="task__control-item" onClick={() => editTask(id, text)}>
                 <img src={editSvg} alt="Edit icon" />
               </div>
-              <div className="task__control-item">
+              <div className="task__control-item" onClick={() => removeTask(id)}>
                 <img src={removeSvg} alt="Remove icon" />
               </div>
             </div>

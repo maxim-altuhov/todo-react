@@ -80,6 +80,34 @@ const App = () => {
     setLists(newList);
   };
 
+  const onEditTaskName = (taskId, listId, newTaskName) => {
+    const newList = lists.map((list) => {
+      if (list.id === listId) {
+        list.tasks = list.tasks.map((task) => {
+          if (task.id === taskId) task.text = newTaskName;
+
+          return task;
+        });
+      }
+
+      return list;
+    });
+
+    setLists(newList);
+  };
+
+  const onRemoveTask = (taskId, listId) => {
+    const newList = lists.map((list) => {
+      if (list.id === listId) {
+        list.tasks = list.tasks.filter((task) => task.id !== taskId);
+      }
+
+      return list;
+    });
+
+    setLists(newList);
+  };
+
   return (
     <div className="todo">
       <div className="todo__sidebar">
@@ -105,6 +133,8 @@ const App = () => {
             onToggleStatusTask={onToggleStatusTask}
             onAddTasks={onAddTasks}
             onEditListTitle={onEditListTitle}
+            onEditTaskName={onEditTaskName}
+            onRemoveTask={onRemoveTask}
             list={activeList}
           />
         ) : (
