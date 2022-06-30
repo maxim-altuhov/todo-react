@@ -5,7 +5,7 @@ import './Task.scss';
 import editSvg from '../../assets/img/edit.svg';
 import removeSvg from '../../assets/img/remove.svg';
 
-const Task = ({ list, onEditListTitle, onAddTasks }) => {
+const Task = ({ list, onEditListTitle, onAddTasks, onToggleStatusTask }) => {
   const { request } = useHttp();
   const { id, tasks, color, name } = list;
 
@@ -22,6 +22,14 @@ const Task = ({ list, onEditListTitle, onAddTasks }) => {
         }),
       ).catch(() => alert('Не удалось обновить название списка!'));
     }
+  };
+
+  const toggleStatusTask = (taskId, listId, completed) => {
+    onToggleStatusTask(taskId, listId, completed);
+
+    request(`http://localhost:3001/tasks/${taskId}`, 'PATCH', JSON.stringify({ completed })).catch(
+      () => alert('Не удалось обновить состояние задачи!'),
+    );
   };
 
   return (
@@ -42,6 +50,7 @@ const Task = ({ list, onEditListTitle, onAddTasks }) => {
                 type="checkbox"
                 name={`name-${id}`}
                 id={`task-${id}`}
+                onChange={() => toggleStatusTask(id, list.id, !completed)}
                 defaultChecked={completed}
               />
               <label className="checkbox__label" htmlFor={`task-${id}`}>

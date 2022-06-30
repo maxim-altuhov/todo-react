@@ -37,6 +37,22 @@ const App = () => {
     setLists(newList);
   };
 
+  const onToggleStatusTask = (taskId, listId, completed) => {
+    const newList = lists.map((list) => {
+      if (list.id === listId) {
+        list.tasks = list.tasks.map((task) => {
+          if (task.id === taskId) task.completed = completed;
+
+          return task;
+        });
+      }
+
+      return list;
+    });
+
+    setLists(newList);
+  };
+
   const onRemove = (e, id) => {
     e.stopPropagation();
 
@@ -85,7 +101,12 @@ const App = () => {
       </div>
       <div className="todo__tasks">
         {lists && activeList ? (
-          <Task onAddTasks={onAddTasks} onEditListTitle={onEditListTitle} list={activeList} />
+          <Task
+            onToggleStatusTask={onToggleStatusTask}
+            onAddTasks={onAddTasks}
+            onEditListTitle={onEditListTitle}
+            list={activeList}
+          />
         ) : (
           <p className="todo__tasks-title">Список не выбран</p>
         )}
