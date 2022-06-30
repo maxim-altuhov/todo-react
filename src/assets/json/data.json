@@ -29,6 +29,11 @@
       "id": "79812cc8-b43f-4f29-b4c8-ad6c9dfa3ddc",
       "name": "Тест",
       "colorId": 8
+    },
+    {
+      "id": "685e33b1-40f8-4a5f-bb33-90f7550f5a3e",
+      "name": "Разработка",
+      "colorId": 6
     }
   ],
   "tasks": [
@@ -102,6 +107,84 @@
       "id": "9d2cde45-d1d1-4b43-9365-534d7db384a6",
       "listId": 4,
       "text": "133",
+      "completed": false
+    },
+    {
+      "id": "c6927014-1a30-483a-9b2f-d8e1b1ccebec",
+      "listId": 4,
+      "text": "22323",
+      "completed": false
+    },
+    {
+      "id": "93da0c22-b1f6-4bd1-921b-986539ff8568",
+      "listId": "685e33b1-40f8-4a5f-bb33-90f7550f5a3e",
+      "text": "Фокус на инпут при новом списке и задаче",
+      "completed": false
+    },
+    {
+      "id": "1aa2da20-4ea2-41e7-ad1c-7aef5828c68a",
+      "listId": "685e33b1-40f8-4a5f-bb33-90f7550f5a3e",
+      "text": "Удаление и редактирование задач",
+      "completed": false
+    },
+    {
+      "id": "be3226fb-5c8a-412a-a80f-4b438b27fce5",
+      "listId": "685e33b1-40f8-4a5f-bb33-90f7550f5a3e",
+      "text": "Внешний вид, скроллы",
+      "completed": false
+    },
+    {
+      "id": "e0bb5ddc-f929-4563-8d82-b7b92e889d9f",
+      "listId": "685e33b1-40f8-4a5f-bb33-90f7550f5a3e",
+      "text": "Адаптив",
+      "completed": false
+    },
+    {
+      "id": "0cad8cd4-d3a6-4a98-b365-87f5957d6d74",
+      "listId": "685e33b1-40f8-4a5f-bb33-90f7550f5a3e",
+      "text": "Возможно перейти на Redux",
+      "completed": false
+    },
+    {
+      "id": "4577d622-3260-4f61-b296-3d390bc64b1b",
+      "listId": "685e33b1-40f8-4a5f-bb33-90f7550f5a3e",
+      "text": "Состояния компонентов скомпоновать в одно место",
+      "completed": false
+    },
+    {
+      "id": "5fea82c6-4a68-4c4a-96b1-cbb5e28b20fa",
+      "listId": "685e33b1-40f8-4a5f-bb33-90f7550f5a3e",
+      "text": "Доступность",
+      "completed": false
+    },
+    {
+      "id": "9acbbf51-1ebc-44e7-9d94-0a7228a1a376",
+      "listId": "685e33b1-40f8-4a5f-bb33-90f7550f5a3e",
+      "text": "Отмечать выполненные задачи фронт/бек",
+      "completed": false
+    },
+    {
+      "id": "3889e064-69ff-4047-b8b7-170cf739c439",
+      "listId": "685e33b1-40f8-4a5f-bb33-90f7550f5a3e",
+      "text": "Сделать авторизацию со своим списком",
+      "completed": false
+    },
+    {
+      "id": "30eec062-9021-4ddb-981c-bcc51300f38d",
+      "listId": "685e33b1-40f8-4a5f-bb33-90f7550f5a3e",
+      "text": "Серверная часть",
+      "completed": false
+    },
+    {
+      "id": "d1f8c2ec-5eea-48d5-b105-3de216246985",
+      "listId": "685e33b1-40f8-4a5f-bb33-90f7550f5a3e",
+      "text": "первая буква задачи и списка большая",
+      "completed": false
+    },
+    {
+      "id": "55eaa72d-421b-4dfd-9a99-02b6a91ac2e8",
+      "listId": "685e33b1-40f8-4a5f-bb33-90f7550f5a3e",
+      "text": "Добавить кастомные цвета",
       "completed": false
     }
   ],

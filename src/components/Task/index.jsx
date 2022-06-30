@@ -3,6 +3,7 @@ import { AddTask } from '../index.js';
 
 import './Task.scss';
 import editSvg from '../../assets/img/edit.svg';
+import removeSvg from '../../assets/img/remove.svg';
 
 const Task = ({ list, onEditListTitle, onAddTasks }) => {
   const { request } = useHttp();
@@ -62,10 +63,18 @@ const Task = ({ list, onEditListTitle, onAddTasks }) => {
               </label>
               <span className="task__text">{text}</span>
             </div>
+            <div className="task__control">
+              <div className="task__control-item">
+                <img src={editSvg} alt="Edit icon" />
+              </div>
+              <div className="task__control-item">
+                <img src={removeSvg} alt="Remove icon" />
+              </div>
+            </div>
           </div>
         ))}
       </div>
-      <AddTask list={list} onAddTasks={onAddTasks} />
+      <AddTask key={id} list={list} onAddTasks={onAddTasks} />
     </>
   );
 };

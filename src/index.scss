@@ -20,8 +20,9 @@ button {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  min-height: 530px;
-  width: 825px;
+  max-height: calc(100vh - 200px);
+  min-height: 200px;
+  max-width: 825px;
   border-radius: 10px;
   border: 1px solid #f1f1f1;
   box-shadow: 1px 5px 15px #b1b0b0;
@@ -30,19 +31,26 @@ button {
 
   &__sidebar {
     background-color: #f4f6f8;
-    min-width: 225px;
-    height: auto;
+    min-width: 285px;
     padding: 60px 15px;
     border-right: 1px solid #f1f1f1;
     border-radius: 10px 0px 0px 10px;
+    overflow-y: auto;
+  }
+
+  &__sidebar-title {
+    font-size: 16px;
+    font-weight: 500;
+    margin: 0px 0px 20px 15px;
   }
 
   &__tasks {
     padding: 50px;
-    width: 100%;
+    min-width: 550px;
+    overflow-y: auto;
   }
 
-  &__title {
+  &__tasks-title {
     color: #c9d1d3;
     font-size: 25px;
     font-weight: 500;

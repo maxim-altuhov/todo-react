@@ -1,10 +1,7 @@
 .add-list {
-  position: relative;
-
   &__popup {
-    position: absolute;
-    top: 45px;
-    left: 0;
+    position: relative;
+    left: 5px;
     width: 235px;
     height: 148px;
     background: #ffffff;

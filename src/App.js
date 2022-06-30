@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
-import { useHttp } from './hooks/http.hook';
 
+import { useHttp } from './hooks/http.hook';
 import { AddList, List, Task, Spinner } from './components';
 
 const App = () => {
@@ -67,7 +67,7 @@ const App = () => {
   return (
     <div className="todo">
       <div className="todo__sidebar">
-        <List items={[{ name: 'Все задачи' }]} />
+        <p className="todo__sidebar-title">Список задач:</p>
         {lists ? (
           <>
             <List
@@ -87,7 +87,7 @@ const App = () => {
         {lists && activeList ? (
           <Task onAddTasks={onAddTasks} onEditListTitle={onEditListTitle} list={activeList} />
         ) : (
-          <p className="todo__title">Список не выбран</p>
+          <p className="todo__tasks-title">Список не выбран</p>
         )}
       </div>
     </div>
