@@ -53,6 +53,7 @@ const AddTask = ({ list, onAddTasks }) => {
             value={inputValue}
             onChangeValue={(e) => setInputValue(e.target.value)}
             required
+            autofocus
           />
           <div className="task-form__btn-block">
             <div className="task-form__btn-block-item">

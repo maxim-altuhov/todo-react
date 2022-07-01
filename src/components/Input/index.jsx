@@ -1,6 +1,12 @@
 import './Input.scss';
 
-const Input = ({ onChangeValue, placeholder = 'Текст', type = 'text', required = false }) => {
+const Input = ({
+  onChangeValue,
+  placeholder = 'Текст',
+  type = 'text',
+  required = false,
+  autofocus = false,
+}) => {
   return (
     <input
       className="input-field"
@@ -8,6 +14,7 @@ const Input = ({ onChangeValue, placeholder = 'Текст', type = 'text', requi
       placeholder={placeholder}
       onChange={onChangeValue}
       required={required}
+      autoFocus={autofocus}
     />
   );
 };

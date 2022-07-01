@@ -57,6 +57,7 @@ const AddList = ({ onAdd, colors }) => {
           <form action="#" onSubmit={onCreateList}>
             <Input
               required
+              autofocus
               placeholder="Название списка"
               type="text"
               value={inputValue}

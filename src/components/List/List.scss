@@ -22,6 +22,10 @@
     margin-bottom: 5px;
     cursor: pointer;
 
+    &:first-letter {
+      text-transform: uppercase;
+    }
+
     &:hover {
       background-color: rgba(255, 255, 255, 0.8);
 

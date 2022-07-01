@@ -119,7 +119,7 @@
       "id": "93da0c22-b1f6-4bd1-921b-986539ff8568",
       "listId": "685e33b1-40f8-4a5f-bb33-90f7550f5a3e",
       "text": "Фокус на инпут при новом списке и задаче",
-      "completed": false
+      "completed": true
     },
     {
       "id": "1aa2da20-4ea2-41e7-ad1c-7aef5828c68a",
@@ -179,7 +179,7 @@
       "id": "d1f8c2ec-5eea-48d5-b105-3de216246985",
       "listId": "685e33b1-40f8-4a5f-bb33-90f7550f5a3e",
       "text": "первая буква задачи и списка большая",
-      "completed": false
+      "completed": true
     },
     {
       "id": "55eaa72d-421b-4dfd-9a99-02b6a91ac2e8",
