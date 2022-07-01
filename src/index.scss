@@ -1,4 +1,20 @@
+@mixin scrollbars($size: 10px, $foreground-color: #333, $background-color: #999) {
+  &::-webkit-scrollbar {
+    width: $size;
+    height: $size;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: $foreground-color;
+  }
+  &::-webkit-scrollbar-track {
+    background: $background-color;
+  }
+
+  scrollbar-color: $foreground-color $background-color;
+}
+
 * {
+  @include scrollbars($size: 7px, $foreground-color: #00ad62, $background-color: #d8d8d8);
   margin: 0;
   padding: 0;
   list-style: none;
