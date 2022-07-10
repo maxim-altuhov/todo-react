@@ -14,7 +14,7 @@
 }
 
 * {
-  @include scrollbars($size: 7px, $foreground-color: #00ad62, $background-color: #d8d8d8);
+  @include scrollbars($size: 7px, $foreground-color: #8b8b8b, $background-color: #c5c4c3);
   margin: 0;
   padding: 0;
   list-style: none;
@@ -37,38 +37,144 @@ button {
   left: 50%;
   transform: translate(-50%, -50%);
   height: calc(100vh - 100px);
+  min-width: 320px;
   min-height: 300px;
-  max-width: 835px;
   border-radius: 10px;
   border: 1px solid #f1f1f1;
   box-shadow: 1px 5px 15px #b1b0b0;
   font-size: 14px;
   display: flex;
 
+  @media (max-width: 900px) {
+    height: 100vh;
+    min-height: 100vh;
+    position: static;
+    top: 0%;
+    left: 0%;
+    transform: none;
+  }
+
   &__sidebar {
     background-color: #f4f6f8;
     min-width: 285px;
-    padding: 60px 15px;
+    padding: 60px 20px;
     border-right: 1px solid #f1f1f1;
     border-radius: 10px 0px 0px 10px;
     overflow-y: auto;
+    transition: width 0.3s linear;
+
+    @media (max-width: 900px) {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 5;
+      min-width: auto;
+      width: 75px;
+      flex: 0 0 auto;
+    }
+
+    @media (max-width: 575px) {
+      width: 45px;
+    }
+
+    &_close {
+      padding: 60px 0;
+
+      .list__item {
+        width: 40px;
+        height: 40px;
+        border-radius: 100%;
+        padding: 0;
+        justify-content: center;
+        margin: 0 auto;
+
+        @media (max-width: 575px) {
+          width: 30px;
+          height: 30px;
+          margin: 10px auto;
+        }
+      }
+
+      .list__icon {
+        margin-right: 0;
+        left: 0;
+      }
+
+      .list__label {
+        display: none;
+      }
+
+      .list__close {
+        display: none;
+      }
+    }
+
+    &_open {
+      width: 320px;
+
+      @media (max-width: 375px) {
+        width: 100%;
+      }
+
+      .todo__sidebar-menu {
+        right: 15px;
+        transform: translateX(0) rotate(180deg);
+      }
+
+      .list__close {
+        display: block;
+        z-index: 1;
+      }
+    }
   }
 
   &__sidebar-title {
     font-size: 16px;
     font-weight: 500;
     margin: 0px 0px 20px 15px;
+
+    @media (max-width: 900px) {
+      display: none;
+    }
+  }
+
+  &__sidebar-menu {
+    display: none;
+    transition: transform 0.3s linear, right 0.3s linear;
+
+    @media (max-width: 900px) {
+      display: block;
+      position: absolute;
+      top: 20px;
+      right: 50%;
+      transform: translateX(50%);
+    }
   }
 
   &__tasks {
-    padding: 50px;
-    min-width: 550px;
+    padding: 45px 25px 45px 45px;
+    width: 600px;
     overflow-y: auto;
+
+    @media (max-width: 900px) {
+      width: 100%;
+      padding: 45px 15px 45px 90px;
+    }
+
+    @media (max-width: 575px) {
+      padding: 30px 10px 30px 55px;
+    }
   }
 
   &__tasks-title {
     color: #c9d1d3;
     font-size: 25px;
     font-weight: 500;
+
+    @media (max-width: 575px) {
+      font-size: 22px;
+    }
   }
 }

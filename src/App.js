@@ -1,15 +1,25 @@
 import { useState, useEffect } from 'react';
+import classNames from 'classnames';
 
 import { useHttp } from './hooks/http.hook';
 import { AddList, List, Task, Spinner } from './components';
+
+import menu from './assets/img/arrow.svg';
 
 const App = () => {
   const { request } = useHttp();
   const [lists, setLists] = useState(null);
   const [colors, setColors] = useState(null);
   const [activeList, setActiveList] = useState(null);
+  const [windowWidth, setWindowWidth] = useState(null);
+  const [isOpenMenu, setMenuStatus] = useState(false);
+  const [isOpenPopup, setPopupStatus] = useState(false);
+  const TABLET_WIDTH = 900;
+  const MOBILE_WIDTH = 375;
 
   useEffect(() => {
+    updateWindowWidth();
+
     request('http://localhost:3001/lists?_expand=color&_embed=tasks')
       .then((data) => setLists(data))
       .catch((err) => console.log(err));
@@ -17,12 +27,23 @@ const App = () => {
     request('http://localhost:3001/colors')
       .then((data) => setColors(data))
       .catch((err) => console.log(err));
+
+    window.addEventListener('resize', updateWindowWidth);
+
+    return () => {
+      window.removeEventListener('resize', updateWindowWidth);
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const updateWindowWidth = () => {
+    setWindowWidth(window.innerWidth);
+  };
 
   const onAddList = (data) => {
     setLists([...lists, data]);
     setActiveList(data);
+    setPopupStatus(false);
   };
 
   const onAddTasks = (listId, data) => {
@@ -68,6 +89,11 @@ const App = () => {
 
   const onActiveList = (list) => {
     setActiveList(list);
+
+    if (windowWidth <= MOBILE_WIDTH) {
+      setPopupStatus(false);
+      setMenuStatus(false);
+    }
   };
 
   const onEditListTitle = (id, title) => {
@@ -108,10 +134,22 @@ const App = () => {
     setLists(newList);
   };
 
+  const onMenuStatus = () => {
+    setMenuStatus((isOpenMenu) => !isOpenMenu);
+
+    if (isOpenPopup) setPopupStatus(false);
+  };
+
   return (
     <div className="todo">
-      <div className="todo__sidebar">
+      <div
+        className={classNames('todo__sidebar', {
+          todo__sidebar_open: isOpenMenu && windowWidth <= TABLET_WIDTH,
+          todo__sidebar_close: !isOpenMenu && windowWidth <= TABLET_WIDTH,
+        })}
+      >
         <p className="todo__sidebar-title">Список задач:</p>
+        <img className="todo__sidebar-menu" src={menu} alt="menu icon" onClick={onMenuStatus} />
         {lists ? (
           <>
             <List
@@ -121,7 +159,14 @@ const App = () => {
               activeList={activeList}
               isRemovable
             />
-            <AddList onAdd={onAddList} colors={colors} />
+            <AddList
+              onAdd={onAddList}
+              onMenuStatus={onMenuStatus}
+              setStatusPopup={setPopupStatus}
+              isOpenPopup={isOpenPopup}
+              isOpenMenu={isOpenMenu}
+              colors={colors}
+            />
           </>
         ) : (
           <Spinner />

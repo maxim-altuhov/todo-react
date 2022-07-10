@@ -3,7 +3,7 @@ import { AddTask } from '../index.js';
 
 import './Task.scss';
 import editSvg from '../../assets/img/edit.svg';
-import removeSvg from '../../assets/img/remove.svg';
+import trashSvg from '../../assets/img/trash.svg';
 
 const Task = ({
   list,
@@ -105,11 +105,13 @@ const Task = ({
               <span className="task__text">{text}</span>
             </div>
             <div className="task__control">
-              <div className="task__control-item" onClick={() => editTask(id, text)}>
-                <img src={editSvg} alt="Edit icon" />
-              </div>
+              {!completed && (
+                <div className="task__control-item" onClick={() => editTask(id, text)}>
+                  <img src={editSvg} alt="Edit icon" />
+                </div>
+              )}
               <div className="task__control-item" onClick={() => removeTask(id)}>
-                <img src={removeSvg} alt="Remove icon" />
+                <img src={trashSvg} alt="Remove icon" />
               </div>
             </div>
           </div>

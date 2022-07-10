@@ -10,20 +10,28 @@
     font-family: 'Montserrat', sans-serif;
     font-weight: 700;
     font-size: 32px;
-    line-height: 39px;
+    line-height: 1.2;
     margin-right: 15px;
 
     &:first-letter {
       text-transform: uppercase;
     }
+
+    @media (max-width: 575px) {
+      font-size: 22px;
+    }
   }
 
   &__icon {
     opacity: 0.2;
+    width: 18px;
+    height: 18px;
     cursor: pointer;
 
-    &:hover {
-      opacity: 0.8;
+    @media (min-width: 901px) {
+      &:hover {
+        opacity: 0.7;
+      }
     }
   }
 
@@ -33,21 +41,28 @@
     font-weight: 500;
     color: #c9d1d3;
     margin: 10px 0 20px 5px;
+
+    @media (max-width: 575px) {
+      font-size: 20px;
+    }
   }
 
   &__item {
-    margin-top: 20px;
     display: flex;
     align-items: center;
     justify-content: space-between;
+    padding: 12px 0;
+    border-bottom: 1px solid #f2f2f2;
 
     &:last-child {
       margin-bottom: 20px;
     }
 
-    &:hover {
-      .task__control {
-        opacity: 1;
+    @media (min-width: 901px) {
+      &:hover {
+        .task__control {
+          opacity: 1;
+        }
       }
     }
   }
@@ -65,28 +80,42 @@
     display: flex;
     align-items: center;
     opacity: 0;
+
+    @media (max-width: 900px) {
+      opacity: 0.8;
+    }
+
+    @media (max-width: 575px) {
+      opacity: 0.5;
+      flex-direction: column;
+      margin-left: 10px;
+    }
   }
 
   &__control-item {
-    background-color: #ededed;
     margin-left: 20px;
-    width: 25px;
-    height: 25px;
     cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 5px;
 
     img {
-      width: 10px;
-      height: 10px;
-      opacity: 0.3;
+      width: 18px;
+      height: 18px;
+      opacity: 0.2;
     }
 
-    &:hover {
-      img {
-        opacity: 0.8;
+    @media (min-width: 901px) {
+      &:hover {
+        img {
+          opacity: 0.7;
+        }
+      }
+    }
+
+    @media (max-width: 575px) {
+      margin-left: 0;
+      margin-bottom: 10px;
+
+      &:last-child {
+        margin-bottom: 0;
       }
     }
   }
@@ -136,8 +165,16 @@
       transition: border-color 0.2s linear;
       flex: 0 0 auto;
 
-      &:hover {
-        border-color: #00ad62;
+      @media (max-width: 575px) {
+        width: 20px;
+        height: 20px;
+        margin-right: 10px;
+      }
+
+      @media (min-width: 901px) {
+        &:hover {
+          border-color: #00ad62;
+        }
       }
 
       svg {

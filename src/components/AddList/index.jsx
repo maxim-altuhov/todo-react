@@ -7,9 +7,8 @@ import { List, Input, Button } from '../index.js';
 
 import './AddList.scss';
 
-const AddList = ({ onAdd, colors }) => {
+const AddList = ({ onAdd, onMenuStatus, isOpenMenu, setStatusPopup, isOpenPopup, colors }) => {
   const { request } = useHttp();
-  const [isOpenPopup, setStatusPopup] = useState(false);
   const [isLoading, setLoading] = useState(false);
   const [selectedColorId, setSelectedColor] = useState(1);
   const [inputValue, setInputValue] = useState('');
@@ -32,7 +31,6 @@ const AddList = ({ onAdd, colors }) => {
           color: { hex: colors[selectedColorId - 1].hex },
           tasks: [],
         });
-        setStatusPopup(false);
         setSelectedColor(1);
         setInputValue('');
       })
@@ -40,10 +38,16 @@ const AddList = ({ onAdd, colors }) => {
       .finally(() => setLoading(false));
   };
 
+  const onSetStatusPopup = () => {
+    setStatusPopup((isOpenPopup) => !isOpenPopup);
+
+    if (!isOpenMenu) onMenuStatus();
+  };
+
   return (
     <div className="add-list">
       <List
-        onSetStatusPopup={() => setStatusPopup((isOpenPopup) => !isOpenPopup)}
+        onSetStatusPopup={onSetStatusPopup}
         addClassName="list_type_add-btn"
         items={[
           {
