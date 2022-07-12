@@ -20,7 +20,7 @@ const App = () => {
   useEffect(() => {
     updateWindowWidth();
 
-    request('http://localhost:3001/lists?_expand=color&_embed=tasks')
+    request('http://localhost:3001/lists?_embed=tasks')
       .then((data) => setLists(data))
       .catch((err) => console.log(err));
 

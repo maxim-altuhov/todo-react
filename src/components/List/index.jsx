@@ -29,7 +29,7 @@ const List = ({
                 list__icon_colored: isRemovable,
                 'list__icon_type_add-btn': addClassName,
               })}
-              style={{ backgroundColor: color?.hex }}
+              style={{ backgroundColor: color }}
             ></i>
             <span className="list__label">
               {name}

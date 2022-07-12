@@ -68,7 +68,7 @@ const Task = ({
     <>
       <div className="task">
         <div className="task__top">
-          <h2 className="task__title" style={{ color: color.hex }}>
+          <h2 className="task__title" style={{ color: color }}>
             {name}
           </h2>
           <img onClick={editTitle} className="task__icon" src={editSvg} alt="edit icon" />
