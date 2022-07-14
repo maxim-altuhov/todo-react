@@ -1,0 +1,47 @@
+.popup {
+  &__title {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+  }
+
+  &__button {
+    margin: 0 10px;
+    font-weight: 500;
+    text-transform: uppercase;
+    height: 40px;
+    padding: 10px;
+    border-radius: 5px;
+    border-color: transparent;
+    cursor: pointer;
+    transition: background-color 0.2s linear;
+
+    &_type_confirm {
+      background-color: #4dd599;
+      color: #fff;
+
+      &:focus,
+      &:hover {
+        background-color: darken(#4dd599, 10%);
+      }
+
+      &:active {
+        background-color: darken(#4dd599, 20%);
+      }
+    }
+
+    &_type_deny {
+      background-color: #df6363;
+      color: #ffffff;
+
+      &:focus,
+      &:hover {
+        background-color: darken(#df6363, 10%);
+      }
+
+      &:active {
+        background-color: darken(#df6363, 20%);
+      }
+    }
+  }
+}

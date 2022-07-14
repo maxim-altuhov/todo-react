@@ -1,6 +1,8 @@
 import { useHttp } from '../../hooks/http.hook';
 import { AddTask } from '../index.js';
 
+import { popUpDefault } from '../../utils/popUp';
+
 import './Task.scss';
 import editSvg from '../../assets/img/edit.svg';
 import trashSvg from '../../assets/img/trash.svg';
@@ -48,20 +50,44 @@ const Task = ({
   };
 
   const removeTask = (taskId) => {
-    if (!window.confirm('Удалить задачу?')) return;
-    onRemoveTask(taskId, id);
-
-    request(`http://localhost:3001/tasks/${taskId}`, 'DELETE').catch(() =>
-      alert('Не удалось удалить задачу!'),
-    );
+    popUpDefault
+      .fire({
+        title: 'Удалить задачу?',
+        confirmButtonText: 'Удалить',
+        denyButtonText: 'Отмена',
+      })
+      .then((result) => {
+        if (result.isConfirmed) {
+          request(`http://localhost:3001/tasks/${taskId}`, 'DELETE')
+            .then(() => {
+              onRemoveTask(taskId, id);
+            })
+            .catch(() =>
+              popUpDefault.fire({
+                icon: 'error',
+                title: 'Не удалось удалить задачу!',
+                showConfirmButton: false,
+                showDenyButton: false,
+              }),
+            );
+        }
+      });
   };
 
   const toggleStatusTask = (taskId, listId, completed) => {
-    onToggleStatusTask(taskId, listId, completed);
-
-    request(`http://localhost:3001/tasks/${taskId}`, 'PATCH', JSON.stringify({ completed })).catch(
-      () => alert('Не удалось обновить состояние задачи!'),
-    );
+    request(`http://localhost:3001/tasks/${taskId}`, 'PATCH', JSON.stringify({ completed }))
+      .then(() => {
+        onToggleStatusTask(taskId, listId, completed);
+      })
+      .catch(() => {
+        popUpDefault.fire({
+          icon: 'error',
+          title: 'Не удалось изменить состояние задачи!',
+          text: 'Попробуйте обновить страницу',
+          showConfirmButton: false,
+          showDenyButton: false,
+        });
+      });
   };
 
   return (

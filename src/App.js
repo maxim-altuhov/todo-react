@@ -3,6 +3,7 @@ import classNames from 'classnames';
 
 import { useHttp } from './hooks/http.hook';
 import { AddList, List, Task, Spinner } from './components';
+import { popUpDefault } from './utils/popUp';
 
 import menu from './assets/img/arrow.svg';
 
@@ -44,6 +45,7 @@ const App = () => {
     setLists([...lists, data]);
     setActiveList(data);
     setPopupStatus(false);
+    setMenuStatus(false);
   };
 
   const onAddTasks = (listId, data) => {
@@ -77,14 +79,29 @@ const App = () => {
   const onRemove = (e, id) => {
     e.stopPropagation();
 
-    if (!window.confirm('Удалить список?')) return;
-
-    request(`http://localhost:3001/lists/${id}`, 'DELETE')
-      .then(() => {
-        setLists(lists.filter((list) => list.id !== id));
-        setActiveList(null);
+    popUpDefault
+      .fire({
+        title: 'Удалить список задач?',
+        confirmButtonText: 'Удалить',
+        denyButtonText: 'Отмена',
       })
-      .catch((err) => console.log(err));
+      .then((result) => {
+        if (result.isConfirmed) {
+          request(`http://localhost:3001/lists/${id}`, 'DELETE')
+            .then(() => {
+              setLists(lists.filter((list) => list.id !== id));
+              setActiveList(null);
+            })
+            .catch(() => {
+              popUpDefault.fire({
+                icon: 'error',
+                title: 'Не удалось удалить список задач',
+                showConfirmButton: false,
+                showDenyButton: false,
+              });
+            });
+        }
+      });
   };
 
   const onActiveList = (list) => {
