@@ -5,6 +5,23 @@
     font-weight: 700;
   }
 
+  &__input {
+    height: 35px;
+    background: #ffffff;
+    border: 1px solid #cbcbcb;
+    border-radius: 4px;
+    padding: 7px 10px;
+    transition: border-color 0.3s linear;
+    font-size: 14px;
+    font-weight: 500;
+
+    &:hover,
+    &:focus {
+      border-color: darken(#cbcbcb, 40%);
+      box-shadow: none;
+    }
+  }
+
   &__button {
     margin: 0 10px;
     font-weight: 500;

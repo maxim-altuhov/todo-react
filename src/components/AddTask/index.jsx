@@ -3,6 +3,7 @@ import { useHttp } from '../../hooks/http.hook';
 import { v4 as uuidv4 } from 'uuid';
 
 import { Input, Button } from '../index.js';
+import { popUpError } from '../../utils/popUp';
 
 import addSvg from '../../assets/img/add.svg';
 import './AddTask.scss';
@@ -35,7 +36,11 @@ const AddTask = ({ list, onAddTasks }) => {
         onAddTasks(list.id, data);
         toggleForm();
       })
-      .catch((err) => console.log(err))
+      .catch(() => {
+        popUpError.fire({
+          title: 'Не удалось создать задачу!',
+        });
+      })
       .finally(() => setLoading(false));
   };
 

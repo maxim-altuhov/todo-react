@@ -5,13 +5,14 @@ import { HexColorPicker } from 'react-colorful';
 
 import { useHttp } from '../../hooks/http.hook';
 import { List, Input, Button } from '../index.js';
+import { popUpError } from '../../utils/popUp';
 
 import './AddList.scss';
 
 const AddList = ({ colors, onAdd, onMenuStatus, setStatusPopup, isOpenMenu, isOpenPopup }) => {
-  const DEFAULT_CUSTOM_COLOR = '#2a6fb5';
-
   const { request } = useHttp();
+
+  const DEFAULT_CUSTOM_COLOR = '#2a6fb5';
   const [customColor, setCustomColor] = useState(DEFAULT_CUSTOM_COLOR);
   const [selectedColorId, setSelectedColor] = useState(1);
   const [inputValue, setInputValue] = useState('');
@@ -20,12 +21,12 @@ const AddList = ({ colors, onAdd, onMenuStatus, setStatusPopup, isOpenMenu, isOp
 
   const onCreateList = (e) => {
     e.preventDefault();
-    const currentColor = colors[selectedColorId - 1]?.hex;
+    const selectedColor = colors[selectedColorId - 1]?.hex;
 
     const newList = {
       id: uuidv4(),
       name: inputValue,
-      color: currentColor || customColor,
+      color: selectedColor || customColor,
     };
 
     setLoading(true);
@@ -41,7 +42,11 @@ const AddList = ({ colors, onAdd, onMenuStatus, setStatusPopup, isOpenMenu, isOp
         setCustomColor(DEFAULT_CUSTOM_COLOR);
         setChangeColorStatus(false);
       })
-      .catch((err) => console.log(err))
+      .catch(() => {
+        popUpError.fire({
+          title: 'Не удалось создать список!',
+        });
+      })
       .finally(() => setLoading(false));
   };
 

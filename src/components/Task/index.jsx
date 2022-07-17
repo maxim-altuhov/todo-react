@@ -1,11 +1,14 @@
+import { useState } from 'react';
 import { useHttp } from '../../hooks/http.hook';
 import { AddTask } from '../index.js';
+import { HexColorPicker } from 'react-colorful';
 
-import { popUpDefault } from '../../utils/popUp';
+import { popUpDefault, popUpError, popUpInput } from '../../utils/popUp';
 
 import './Task.scss';
 import editSvg from '../../assets/img/edit.svg';
 import trashSvg from '../../assets/img/trash.svg';
+import { useEffect } from 'react';
 
 const Task = ({
   list,
@@ -16,37 +19,68 @@ const Task = ({
   onToggleStatusTask,
 }) => {
   const { request } = useHttp();
+
   const { id, tasks, color, name } = list;
+  const [customColor, setCustomColor] = useState(null);
+  const [isOpenChangeColor, setChangeColorStatus] = useState(false);
+
+  useEffect(() => {
+    setCustomColor(color);
+  }, [color]);
 
   const editTitle = () => {
-    const newTitle = window.prompt('Название списка', name);
-
-    if (newTitle) {
-      onEditListTitle(id, newTitle);
-      request(
-        `http://localhost:3001/lists/${id}`,
-        'PATCH',
-        JSON.stringify({
-          name: newTitle,
-        }),
-      ).catch(() => alert('Не удалось обновить название списка!'));
-    }
+    popUpInput
+      .fire({
+        inputValue: name,
+        confirmButtonText: 'Изменить',
+      })
+      .then(({ isConfirmed, value }) => {
+        if (isConfirmed && value) {
+          request(
+            `http://localhost:3001/lists/${id}`,
+            'PATCH',
+            JSON.stringify({
+              name: value,
+              color: customColor,
+            }),
+          )
+            .then(() => {
+              onEditListTitle(id, value, customColor);
+            })
+            .catch(() => {
+              popUpError.fire({
+                title: 'Не удалось обновить название списка!',
+              });
+            });
+        }
+      });
   };
 
   const editTask = (taskId, text) => {
-    const newTaskName = window.prompt('Название задачи', text);
-
-    if (newTaskName) {
-      onEditTaskName(taskId, id, newTaskName);
-
-      request(
-        `http://localhost:3001/tasks/${taskId}`,
-        'PATCH',
-        JSON.stringify({
-          text: newTaskName,
-        }),
-      ).catch(() => alert('Не удалось обновить название задачи!'));
-    }
+    popUpInput
+      .fire({
+        inputValue: text,
+        confirmButtonText: 'Изменить',
+      })
+      .then(({ isConfirmed, value }) => {
+        if (isConfirmed && value) {
+          request(
+            `http://localhost:3001/tasks/${taskId}`,
+            'PATCH',
+            JSON.stringify({
+              text: value,
+            }),
+          )
+            .then(() => {
+              onEditTaskName(taskId, id, value);
+            })
+            .catch(() => {
+              popUpError.fire({
+                title: 'Не удалось обновить название задачи!',
+              });
+            });
+        }
+      });
   };
 
   const removeTask = (taskId) => {
@@ -54,7 +88,6 @@ const Task = ({
       .fire({
         title: 'Удалить задачу?',
         confirmButtonText: 'Удалить',
-        denyButtonText: 'Отмена',
       })
       .then((result) => {
         if (result.isConfirmed) {
@@ -62,14 +95,11 @@ const Task = ({
             .then(() => {
               onRemoveTask(taskId, id);
             })
-            .catch(() =>
-              popUpDefault.fire({
-                icon: 'error',
+            .catch(() => {
+              popUpError.fire({
                 title: 'Не удалось удалить задачу!',
-                showConfirmButton: false,
-                showDenyButton: false,
-              }),
-            );
+              });
+            });
         }
       });
   };
@@ -80,12 +110,9 @@ const Task = ({
         onToggleStatusTask(taskId, listId, completed);
       })
       .catch(() => {
-        popUpDefault.fire({
-          icon: 'error',
+        popUpError.fire({
           title: 'Не удалось изменить состояние задачи!',
           text: 'Попробуйте обновить страницу',
-          showConfirmButton: false,
-          showDenyButton: false,
         });
       });
   };
@@ -94,10 +121,27 @@ const Task = ({
     <>
       <div className="task">
         <div className="task__top">
-          <h2 className="task__title" style={{ color: color }}>
+          <span
+            className="task__title-color"
+            onClick={() => {
+              setChangeColorStatus((isOpenChangeColor) => !isOpenChangeColor);
+            }}
+            style={{ backgroundColor: customColor }}
+          ></span>
+          <h2 className="task__title" style={{ color: customColor }}>
             {name}
           </h2>
           <img onClick={editTitle} className="task__icon" src={editSvg} alt="edit icon" />
+          {isOpenChangeColor && (
+            <div className="task__color-block">
+              <HexColorPicker
+                color={customColor}
+                onChange={(color) => {
+                  setCustomColor(color);
+                }}
+              />
+            </div>
+          )}
         </div>
         {tasks && tasks.length === 0 && <p className="task__none">Задачи отсутствуют</p>}
         {tasks.map(({ id, text, completed }) => (

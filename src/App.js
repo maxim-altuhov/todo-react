@@ -3,7 +3,7 @@ import classNames from 'classnames';
 
 import { useHttp } from './hooks/http.hook';
 import { AddList, List, Task, Spinner } from './components';
-import { popUpDefault } from './utils/popUp';
+import { popUpDefault, popUpError } from './utils/popUp';
 
 import menu from './assets/img/arrow.svg';
 
@@ -23,11 +23,21 @@ const App = () => {
 
     request('http://localhost:3001/lists?_embed=tasks')
       .then((data) => setLists(data))
-      .catch((err) => console.log(err));
+      .catch(() => {
+        popUpError.fire({
+          title: 'Не удалось загрузить данные!',
+          text: 'Попробуйте обновить страницу',
+        });
+      });
 
     request('http://localhost:3001/colors')
       .then((data) => setColors(data))
-      .catch((err) => console.log(err));
+      .catch(() => {
+        popUpError.fire({
+          title: 'Не удалось загрузить данные!',
+          text: 'Попробуйте обновить страницу',
+        });
+      });
 
     window.addEventListener('resize', updateWindowWidth);
 
@@ -83,7 +93,6 @@ const App = () => {
       .fire({
         title: 'Удалить список задач?',
         confirmButtonText: 'Удалить',
-        denyButtonText: 'Отмена',
       })
       .then((result) => {
         if (result.isConfirmed) {
@@ -93,11 +102,8 @@ const App = () => {
               setActiveList(null);
             })
             .catch(() => {
-              popUpDefault.fire({
-                icon: 'error',
+              popUpError.fire({
                 title: 'Не удалось удалить список задач',
-                showConfirmButton: false,
-                showDenyButton: false,
               });
             });
         }
@@ -113,9 +119,12 @@ const App = () => {
     }
   };
 
-  const onEditListTitle = (id, title) => {
+  const onEditListTitle = (id, title, selectedColor) => {
     const newList = lists.map((list) => {
-      if (list.id === id) list.name = title;
+      if (list.id === id) {
+        list.name = title;
+        list.color = selectedColor;
+      }
 
       return list;
     });

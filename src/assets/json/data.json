@@ -2,8 +2,18 @@
   "lists": [
     {
       "id": "685e33b1-40f8-4a5f-bb33-90f7550f5a3e",
-      "name": "Разработка",
+      "name": "Разработкa",
       "color": "#5200ff"
+    },
+    {
+      "id": "cd736ef3-258f-4ac3-9f67-027d8fb02f51",
+      "name": "123213",
+      "color": "#FF6464"
+    },
+    {
+      "id": "ee1ab83d-e265-44ed-abf3-5c3e8fbd68c3",
+      "name": "33331",
+      "color": "#ff7900"
     }
   ],
   "tasks": [
@@ -89,12 +99,18 @@
       "id": "d84df7e1-043b-437e-ac80-b3cab8644b37",
       "listId": "685e33b1-40f8-4a5f-bb33-90f7550f5a3e",
       "text": "Кастомные подтверждения",
-      "completed": false
+      "completed": true
     },
     {
       "id": "99f7f05c-d8cb-4c46-8683-825af84bd897",
       "listId": "685e33b1-40f8-4a5f-bb33-90f7550f5a3e",
       "text": "Добавить spinner при удалении задач",
+      "completed": false
+    },
+    {
+      "id": "b5f8bd15-07d9-47dd-98a6-6908194cfdcb",
+      "listId": "685e33b1-40f8-4a5f-bb33-90f7550f5a3e",
+      "text": "Если значение при отправке не поменялось не нужно отправлять POST запрос",
       "completed": false
     }
   ],
