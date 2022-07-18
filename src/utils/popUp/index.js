@@ -31,4 +31,4 @@ const popUpInput = popUpDefault.mixin({
   input: 'text',
 });
 
-export { popUpDefault, popUpError, popUpInput };
+export { popUp, popUpDefault, popUpError, popUpInput };

@@ -1,14 +1,14 @@
-import { useState } from 'react';
-import { useHttp } from '../../hooks/http.hook';
-import { AddTask } from '../index.js';
+import { useState, useEffect } from 'react';
 import { HexColorPicker } from 'react-colorful';
+
+import { useHttp } from '../../hooks/http.hook';
+import { AddTask } from '../index';
 
 import { popUpDefault, popUpError, popUpInput } from '../../utils/popUp';
 
-import './Task.scss';
 import editSvg from '../../assets/img/edit.svg';
 import trashSvg from '../../assets/img/trash.svg';
-import { useEffect } from 'react';
+import './Task.scss';
 
 const Task = ({
   list,
@@ -19,37 +19,51 @@ const Task = ({
   onToggleStatusTask,
 }) => {
   const { request } = useHttp();
-
   const { id, tasks, color, name } = list;
   const [customColor, setCustomColor] = useState(null);
-  const [isOpenChangeColor, setChangeColorStatus] = useState(false);
 
   useEffect(() => {
     setCustomColor(color);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [color]);
 
   const editTitle = () => {
+    let colorSelected = customColor;
+
     popUpInput
       .fire({
         inputValue: name,
+        html: (
+          <div className="popup__block-colors">
+            <HexColorPicker
+              color={customColor}
+              onChange={(color) => {
+                setCustomColor(color);
+                colorSelected = color;
+              }}
+            />
+          </div>
+        ),
         confirmButtonText: 'Изменить',
       })
       .then(({ isConfirmed, value }) => {
-        if (isConfirmed && value) {
+        const changedValue = value !== name || colorSelected !== color;
+
+        if (isConfirmed && value && changedValue) {
           request(
             `http://localhost:3001/lists/${id}`,
             'PATCH',
             JSON.stringify({
               name: value,
-              color: customColor,
+              color: colorSelected,
             }),
           )
             .then(() => {
-              onEditListTitle(id, value, customColor);
+              onEditListTitle(id, value, colorSelected);
             })
             .catch(() => {
               popUpError.fire({
-                title: 'Не удалось обновить название списка!',
+                title: 'Не удалось обновить название списка или цвет!',
               });
             });
         }
@@ -63,7 +77,9 @@ const Task = ({
         confirmButtonText: 'Изменить',
       })
       .then(({ isConfirmed, value }) => {
-        if (isConfirmed && value) {
+        const changedValue = value && value !== name;
+
+        if (isConfirmed && changedValue) {
           request(
             `http://localhost:3001/tasks/${taskId}`,
             'PATCH',
@@ -121,27 +137,10 @@ const Task = ({
     <>
       <div className="task">
         <div className="task__top">
-          <span
-            className="task__title-color"
-            onClick={() => {
-              setChangeColorStatus((isOpenChangeColor) => !isOpenChangeColor);
-            }}
-            style={{ backgroundColor: customColor }}
-          ></span>
           <h2 className="task__title" style={{ color: customColor }}>
             {name}
           </h2>
           <img onClick={editTitle} className="task__icon" src={editSvg} alt="edit icon" />
-          {isOpenChangeColor && (
-            <div className="task__color-block">
-              <HexColorPicker
-                color={customColor}
-                onChange={(color) => {
-                  setCustomColor(color);
-                }}
-              />
-            </div>
-          )}
         </div>
         {tasks && tasks.length === 0 && <p className="task__none">Задачи отсутствуют</p>}
         {tasks.map(({ id, text, completed }) => (
