@@ -1,4 +1,3 @@
-import { useState, useEffect } from 'react';
 import { HexColorPicker } from 'react-colorful';
 
 import { useHttp } from '../../hooks/http.hook';
@@ -20,15 +19,9 @@ const Task = ({
 }) => {
   const { request } = useHttp();
   const { id, tasks, color, name } = list;
-  const [customColor, setCustomColor] = useState(null);
-
-  useEffect(() => {
-    setCustomColor(color);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [color]);
 
   const editTitle = () => {
-    let colorSelected = customColor;
+    let newColor = color;
 
     popUpInput
       .fire({
@@ -36,30 +29,31 @@ const Task = ({
         html: (
           <div className="popup__block-colors">
             <HexColorPicker
-              color={customColor}
+              color={color}
               onChange={(color) => {
-                setCustomColor(color);
-                colorSelected = color;
+                newColor = color;
               }}
             />
           </div>
         ),
         confirmButtonText: 'Изменить',
+        preConfirm: (inputValue) => ({ newColor, newName: inputValue }),
       })
       .then(({ isConfirmed, value }) => {
-        const changedValue = value !== name || colorSelected !== color;
+        const { newColor, newName } = value;
+        const changedValue = newName !== name || newColor !== color;
 
-        if (isConfirmed && value && changedValue) {
+        if (isConfirmed && newName && changedValue) {
           request(
             `http://localhost:3001/lists/${id}`,
             'PATCH',
             JSON.stringify({
-              name: value,
-              color: colorSelected,
+              name: newName,
+              color: newColor,
             }),
           )
             .then(() => {
-              onEditListTitle(id, value, colorSelected);
+              onEditListTitle(id, newName, newColor);
             })
             .catch(() => {
               popUpError.fire({
@@ -137,7 +131,7 @@ const Task = ({
     <>
       <div className="task">
         <div className="task__top">
-          <h2 className="task__title" style={{ color: customColor }}>
+          <h2 className="task__title" style={{ color }}>
             {name}
           </h2>
           <img onClick={editTitle} className="task__icon" src={editSvg} alt="edit icon" />
