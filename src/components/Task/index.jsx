@@ -23,28 +23,25 @@ const Task = ({
   const editTitle = () => {
     let newColor = color;
 
-    popUpInput
-      .fire({
-        inputValue: name,
-        html: (
-          <div className="popup__block-colors">
-            <HexColorPicker
-              color={color}
-              onChange={(color) => {
-                newColor = color;
-              }}
-            />
-          </div>
-        ),
-        confirmButtonText: 'Изменить',
-        preConfirm: (inputValue) => ({ newColor, newName: inputValue }),
-      })
-      .then(({ isConfirmed, value }) => {
-        const { newColor, newName } = value;
+    popUpInput.fire({
+      inputValue: name,
+      html: (
+        <div className="popup__block-colors">
+          <HexColorPicker
+            color={color}
+            onChange={(color) => {
+              newColor = color;
+            }}
+          />
+        </div>
+      ),
+      confirmButtonText: 'Изменить',
+      showLoaderOnConfirm: true,
+      preConfirm: (newName) => {
         const changedValue = newName !== name || newColor !== color;
 
-        if (isConfirmed && newName && changedValue) {
-          request(
+        if (newName && changedValue) {
+          return request(
             `http://localhost:3001/lists/${id}`,
             'PATCH',
             JSON.stringify({
@@ -57,24 +54,24 @@ const Task = ({
             })
             .catch(() => {
               popUpError.fire({
-                title: 'Не удалось обновить название списка или цвет!',
+                title: 'Не удалось обновить название списка или цвет',
               });
             });
         }
-      });
+      },
+    });
   };
 
   const editTask = (taskId, text) => {
-    popUpInput
-      .fire({
-        inputValue: text,
-        confirmButtonText: 'Изменить',
-      })
-      .then(({ isConfirmed, value }) => {
-        const changedValue = value && value !== name;
+    popUpInput.fire({
+      inputValue: text,
+      confirmButtonText: 'Изменить',
+      showLoaderOnConfirm: true,
+      preConfirm: (value) => {
+        const changedValue = value && value !== text;
 
-        if (isConfirmed && changedValue) {
-          request(
+        if (changedValue) {
+          return request(
             `http://localhost:3001/tasks/${taskId}`,
             'PATCH',
             JSON.stringify({
@@ -86,32 +83,31 @@ const Task = ({
             })
             .catch(() => {
               popUpError.fire({
-                title: 'Не удалось обновить название задачи!',
+                title: 'Не удалось обновить название задачи',
               });
             });
         }
-      });
+      },
+    });
   };
 
   const removeTask = (taskId) => {
-    popUpDefault
-      .fire({
-        title: 'Удалить задачу?',
-        confirmButtonText: 'Удалить',
-      })
-      .then((result) => {
-        if (result.isConfirmed) {
-          request(`http://localhost:3001/tasks/${taskId}`, 'DELETE')
-            .then(() => {
-              onRemoveTask(taskId, id);
-            })
-            .catch(() => {
-              popUpError.fire({
-                title: 'Не удалось удалить задачу!',
-              });
+    popUpDefault.fire({
+      title: 'Удалить задачу?',
+      confirmButtonText: 'Удалить',
+      showLoaderOnConfirm: true,
+      preConfirm: () => {
+        return request(`http://localhost:3001/tasks/${taskId}`, 'DELETE')
+          .then(() => {
+            onRemoveTask(taskId, id);
+          })
+          .catch(() => {
+            popUpError.fire({
+              title: 'Не удалось удалить задачу',
             });
-        }
-      });
+          });
+      },
+    });
   };
 
   const toggleStatusTask = (taskId, listId, completed) => {
@@ -121,10 +117,18 @@ const Task = ({
       })
       .catch(() => {
         popUpError.fire({
-          title: 'Не удалось изменить состояние задачи!',
+          title: 'Не удалось изменить состояние задачи',
           text: 'Попробуйте обновить страницу',
         });
       });
+  };
+
+  const customSort = (firstElem, secondElem) => {
+    if (firstElem.completed - secondElem.completed < 0) return -1;
+
+    if (firstElem.controlTime - secondElem.controlTime > 0) return -1;
+
+    return 0;
   };
 
   return (
@@ -137,7 +141,9 @@ const Task = ({
           <img onClick={editTitle} className="task__icon" src={editSvg} alt="edit icon" />
         </div>
         {tasks && tasks.length === 0 && <p className="task__none">Задачи отсутствуют</p>}
-        {tasks.map(({ id, text, completed }) => (
+
+        <AddTask key={id} list={list} onAddTasks={onAddTasks} />
+        {tasks.sort(customSort).map(({ id, text, completed }) => (
           <div key={id} className="task__item">
             <div className="checkbox">
               <input
@@ -180,7 +186,6 @@ const Task = ({
           </div>
         ))}
       </div>
-      <AddTask key={id} list={list} onAddTasks={onAddTasks} />
     </>
   );
 };

@@ -89,25 +89,23 @@ const App = () => {
   const onRemove = (e, id) => {
     e.stopPropagation();
 
-    popUpDefault
-      .fire({
-        title: 'Удалить список задач?',
-        confirmButtonText: 'Удалить',
-      })
-      .then((result) => {
-        if (result.isConfirmed) {
-          request(`http://localhost:3001/lists/${id}`, 'DELETE')
-            .then(() => {
-              setLists(lists.filter((list) => list.id !== id));
-              setActiveList(null);
-            })
-            .catch(() => {
-              popUpError.fire({
-                title: 'Не удалось удалить список задач',
-              });
+    popUpDefault.fire({
+      title: 'Удалить список задач?',
+      confirmButtonText: 'Удалить',
+      showLoaderOnConfirm: true,
+      preConfirm: () => {
+        return request(`http://localhost:3001/lists/${id}`, 'DELETE')
+          .then(() => {
+            setLists(lists.filter((list) => list.id !== id));
+            setActiveList(null);
+          })
+          .catch(() => {
+            popUpError.fire({
+              title: 'Не удалось удалить список задач',
             });
-        }
-      });
+          });
+      },
+    });
   };
 
   const onActiveList = (list) => {

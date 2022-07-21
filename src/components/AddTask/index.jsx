@@ -27,6 +27,7 @@ const AddTask = ({ list, onAddTasks }) => {
       listId: list.id,
       text: inputValue,
       completed: false,
+      controlTime: new Date().getTime(),
     };
 
     setLoading(true);

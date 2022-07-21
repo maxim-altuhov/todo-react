@@ -3,12 +3,17 @@
     {
       "id": "685e33b1-40f8-4a5f-bb33-90f7550f5a3e",
       "name": "Разработка",
-      "color": "#396a9e"
+      "color": "#db05db"
     },
     {
-      "id": "cd736ef3-258f-4ac3-9f67-027d8fb02f51",
-      "name": "123213",
-      "color": "#FF6464"
+      "id": "7dd10455-fd00-428d-bd70-34d80055f9de",
+      "name": "444",
+      "color": "#42B883"
+    },
+    {
+      "id": "2e11eb43-6ed3-434d-b20b-42f3e66fdaea",
+      "name": "132",
+      "color": "#42B883"
     }
   ],
   "tasks": [
@@ -99,8 +104,8 @@
     {
       "id": "99f7f05c-d8cb-4c46-8683-825af84bd897",
       "listId": "685e33b1-40f8-4a5f-bb33-90f7550f5a3e",
-      "text": "Добавить spinner при удалении задач",
-      "completed": false
+      "text": "Добавить spinner при удалении и редактировании задач",
+      "completed": true
     },
     {
       "id": "b5f8bd15-07d9-47dd-98a6-6908194cfdcb",
@@ -109,16 +114,70 @@
       "completed": true
     },
     {
-      "id": "b7961d67-d334-4482-866a-b06bb7e72348",
-      "listId": "cd736ef3-258f-4ac3-9f67-027d8fb02f51",
-      "text": "111",
-      "completed": false
-    },
-    {
       "id": "50d88e58-ea86-4881-b775-7e9bfc1599dc",
       "listId": "685e33b1-40f8-4a5f-bb33-90f7550f5a3e",
       "text": "Ошибка импорта \"react-dom\"",
       "completed": false
+    },
+    {
+      "id": "0ffe5093-adfe-44a6-9417-30bef69f4bd8",
+      "listId": "685e33b1-40f8-4a5f-bb33-90f7550f5a3e",
+      "text": "Сделать сортировку выполненных задач",
+      "completed": false
+    },
+    {
+      "id": "15213750-606f-4aaa-b68f-ca0165051cfb",
+      "listId": "685e33b1-40f8-4a5f-bb33-90f7550f5a3e",
+      "text": "Переменные для цветов SCSS",
+      "completed": false
+    },
+    {
+      "id": "93afe758-01e0-4715-a460-3bc3ae022567",
+      "listId": "685e33b1-40f8-4a5f-bb33-90f7550f5a3e",
+      "text": "scrollbarPadding Скачки окна из-за модалки",
+      "completed": false
+    },
+    {
+      "id": "b3bb8010-2d26-482e-8222-b711824d48ea",
+      "listId": "685e33b1-40f8-4a5f-bb33-90f7550f5a3e",
+      "text": "Сортировка по дате добавления",
+      "completed": false,
+      "controlTime": 1658420798445
+    },
+    {
+      "id": "da2bbcf2-dee2-44d4-aa31-ead87a17acea",
+      "listId": "685e33b1-40f8-4a5f-bb33-90f7550f5a3e",
+      "text": "Спиннер на список задач и первый экран",
+      "completed": false,
+      "controlTime": 1658420839324
+    },
+    {
+      "id": "c7bfda14-602a-428b-a870-ab712c8efd40",
+      "listId": "7dd10455-fd00-428d-bd70-34d80055f9de",
+      "text": "Последнее",
+      "completed": false,
+      "controlTime": 1658421580189
+    },
+    {
+      "id": "f5ff71b8-e55f-4204-a4bf-fb3abdac2e98",
+      "listId": "7dd10455-fd00-428d-bd70-34d80055f9de",
+      "text": "Среднее",
+      "completed": false,
+      "controlTime": 1658421585589
+    },
+    {
+      "id": "b9eb9979-e20e-495d-8346-51eb29019056",
+      "listId": "7dd10455-fd00-428d-bd70-34d80055f9de",
+      "text": "Первое",
+      "completed": false,
+      "controlTime": 1658421589085
+    },
+    {
+      "id": "b12818f5-01d9-4721-9df8-e78ed795c5bd",
+      "listId": "685e33b1-40f8-4a5f-bb33-90f7550f5a3e",
+      "text": "тест",
+      "completed": false,
+      "controlTime": 1658424699550
     }
   ],
   "colors": [
