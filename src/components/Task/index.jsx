@@ -123,12 +123,11 @@ const Task = ({
       });
   };
 
-  const customSort = (firstElem, secondElem) => {
-    if (firstElem.completed - secondElem.completed < 0) return -1;
-
-    if (firstElem.controlTime - secondElem.controlTime > 0) return -1;
-
-    return 0;
+  const initCustomSort = (firstEl, secondEl) => {
+    return (
+      (secondEl.completed < firstEl.completed) - (firstEl.completed < secondEl.completed) ||
+      (firstEl.controlTime < secondEl.controlTime) - (secondEl.controlTime < firstEl.controlTime)
+    );
   };
 
   return (
@@ -143,7 +142,7 @@ const Task = ({
         {tasks && tasks.length === 0 && <p className="task__none">Задачи отсутствуют</p>}
 
         <AddTask key={id} list={list} onAddTasks={onAddTasks} />
-        {tasks.sort(customSort).map(({ id, text, completed }) => (
+        {tasks.sort(initCustomSort).map(({ id, text, completed }) => (
           <div key={id} className="task__item">
             <div className="checkbox">
               <input

@@ -1,183 +1,135 @@
 {
   "lists": [
     {
-      "id": "685e33b1-40f8-4a5f-bb33-90f7550f5a3e",
+      "id": "0284aeef-b217-474c-9757-cf5b93e2e407",
       "name": "Разработка",
-      "color": "#db05db"
+      "color": "#C355F5"
     },
     {
-      "id": "7dd10455-fd00-428d-bd70-34d80055f9de",
-      "name": "444",
-      "color": "#42B883"
-    },
-    {
-      "id": "2e11eb43-6ed3-434d-b20b-42f3e66fdaea",
-      "name": "132",
+      "id": "823637af-4b9d-4a0e-9eae-5d5ea69c5caf",
+      "name": "ТЕСТОВЫЙ",
       "color": "#42B883"
     }
   ],
   "tasks": [
     {
-      "id": "93da0c22-b1f6-4bd1-921b-986539ff8568",
-      "listId": "685e33b1-40f8-4a5f-bb33-90f7550f5a3e",
-      "text": "Фокус на инпут при новом списке и задаче",
-      "completed": true
-    },
-    {
-      "id": "1aa2da20-4ea2-41e7-ad1c-7aef5828c68a",
-      "listId": "685e33b1-40f8-4a5f-bb33-90f7550f5a3e",
-      "text": "Удаление и редактирование задач",
-      "completed": true
-    },
-    {
-      "id": "be3226fb-5c8a-412a-a80f-4b438b27fce5",
-      "listId": "685e33b1-40f8-4a5f-bb33-90f7550f5a3e",
-      "text": "Внешний вид, скроллы",
-      "completed": true
-    },
-    {
-      "id": "e0bb5ddc-f929-4563-8d82-b7b92e889d9f",
-      "listId": "685e33b1-40f8-4a5f-bb33-90f7550f5a3e",
-      "text": "Адаптив",
-      "completed": true
-    },
-    {
-      "id": "0cad8cd4-d3a6-4a98-b365-87f5957d6d74",
-      "listId": "685e33b1-40f8-4a5f-bb33-90f7550f5a3e",
+      "id": "5f404374-bdc5-4d0c-9cb6-f3f12dfe48d5",
+      "listId": "0284aeef-b217-474c-9757-cf5b93e2e407",
       "text": "Возможно перейти на Redux / Состояния компонентов скомпоновать в одном месте",
-      "completed": false
-    },
-    {
-      "id": "5fea82c6-4a68-4c4a-96b1-cbb5e28b20fa",
-      "listId": "685e33b1-40f8-4a5f-bb33-90f7550f5a3e",
-      "text": "Доступность",
-      "completed": false
-    },
-    {
-      "id": "9acbbf51-1ebc-44e7-9d94-0a7228a1a376",
-      "listId": "685e33b1-40f8-4a5f-bb33-90f7550f5a3e",
-      "text": "Отмечать выполненные задачи фронт/бек",
-      "completed": true
-    },
-    {
-      "id": "3889e064-69ff-4047-b8b7-170cf739c439",
-      "listId": "685e33b1-40f8-4a5f-bb33-90f7550f5a3e",
-      "text": "Сделать авторизацию со своим списком",
-      "completed": false
-    },
-    {
-      "id": "30eec062-9021-4ddb-981c-bcc51300f38d",
-      "listId": "685e33b1-40f8-4a5f-bb33-90f7550f5a3e",
-      "text": "Серверная часть",
-      "completed": false
-    },
-    {
-      "id": "d1f8c2ec-5eea-48d5-b105-3de216246985",
-      "listId": "685e33b1-40f8-4a5f-bb33-90f7550f5a3e",
-      "text": "первая буква задачи и списка большая",
-      "completed": true
-    },
-    {
-      "id": "55eaa72d-421b-4dfd-9a99-02b6a91ac2e8",
-      "listId": "685e33b1-40f8-4a5f-bb33-90f7550f5a3e",
-      "text": "Добавить кастомные цвета, для этого придётся поменять структуру данных",
-      "completed": true
-    },
-    {
-      "id": "e00d9928-0f01-4702-86d2-c651030419e1",
-      "listId": "685e33b1-40f8-4a5f-bb33-90f7550f5a3e",
-      "text": "Сделать React Router",
-      "completed": false
-    },
-    {
-      "id": "1dede081-e9b7-4215-922a-fc8ccc12c8cd",
-      "listId": "685e33b1-40f8-4a5f-bb33-90f7550f5a3e",
-      "text": "Добавить возможность редактировать цвет заголовка",
-      "completed": true
-    },
-    {
-      "id": "d84df7e1-043b-437e-ac80-b3cab8644b37",
-      "listId": "685e33b1-40f8-4a5f-bb33-90f7550f5a3e",
-      "text": "Кастомные подтверждения",
-      "completed": true
-    },
-    {
-      "id": "99f7f05c-d8cb-4c46-8683-825af84bd897",
-      "listId": "685e33b1-40f8-4a5f-bb33-90f7550f5a3e",
-      "text": "Добавить spinner при удалении и редактировании задач",
-      "completed": true
-    },
-    {
-      "id": "b5f8bd15-07d9-47dd-98a6-6908194cfdcb",
-      "listId": "685e33b1-40f8-4a5f-bb33-90f7550f5a3e",
-      "text": "Если значение при отправке не поменялось не нужно отправлять POST запрос",
-      "completed": true
-    },
-    {
-      "id": "50d88e58-ea86-4881-b775-7e9bfc1599dc",
-      "listId": "685e33b1-40f8-4a5f-bb33-90f7550f5a3e",
-      "text": "Ошибка импорта \"react-dom\"",
-      "completed": false
-    },
-    {
-      "id": "0ffe5093-adfe-44a6-9417-30bef69f4bd8",
-      "listId": "685e33b1-40f8-4a5f-bb33-90f7550f5a3e",
-      "text": "Сделать сортировку выполненных задач",
-      "completed": false
-    },
-    {
-      "id": "15213750-606f-4aaa-b68f-ca0165051cfb",
-      "listId": "685e33b1-40f8-4a5f-bb33-90f7550f5a3e",
-      "text": "Переменные для цветов SCSS",
-      "completed": false
-    },
-    {
-      "id": "93afe758-01e0-4715-a460-3bc3ae022567",
-      "listId": "685e33b1-40f8-4a5f-bb33-90f7550f5a3e",
-      "text": "scrollbarPadding Скачки окна из-за модалки",
-      "completed": false
-    },
-    {
-      "id": "b3bb8010-2d26-482e-8222-b711824d48ea",
-      "listId": "685e33b1-40f8-4a5f-bb33-90f7550f5a3e",
-      "text": "Сортировка по дате добавления",
       "completed": false,
-      "controlTime": 1658420798445
+      "controlTime": 1658501372322
     },
     {
-      "id": "da2bbcf2-dee2-44d4-aa31-ead87a17acea",
-      "listId": "685e33b1-40f8-4a5f-bb33-90f7550f5a3e",
+      "id": "837787a7-8de0-4557-9fa0-8227fdb175b9",
+      "listId": "0284aeef-b217-474c-9757-cf5b93e2e407",
+      "text": "Доступность",
+      "completed": false,
+      "controlTime": 1658501376880
+    },
+    {
+      "id": "0c34a293-86ed-453e-be71-6f9c0b7a328c",
+      "listId": "0284aeef-b217-474c-9757-cf5b93e2e407",
+      "text": "Сделать авторизацию со своим списком",
+      "completed": false,
+      "controlTime": 1658501380291
+    },
+    {
+      "id": "da1a539f-e7aa-4691-92e2-5f88f0fc5377",
+      "listId": "0284aeef-b217-474c-9757-cf5b93e2e407",
+      "text": "Серверная часть",
+      "completed": false,
+      "controlTime": 1658501383872
+    },
+    {
+      "id": "fed6ee6b-4b22-4370-870c-65b068e50b87",
+      "listId": "0284aeef-b217-474c-9757-cf5b93e2e407",
+      "text": "Сделать React Router",
+      "completed": false,
+      "controlTime": 1658501387770
+    },
+    {
+      "id": "8a3a25a1-c373-4172-83d5-347b1100e46f",
+      "listId": "0284aeef-b217-474c-9757-cf5b93e2e407",
+      "text": "Ошибка импорта \"react-dom\"",
+      "completed": false,
+      "controlTime": 1658501391566
+    },
+    {
+      "id": "53bc89d7-e518-4c66-aeca-a2d3cb520e20",
+      "listId": "0284aeef-b217-474c-9757-cf5b93e2e407",
+      "text": "Сделать сортировку выполненных задач",
+      "completed": false,
+      "controlTime": 1658501395356
+    },
+    {
+      "id": "a62564e2-40c9-40ca-bf16-cd039cba5bf9",
+      "listId": "0284aeef-b217-474c-9757-cf5b93e2e407",
+      "text": "Переменные для цветов SCSS",
+      "completed": false,
+      "controlTime": 1658501398844
+    },
+    {
+      "id": "31a5219e-f9dc-44dd-acef-9aa86205123b",
+      "listId": "0284aeef-b217-474c-9757-cf5b93e2e407",
+      "text": "ScrollbarPadding Скачки окна из-за модалки",
+      "completed": false,
+      "controlTime": 1658501405582
+    },
+    {
+      "id": "4d7c1baa-4681-429b-a73f-d5fa84c06f77",
+      "listId": "0284aeef-b217-474c-9757-cf5b93e2e407",
+      "text": "Отрефакторить код",
+      "completed": false,
+      "controlTime": 1658501411484
+    },
+    {
+      "id": "d73cfe31-a26d-41d3-8a88-c8edca32d88e",
+      "listId": "0284aeef-b217-474c-9757-cf5b93e2e407",
       "text": "Спиннер на список задач и первый экран",
       "completed": false,
-      "controlTime": 1658420839324
+      "controlTime": 1658501416394
     },
     {
-      "id": "c7bfda14-602a-428b-a870-ab712c8efd40",
-      "listId": "7dd10455-fd00-428d-bd70-34d80055f9de",
-      "text": "Последнее",
+      "id": "c6a3d0bd-9e79-47f8-a403-1765913b1f4c",
+      "listId": "0284aeef-b217-474c-9757-cf5b93e2e407",
+      "text": "Сортировка по дате добавления",
       "completed": false,
-      "controlTime": 1658421580189
+      "controlTime": 1658501420394
     },
     {
-      "id": "f5ff71b8-e55f-4204-a4bf-fb3abdac2e98",
-      "listId": "7dd10455-fd00-428d-bd70-34d80055f9de",
-      "text": "Среднее",
+      "id": "d3cc35b2-7b50-483d-81d2-3ae3043de047",
+      "listId": "823637af-4b9d-4a0e-9eae-5d5ea69c5caf",
+      "text": "ПОСЛЕДНЯЯ",
       "completed": false,
-      "controlTime": 1658421585589
+      "controlTime": 1658501452745
     },
     {
-      "id": "b9eb9979-e20e-495d-8346-51eb29019056",
-      "listId": "7dd10455-fd00-428d-bd70-34d80055f9de",
-      "text": "Первое",
+      "id": "df313066-6857-43d1-8be7-b8481e2259aa",
+      "listId": "823637af-4b9d-4a0e-9eae-5d5ea69c5caf",
+      "text": "СРЕДНЯЯ",
       "completed": false,
-      "controlTime": 1658421589085
+      "controlTime": 1658501457250
     },
     {
-      "id": "b12818f5-01d9-4721-9df8-e78ed795c5bd",
-      "listId": "685e33b1-40f8-4a5f-bb33-90f7550f5a3e",
-      "text": "тест",
+      "id": "19bad356-4a64-4ced-ad68-e6f7e71f604b",
+      "listId": "823637af-4b9d-4a0e-9eae-5d5ea69c5caf",
+      "text": "ПЕРВАЯ",
       "completed": false,
-      "controlTime": 1658424699550
+      "controlTime": 1658501460753
+    },
+    {
+      "id": "b5d6d069-d18a-4424-9d76-cd05bae95f74",
+      "listId": "823637af-4b9d-4a0e-9eae-5d5ea69c5caf",
+      "text": "САМАЯ ПЕРВАЯ",
+      "completed": false,
+      "controlTime": 1658501837046
+    },
+    {
+      "id": "de5c3928-6370-451d-a029-664bb7607904",
+      "listId": "823637af-4b9d-4a0e-9eae-5d5ea69c5caf",
+      "text": "ПЕРВЕЕ НЕКУДА",
+      "completed": false,
+      "controlTime": 1658515281363
     }
   ],
   "colors": [
