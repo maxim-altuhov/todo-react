@@ -31,14 +31,16 @@ button {
   border: 0;
 }
 
+.root {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 50px 0;
+}
+
 .todo {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  height: calc(100vh - 100px);
   min-width: 320px;
-  min-height: 300px;
+  min-height: 80vh;
   border-radius: 10px;
   border: 1px solid #f1f1f1;
   box-shadow: 1px 5px 15px #b1b0b0;

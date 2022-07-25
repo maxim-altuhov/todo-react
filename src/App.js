@@ -15,6 +15,7 @@ const App = () => {
   const [windowWidth, setWindowWidth] = useState(null);
   const [isOpenMenu, setMenuStatus] = useState(false);
   const [isOpenPopup, setPopupStatus] = useState(false);
+  const [isLoading, setLoading] = useState(true);
   const TABLET_WIDTH = 900;
   const MOBILE_WIDTH = 375;
 
@@ -28,7 +29,8 @@ const App = () => {
           title: 'Не удалось загрузить данные!',
           text: 'Попробуйте обновить страницу',
         });
-      });
+      })
+      .finally(() => setLoading(false));
 
     request('http://localhost:3001/colors')
       .then((data) => setColors(data))
@@ -164,7 +166,7 @@ const App = () => {
     if (isOpenPopup) setPopupStatus(false);
   };
 
-  return (
+  return !isLoading ? (
     <div className="todo">
       <div
         className={classNames('todo__sidebar', {
@@ -211,6 +213,8 @@ const App = () => {
         )}
       </div>
     </div>
+  ) : (
+    <Spinner width={150} height={150} />
   );
 };
 

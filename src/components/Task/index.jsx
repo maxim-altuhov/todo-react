@@ -111,16 +111,16 @@ const Task = ({
   };
 
   const toggleStatusTask = (taskId, listId, completed) => {
-    request(`http://localhost:3001/tasks/${taskId}`, 'PATCH', JSON.stringify({ completed }))
-      .then(() => {
-        onToggleStatusTask(taskId, listId, completed);
-      })
-      .catch(() => {
+    onToggleStatusTask(taskId, listId, completed);
+
+    request(`http://localhost:3001/tasks/${taskId}`, 'PATCH', JSON.stringify({ completed })).catch(
+      () => {
         popUpError.fire({
           title: 'Не удалось изменить состояние задачи',
           text: 'Попробуйте обновить страницу',
         });
-      });
+      },
+    );
   };
 
   const initCustomSort = (firstEl, secondEl) => {

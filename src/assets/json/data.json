@@ -4,11 +4,6 @@
       "id": "0284aeef-b217-474c-9757-cf5b93e2e407",
       "name": "Разработка",
       "color": "#C355F5"
-    },
-    {
-      "id": "823637af-4b9d-4a0e-9eae-5d5ea69c5caf",
-      "name": "ТЕСТОВЫЙ",
-      "color": "#42B883"
     }
   ],
   "tasks": [
@@ -48,17 +43,10 @@
       "controlTime": 1658501387770
     },
     {
-      "id": "8a3a25a1-c373-4172-83d5-347b1100e46f",
-      "listId": "0284aeef-b217-474c-9757-cf5b93e2e407",
-      "text": "Ошибка импорта \"react-dom\"",
-      "completed": false,
-      "controlTime": 1658501391566
-    },
-    {
       "id": "53bc89d7-e518-4c66-aeca-a2d3cb520e20",
       "listId": "0284aeef-b217-474c-9757-cf5b93e2e407",
       "text": "Сделать сортировку выполненных задач",
-      "completed": false,
+      "completed": true,
       "controlTime": 1658501395356
     },
     {
@@ -72,7 +60,7 @@
       "id": "31a5219e-f9dc-44dd-acef-9aa86205123b",
       "listId": "0284aeef-b217-474c-9757-cf5b93e2e407",
       "text": "ScrollbarPadding Скачки окна из-за модалки",
-      "completed": false,
+      "completed": true,
       "controlTime": 1658501405582
     },
     {
@@ -85,51 +73,16 @@
     {
       "id": "d73cfe31-a26d-41d3-8a88-c8edca32d88e",
       "listId": "0284aeef-b217-474c-9757-cf5b93e2e407",
-      "text": "Спиннер на список задач и первый экран",
-      "completed": false,
+      "text": "Спиннер на  первый экран",
+      "completed": true,
       "controlTime": 1658501416394
     },
     {
       "id": "c6a3d0bd-9e79-47f8-a403-1765913b1f4c",
       "listId": "0284aeef-b217-474c-9757-cf5b93e2e407",
       "text": "Сортировка по дате добавления",
-      "completed": false,
+      "completed": true,
       "controlTime": 1658501420394
-    },
-    {
-      "id": "d3cc35b2-7b50-483d-81d2-3ae3043de047",
-      "listId": "823637af-4b9d-4a0e-9eae-5d5ea69c5caf",
-      "text": "ПОСЛЕДНЯЯ",
-      "completed": false,
-      "controlTime": 1658501452745
-    },
-    {
-      "id": "df313066-6857-43d1-8be7-b8481e2259aa",
-      "listId": "823637af-4b9d-4a0e-9eae-5d5ea69c5caf",
-      "text": "СРЕДНЯЯ",
-      "completed": false,
-      "controlTime": 1658501457250
-    },
-    {
-      "id": "19bad356-4a64-4ced-ad68-e6f7e71f604b",
-      "listId": "823637af-4b9d-4a0e-9eae-5d5ea69c5caf",
-      "text": "ПЕРВАЯ",
-      "completed": false,
-      "controlTime": 1658501460753
-    },
-    {
-      "id": "b5d6d069-d18a-4424-9d76-cd05bae95f74",
-      "listId": "823637af-4b9d-4a0e-9eae-5d5ea69c5caf",
-      "text": "САМАЯ ПЕРВАЯ",
-      "completed": false,
-      "controlTime": 1658501837046
-    },
-    {
-      "id": "de5c3928-6370-451d-a029-664bb7607904",
-      "listId": "823637af-4b9d-4a0e-9eae-5d5ea69c5caf",
-      "text": "ПЕРВЕЕ НЕКУДА",
-      "completed": false,
-      "controlTime": 1658515281363
     }
   ],
   "colors": [
