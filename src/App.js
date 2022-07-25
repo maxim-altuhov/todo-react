@@ -214,7 +214,9 @@ const App = () => {
       </div>
     </div>
   ) : (
-    <Spinner width={150} height={150} />
+    <div className="spinner-block">
+      <Spinner width={100} height={100} />
+    </div>
   );
 };
 

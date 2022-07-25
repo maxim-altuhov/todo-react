@@ -36,9 +36,22 @@ button {
   justify-content: center;
   align-items: center;
   padding: 50px 0;
+
+  @media (max-width: 900px) {
+    padding: 0;
+    display: block;
+  }
+}
+
+.spinner-block {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
 }
 
 .todo {
+  position: relative;
   min-width: 320px;
   min-height: 80vh;
   border-radius: 10px;
@@ -48,12 +61,7 @@ button {
   display: flex;
 
   @media (max-width: 900px) {
-    height: 100vh;
     min-height: 100vh;
-    position: static;
-    top: 0%;
-    left: 0%;
-    transform: none;
   }
 
   &__sidebar {

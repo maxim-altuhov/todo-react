@@ -1,4 +1,4 @@
-const Spinner = ({ width = 40, height = 40, color = '#4dd599' }) => {
+const Spinner = ({ width = 40, height = 40, color = '#ff4a04' }) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
