@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { HexColorPicker } from 'react-colorful';
 import classNames from 'classnames';
+import { AiFillCloseCircle } from 'react-icons/ai';
 
 import useHttp from '../../hooks/http.hook';
 import { List, Input, Button } from '../index';
@@ -74,7 +75,12 @@ const AddList = ({ onAddList, setStatusPopup, onChangeMenuStatus, isOpenMenu, is
       />
       {isOpenPopup && (
         <div className="add-list__popup">
-          <button onClick={() => setStatusPopup(false)} className="add-list__close"></button>
+          <AiFillCloseCircle
+            size={23}
+            title="Close"
+            onClick={() => setStatusPopup(false)}
+            className="add-list__close"
+          />
           <form action="#" onSubmit={onCreateList}>
             <Input
               isRequired

@@ -101,6 +101,7 @@
   &__sidebar-menu {
     display: none;
     transition: transform 0.3s linear, right 0.3s linear;
+    cursor: pointer;
 
     @media (max-width: 900px) {
       display: block;

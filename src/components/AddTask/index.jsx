@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
+import { GrAdd } from 'react-icons/gr';
 
 import useHttp from '../../hooks/http.hook';
 import { Input, Button } from '../index';
 import { initErrorPopUp } from '../../utils/popUp';
 
-import addSvg from '../../assets/img/add.svg';
 import './AddTask.scss';
 
 const AddTask = ({ list, onAddTasks }) => {
@@ -45,7 +45,7 @@ const AddTask = ({ list, onAddTasks }) => {
     <>
       {!isOpenForm ? (
         <div onClick={onToggleForm} className="add-btn">
-          <img src={addSvg} alt="Add icon" />
+          <GrAdd size={20} title="Add task" />
           <span>Новая задача</span>
         </div>
       ) : (

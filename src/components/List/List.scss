@@ -43,8 +43,6 @@
     width: 18px;
     height: 18px;
     margin-right: 9px;
-    background-repeat: no-repeat;
-    background-size: contain;
     opacity: 0.5;
     flex: 0 0 auto;
 
@@ -55,14 +53,13 @@
       height: 12px;
       border-radius: 50%;
       opacity: 1;
-      background-image: none;
       margin-right: 15px;
     }
 
     &_type_add-btn {
-      width: 15px;
-      height: 15px;
-      background-image: url('../../assets/img/add.svg');
+      display: flex;
+      align-items: center;
+      opacity: 1;
     }
   }
 
@@ -77,16 +74,11 @@
   }
 
   &__close {
-    width: 11px;
-    height: 11px;
     position: absolute;
     top: 50%;
     right: 10px;
     transform: translateY(-50%);
     opacity: 0.2;
-    background-image: url('../../assets/img/remove.svg');
-    background-repeat: no-repeat;
-    background-size: contain;
     cursor: pointer;
 
     &:hover,

@@ -64,14 +64,9 @@
   }
 
   &__close {
-    width: 20px;
-    height: 20px;
     position: absolute;
     top: -10px;
     right: -10px;
-    background-image: url('../../assets/img/close.svg');
-    background-repeat: no-repeat;
-    background-size: contain;
     cursor: pointer;
   }
 

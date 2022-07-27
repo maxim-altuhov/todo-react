@@ -1,4 +1,5 @@
 import classNames from 'classnames';
+import { GrFormClose, GrAdd } from 'react-icons/gr';
 
 import './List.scss';
 
@@ -33,13 +34,20 @@ const List = ({
                 'list__icon_type_add-btn': type === 'add-btn',
               })}
               style={{ backgroundColor: color }}
-            ></i>
+            >
+              {type === 'add-btn' && <GrAdd size={22} title="Add list" />}
+            </i>
             <span className="list__label">
               {name}
               {tasks && ` (${tasks.length})`}
             </span>
             {isRemovable ? (
-              <span className="list__close" onClick={(e) => onRemoveList(e, id)}></span>
+              <GrFormClose
+                size={22}
+                title="Remove list"
+                className="list__close"
+                onClick={(e) => onRemoveList(e, id)}
+              />
             ) : null}
           </li>
         );

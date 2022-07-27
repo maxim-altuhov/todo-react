@@ -1,11 +1,11 @@
 import { HexColorPicker } from 'react-colorful';
+import { TbTrashX } from 'react-icons/tb';
+import { CgEditFlipH, CgCheck } from 'react-icons/cg';
 
 import useHttp from '../../hooks/http.hook';
 import { popUpDefault, popUpInput, initErrorPopUp } from '../../utils/popUp';
 import { AddTask } from '../index';
 
-import editSvg from '../../assets/img/edit.svg';
-import trashSvg from '../../assets/img/trash.svg';
 import './Task.scss';
 
 const Task = ({
@@ -121,7 +121,7 @@ const Task = ({
           <h2 className="task__title" style={{ color }}>
             {name}
           </h2>
-          <img onClick={onEditTitle} className="task__icon" src={editSvg} alt="edit icon" />
+          <CgEditFlipH size={28} title="Edit title" className="task__icon" onClick={onEditTitle} />
         </div>
         {tasks && tasks.length === 0 && <p className="task__none">Задачи отсутствуют</p>}
 
@@ -138,33 +138,25 @@ const Task = ({
                 defaultChecked={isCompleted}
               />
               <label className="checkbox__label" htmlFor={`task-${id}`}>
-                <svg
-                  width="11"
-                  height="8"
-                  viewBox="0 0 11 8"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M9.29999 1.20001L3.79999 6.70001L1.29999 4.20001"
-                    stroke="#000"
-                    strokeWidth="1.5"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
+                <CgCheck size={20} color={'#fff'} />
               </label>
               <span className="task__text">{text}</span>
             </div>
             <div className="task__control">
               {!isCompleted && (
-                <div className="task__control-item" onClick={() => onEditTask(id, text)}>
-                  <img src={editSvg} alt="Edit icon" />
-                </div>
+                <CgEditFlipH
+                  size={22}
+                  title="Edit task"
+                  className="task__control-item"
+                  onClick={() => onEditTask(id, text)}
+                />
               )}
-              <div className="task__control-item" onClick={() => onRemove(id)}>
-                <img src={trashSvg} alt="Remove icon" />
-              </div>
+              <TbTrashX
+                size={22}
+                title="Delete"
+                className="task__control-item"
+                onClick={() => onRemove(id)}
+              />
             </div>
           </div>
         ))}

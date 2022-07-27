@@ -1,13 +1,12 @@
 import { useState, useEffect } from 'react';
 import classNames from 'classnames';
+import { CgArrowRightR } from 'react-icons/cg';
 
 import useHttp from '../hooks/http.hook';
 import { AddList, List, Task, Spinner } from '../components';
 import { popUpDefault, initErrorPopUp } from '../utils/popUp';
 
-import menu from '../assets/img/arrow.svg';
 import './App.scss';
-import { Provider } from '../context';
 
 const App = () => {
   const TABLET_WIDTH = 900;
@@ -155,58 +154,56 @@ const App = () => {
       <Spinner width={100} height={100} />
     </div>
   ) : (
-    <Provider>
-      <div className="todo">
-        <div
-          className={classNames('todo__sidebar', {
-            todo__sidebar_open: isOpenMenu && windowWidth <= TABLET_WIDTH,
-            todo__sidebar_close: !isOpenMenu && windowWidth <= TABLET_WIDTH,
-          })}
-        >
-          <p className="todo__sidebar-title">Список задач:</p>
-          <img
-            className="todo__sidebar-menu"
-            src={menu}
-            alt="menu icon"
-            onClick={onChangeMenuStatus}
-          />
-          {lists ? (
-            <>
-              <List
-                onRemoveList={onRemoveList}
-                onSetActiveList={onSetActiveList}
-                items={lists}
-                activeList={activeList}
-                isRemovable
-              />
-              <AddList
-                onAddList={onAddList}
-                onChangeMenuStatus={onChangeMenuStatus}
-                setStatusPopup={setPopupStatus}
-                isOpenPopup={isOpenPopup}
-                isOpenMenu={isOpenMenu}
-              />
-            </>
-          ) : (
-            <Spinner />
-          )}
-        </div>
-        <div className="todo__tasks">
-          {lists && activeList ? (
-            <Task
-              onToggleStatusTask={onToggleStatusTask}
-              onAddTasks={onAddTasks}
-              onEditListTitle={onEditListTitle}
-              onEditTaskText={onEditTaskText}
-              onRemoveTask={onRemoveTask}
-              list={activeList}
+    <div className="todo">
+      <div
+        className={classNames('todo__sidebar', {
+          todo__sidebar_open: isOpenMenu && windowWidth <= TABLET_WIDTH,
+          todo__sidebar_close: !isOpenMenu && windowWidth <= TABLET_WIDTH,
+        })}
+      >
+        <p className="todo__sidebar-title">Список задач:</p>
+        <CgArrowRightR
+          size={22}
+          title="Menu"
+          onClick={onChangeMenuStatus}
+          className="todo__sidebar-menu"
+        />
+        {lists ? (
+          <>
+            <List
+              onRemoveList={onRemoveList}
+              onSetActiveList={onSetActiveList}
+              items={lists}
+              activeList={activeList}
+              isRemovable
             />
-          ) : (
-            <p className="todo__tasks-title">Список не выбран</p>
-          )}
-        </div>
+            <AddList
+              onAddList={onAddList}
+              onChangeMenuStatus={onChangeMenuStatus}
+              setStatusPopup={setPopupStatus}
+              isOpenPopup={isOpenPopup}
+              isOpenMenu={isOpenMenu}
+            />
+          </>
+        ) : (
+          <Spinner />
+        )}
       </div>
-    </Provider>
+      <div className="todo__tasks">
+        {lists && activeList ? (
+          <Task
+            onToggleStatusTask={onToggleStatusTask}
+            onAddTasks={onAddTasks}
+            onEditListTitle={onEditListTitle}
+            onEditTaskText={onEditTaskText}
+            onRemoveTask={onRemoveTask}
+            list={activeList}
+          />
+        ) : (
+          <p className="todo__tasks-title">Список не выбран</p>
+        )}
+      </div>
+    </div>
   );
 };
 
