@@ -21,7 +21,7 @@ const List = ({
 
         return (
           <li
-            key={`key-${id}`}
+            key={`list-${id}`}
             onClick={onSetActiveList ? () => onSetActiveList(list) : null}
             className={classNames('list__item', {
               list__item_active: activeList && activeList.id === list.id,

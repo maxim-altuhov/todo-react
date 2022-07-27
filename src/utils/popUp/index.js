@@ -31,4 +31,11 @@ const popUpInput = popUpDefault.mixin({
   input: 'text',
 });
 
-export { popUp, popUpDefault, popUpError, popUpInput };
+const initErrorPopUp = () => {
+  popUpError.fire({
+    title: 'Произошла ошибка загрузки данных!',
+    text: 'Попробуйте обновить страницу',
+  });
+};
+
+export { popUp, popUpDefault, popUpError, popUpInput, initErrorPopUp };

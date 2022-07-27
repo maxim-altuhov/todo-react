@@ -1,9 +1,9 @@
 import { useState } from 'react';
-import { useHttp } from '../../hooks/http.hook';
 import { v4 as uuidv4 } from 'uuid';
 
-import { Input, Button } from '../index.js';
-import { popUpError } from '../../utils/popUp';
+import useHttp from '../../hooks/http.hook';
+import { Input, Button } from '../index';
+import { initErrorPopUp } from '../../utils/popUp';
 
 import addSvg from '../../assets/img/add.svg';
 import './AddTask.scss';
@@ -26,7 +26,7 @@ const AddTask = ({ list, onAddTasks }) => {
       id: uuidv4(),
       listId: list.id,
       text: inputValue,
-      completed: false,
+      isCompleted: false,
       controlTime: new Date().getTime(),
     };
 
@@ -37,11 +37,7 @@ const AddTask = ({ list, onAddTasks }) => {
         onAddTasks(list.id, data);
         onToggleForm();
       })
-      .catch(() => {
-        popUpError.fire({
-          title: 'Не удалось создать задачу!',
-        });
-      })
+      .catch(() => initErrorPopUp())
       .finally(() => setLoading(false));
   };
 

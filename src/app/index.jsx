@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react';
 import classNames from 'classnames';
 
-import { useHttp } from '../../hooks/http.hook';
-import { AddList, List, Task, Spinner } from '..';
-import { popUpDefault, popUpError } from '../../utils/popUp';
+import useHttp from '../hooks/http.hook';
+import { AddList, List, Task, Spinner } from '../components';
+import { popUpDefault, initErrorPopUp } from '../utils/popUp';
 
-import menu from '../../assets/img/arrow.svg';
+import menu from '../assets/img/arrow.svg';
 import './App.scss';
 
 const App = () => {
@@ -14,7 +14,6 @@ const App = () => {
 
   const { request } = useHttp();
   const [lists, setLists] = useState(null);
-  const [colors, setColors] = useState(null);
   const [activeList, setActiveList] = useState(null);
   const [windowWidth, setWindowWidth] = useState(null);
   const [isOpenMenu, setMenuStatus] = useState(false);
@@ -26,22 +25,8 @@ const App = () => {
 
     request('http://localhost:3001/lists?_embed=tasks')
       .then((data) => setLists(data))
-      .catch(() => {
-        popUpError.fire({
-          title: 'Не удалось загрузить данные!',
-          text: 'Попробуйте обновить страницу',
-        });
-      })
+      .catch(() => initErrorPopUp())
       .finally(() => setLoading(false));
-
-    request('http://localhost:3001/colors')
-      .then((data) => setColors(data))
-      .catch(() => {
-        popUpError.fire({
-          title: 'Не удалось загрузить данные!',
-          text: 'Попробуйте обновить страницу',
-        });
-      });
 
     window.addEventListener('resize', updateWindowWidth);
 
@@ -62,9 +47,9 @@ const App = () => {
     setMenuStatus(false);
   };
 
-  const onAddTasks = (listId, data) => {
+  const onAddTasks = (inputListId, data) => {
     const newList = lists.map((list) => {
-      if (list.id === listId) {
+      if (list.id === inputListId) {
         list.tasks = [data, ...list.tasks];
       }
 
@@ -74,11 +59,11 @@ const App = () => {
     setLists(newList);
   };
 
-  const onToggleStatusTask = (taskId, listId, completed) => {
+  const onToggleStatusTask = (inputTaskId, inputListId, isCompleted) => {
     const newList = lists.map((list) => {
-      if (list.id === listId) {
+      if (list.id === inputListId) {
         list.tasks = list.tasks.map((task) => {
-          if (task.id === taskId) task.completed = completed;
+          if (task.id === inputTaskId) task.isCompleted = isCompleted;
 
           return task;
         });
@@ -103,11 +88,7 @@ const App = () => {
             setLists(lists.filter((list) => list.id !== id));
             setActiveList(null);
           })
-          .catch(() => {
-            popUpError.fire({
-              title: 'Не удалось удалить список задач',
-            });
-          });
+          .catch(() => initErrorPopUp());
       },
     });
   };
@@ -134,11 +115,11 @@ const App = () => {
     setLists(newList);
   };
 
-  const onEditTaskName = (taskId, listId, newTaskName) => {
+  const onEditTaskText = (inputTaskId, inputListId, newTaskText) => {
     const newList = lists.map((list) => {
-      if (list.id === listId) {
+      if (list.id === inputListId) {
         list.tasks = list.tasks.map((task) => {
-          if (task.id === taskId) task.text = newTaskName;
+          if (task.id === inputTaskId) task.text = newTaskText;
 
           return task;
         });
@@ -150,10 +131,10 @@ const App = () => {
     setLists(newList);
   };
 
-  const onRemoveTask = (taskId, listId) => {
+  const onRemoveTask = (inputTaskId, inputListId) => {
     const newList = lists.map((list) => {
-      if (list.id === listId) {
-        list.tasks = list.tasks.filter((task) => task.id !== taskId);
+      if (list.id === inputListId) {
+        list.tasks = list.tasks.filter((task) => task.id !== inputTaskId);
       }
 
       return list;
@@ -187,7 +168,7 @@ const App = () => {
           alt="menu icon"
           onClick={onChangeMenuStatus}
         />
-        {lists.length ? (
+        {lists ? (
           <>
             <List
               onRemoveList={onRemoveList}
@@ -202,7 +183,6 @@ const App = () => {
               setStatusPopup={setPopupStatus}
               isOpenPopup={isOpenPopup}
               isOpenMenu={isOpenMenu}
-              colors={colors}
             />
           </>
         ) : (
@@ -210,12 +190,12 @@ const App = () => {
         )}
       </div>
       <div className="todo__tasks">
-        {lists.length && activeList ? (
+        {lists && activeList ? (
           <Task
             onToggleStatusTask={onToggleStatusTask}
             onAddTasks={onAddTasks}
             onEditListTitle={onEditListTitle}
-            onEditTaskName={onEditTaskName}
+            onEditTaskText={onEditTaskText}
             onRemoveTask={onRemoveTask}
             list={activeList}
           />

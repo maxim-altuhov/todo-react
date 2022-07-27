@@ -7,8 +7,8 @@
     },
     {
       "id": "fba8b07b-2430-4070-b816-9a9267565032",
-      "name": "1233",
-      "color": "#42B883"
+      "name": "123355",
+      "color": "#ff0000"
     },
     {
       "id": "29e0d7d2-e86c-4a2b-9f09-8a014fb8c8c8",
@@ -19,6 +19,11 @@
       "id": "8b2dfcd3-e516-4a0e-86d1-184becda1b28",
       "name": "2224",
       "color": "#ff0000"
+    },
+    {
+      "id": "3e3cd52f-ee1d-4ff6-90ca-4e7aae2c0578",
+      "name": "111",
+      "color": "#ff00e8"
     }
   ],
   "tasks": [
@@ -26,129 +31,99 @@
       "id": "5f404374-bdc5-4d0c-9cb6-f3f12dfe48d5",
       "listId": "0284aeef-b217-474c-9757-cf5b93e2e407",
       "text": "Возможно перейти на Redux / Состояния компонентов скомпоновать в одном месте",
-      "completed": false,
+      "isCompleted": false,
       "controlTime": 1658501372322
     },
     {
       "id": "837787a7-8de0-4557-9fa0-8227fdb175b9",
       "listId": "0284aeef-b217-474c-9757-cf5b93e2e407",
       "text": "Доступность",
-      "completed": false,
+      "isCompleted": false,
       "controlTime": 1658501376880
     },
     {
       "id": "0c34a293-86ed-453e-be71-6f9c0b7a328c",
       "listId": "0284aeef-b217-474c-9757-cf5b93e2e407",
       "text": "Сделать авторизацию со своим списком",
-      "completed": false,
+      "isCompleted": false,
       "controlTime": 1658501380291
     },
     {
       "id": "da1a539f-e7aa-4691-92e2-5f88f0fc5377",
       "listId": "0284aeef-b217-474c-9757-cf5b93e2e407",
       "text": "Серверная часть",
-      "completed": false,
+      "isCompleted": false,
       "controlTime": 1658501383872
     },
     {
       "id": "fed6ee6b-4b22-4370-870c-65b068e50b87",
       "listId": "0284aeef-b217-474c-9757-cf5b93e2e407",
       "text": "Сделать React Router",
-      "completed": false,
+      "isCompleted": false,
       "controlTime": 1658501387770
     },
     {
       "id": "53bc89d7-e518-4c66-aeca-a2d3cb520e20",
       "listId": "0284aeef-b217-474c-9757-cf5b93e2e407",
       "text": "Сделать сортировку выполненных задач",
-      "completed": true,
+      "isCompleted": true,
       "controlTime": 1658501395356
     },
     {
       "id": "31a5219e-f9dc-44dd-acef-9aa86205123b",
       "listId": "0284aeef-b217-474c-9757-cf5b93e2e407",
       "text": "ScrollbarPadding Скачки окна из-за модалки",
-      "completed": true,
+      "isCompleted": true,
       "controlTime": 1658501405582
     },
     {
       "id": "4d7c1baa-4681-429b-a73f-d5fa84c06f77",
       "listId": "0284aeef-b217-474c-9757-cf5b93e2e407",
       "text": "Отрефакторить код",
-      "completed": true,
+      "isCompleted": true,
       "controlTime": 1658501411484
     },
     {
       "id": "d73cfe31-a26d-41d3-8a88-c8edca32d88e",
       "listId": "0284aeef-b217-474c-9757-cf5b93e2e407",
       "text": "Спиннер на  первый экран",
-      "completed": true,
+      "isCompleted": true,
       "controlTime": 1658501416394
     },
     {
       "id": "c6a3d0bd-9e79-47f8-a403-1765913b1f4c",
       "listId": "0284aeef-b217-474c-9757-cf5b93e2e407",
       "text": "Сортировка по дате добавления",
-      "completed": true,
+      "isCompleted": true,
       "controlTime": 1658501420394
     },
     {
       "id": "d000d557-0c26-4d30-bf9a-1c0fb468579e",
       "listId": "fba8b07b-2430-4070-b816-9a9267565032",
       "text": "1",
-      "completed": false,
+      "isCompleted": false,
       "controlTime": 1658756659021
     },
     {
       "id": "f6e80141-e643-42ef-9aaa-bafb79e6f639",
       "listId": "fba8b07b-2430-4070-b816-9a9267565032",
       "text": "2",
-      "completed": false,
+      "isCompleted": false,
       "controlTime": 1658756662224
     },
     {
       "id": "5dcd56db-29d9-466a-b5d3-7bb9b6230246",
       "listId": "fba8b07b-2430-4070-b816-9a9267565032",
       "text": "3",
-      "completed": false,
+      "isCompleted": false,
       "controlTime": 1658756664086
     },
     {
       "id": "4c29cc5d-8fff-4f10-9b1c-50adaa1a0f53",
       "listId": "fba8b07b-2430-4070-b816-9a9267565032",
       "text": "4",
-      "completed": false,
+      "isCompleted": false,
       "controlTime": 1658756665638
-    }
-  ],
-  "colors": [
-    {
-      "id": 1,
-      "hex": "#42B883"
-    },
-    {
-      "id": 2,
-      "hex": "#64C4ED"
-    },
-    {
-      "id": 3,
-      "hex": "#FFBBCC"
-    },
-    {
-      "id": 4,
-      "hex": "#B6E6BD"
-    },
-    {
-      "id": 5,
-      "hex": "#C355F5"
-    },
-    {
-      "id": 6,
-      "hex": "#110133"
-    },
-    {
-      "id": 7,
-      "hex": "#FF6464"
     }
   ]
 }

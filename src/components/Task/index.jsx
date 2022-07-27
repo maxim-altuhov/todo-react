@@ -1,9 +1,8 @@
 import { HexColorPicker } from 'react-colorful';
 
-import { useHttp } from '../../hooks/http.hook';
+import useHttp from '../../hooks/http.hook';
+import { popUpDefault, popUpInput, initErrorPopUp } from '../../utils/popUp';
 import { AddTask } from '../index';
-
-import { popUpDefault, popUpError, popUpInput } from '../../utils/popUp';
 
 import editSvg from '../../assets/img/edit.svg';
 import trashSvg from '../../assets/img/trash.svg';
@@ -14,7 +13,7 @@ const Task = ({
   onEditListTitle,
   onAddTasks,
   onRemoveTask,
-  onEditTaskName,
+  onEditTaskText,
   onToggleStatusTask,
 }) => {
   const { request } = useHttp();
@@ -52,11 +51,7 @@ const Task = ({
             .then(() => {
               onEditListTitle(id, newName, newColor);
             })
-            .catch(() => {
-              popUpError.fire({
-                title: 'Не удалось обновить название списка или цвет',
-              });
-            });
+            .catch(() => initErrorPopUp());
         }
       },
     });
@@ -79,13 +74,9 @@ const Task = ({
             }),
           )
             .then(() => {
-              onEditTaskName(taskId, id, value);
+              onEditTaskText(taskId, id, value);
             })
-            .catch(() => {
-              popUpError.fire({
-                title: 'Не удалось обновить название задачи',
-              });
-            });
+            .catch(() => initErrorPopUp());
         }
       },
     });
@@ -101,31 +92,24 @@ const Task = ({
           .then(() => {
             onRemoveTask(taskId, id);
           })
-          .catch(() => {
-            popUpError.fire({
-              title: 'Не удалось удалить задачу',
-            });
-          });
+          .catch(() => initErrorPopUp());
       },
     });
   };
 
-  const onToggleStatus = (taskId, listId, completed) => {
-    onToggleStatusTask(taskId, listId, completed);
+  const onToggleStatus = (taskId, listId, isCompleted) => {
+    onToggleStatusTask(taskId, listId, isCompleted);
 
-    request(`http://localhost:3001/tasks/${taskId}`, 'PATCH', JSON.stringify({ completed })).catch(
-      () => {
-        popUpError.fire({
-          title: 'Не удалось изменить состояние задачи',
-          text: 'Попробуйте обновить страницу',
-        });
-      },
-    );
+    request(
+      `http://localhost:3001/tasks/${taskId}`,
+      'PATCH',
+      JSON.stringify({ isCompleted }),
+    ).catch(() => initErrorPopUp());
   };
 
   const initCustomSort = (firstEl, secondEl) => {
     return (
-      (secondEl.completed < firstEl.completed) - (firstEl.completed < secondEl.completed) ||
+      (secondEl.isCompleted < firstEl.isCompleted) - (firstEl.isCompleted < secondEl.isCompleted) ||
       (firstEl.controlTime < secondEl.controlTime) - (secondEl.controlTime < firstEl.controlTime)
     );
   };
@@ -142,7 +126,7 @@ const Task = ({
         {tasks && tasks.length === 0 && <p className="task__none">Задачи отсутствуют</p>}
 
         <AddTask key={id} list={list} onAddTasks={onAddTasks} />
-        {tasks.sort(initCustomSort).map(({ id, text, completed }) => (
+        {tasks.sort(initCustomSort).map(({ id, text, isCompleted }) => (
           <div key={id} className="task__item">
             <div className="checkbox">
               <input
@@ -150,8 +134,8 @@ const Task = ({
                 type="checkbox"
                 name={`name-${id}`}
                 id={`task-${id}`}
-                onChange={() => onToggleStatus(id, list.id, !completed)}
-                defaultChecked={completed}
+                onChange={() => onToggleStatus(id, list.id, !isCompleted)}
+                defaultChecked={isCompleted}
               />
               <label className="checkbox__label" htmlFor={`task-${id}`}>
                 <svg
@@ -173,7 +157,7 @@ const Task = ({
               <span className="task__text">{text}</span>
             </div>
             <div className="task__control">
-              {!completed && (
+              {!isCompleted && (
                 <div className="task__control-item" onClick={() => onEditTask(id, text)}>
                   <img src={editSvg} alt="Edit icon" />
                 </div>
