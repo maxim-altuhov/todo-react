@@ -20,7 +20,7 @@ const Task = ({
   const { request } = useHttp();
   const { id, tasks, color, name } = list;
 
-  const editTitle = () => {
+  const onEditTitle = () => {
     let newColor = color;
 
     popUpInput.fire({
@@ -62,7 +62,7 @@ const Task = ({
     });
   };
 
-  const editTask = (taskId, text) => {
+  const onEditTask = (taskId, text) => {
     popUpInput.fire({
       inputValue: text,
       confirmButtonText: 'Изменить',
@@ -91,7 +91,7 @@ const Task = ({
     });
   };
 
-  const removeTask = (taskId) => {
+  const onRemove = (taskId) => {
     popUpDefault.fire({
       title: 'Удалить задачу?',
       confirmButtonText: 'Удалить',
@@ -110,7 +110,7 @@ const Task = ({
     });
   };
 
-  const toggleStatusTask = (taskId, listId, completed) => {
+  const onToggleStatus = (taskId, listId, completed) => {
     onToggleStatusTask(taskId, listId, completed);
 
     request(`http://localhost:3001/tasks/${taskId}`, 'PATCH', JSON.stringify({ completed })).catch(
@@ -137,7 +137,7 @@ const Task = ({
           <h2 className="task__title" style={{ color }}>
             {name}
           </h2>
-          <img onClick={editTitle} className="task__icon" src={editSvg} alt="edit icon" />
+          <img onClick={onEditTitle} className="task__icon" src={editSvg} alt="edit icon" />
         </div>
         {tasks && tasks.length === 0 && <p className="task__none">Задачи отсутствуют</p>}
 
@@ -150,7 +150,7 @@ const Task = ({
                 type="checkbox"
                 name={`name-${id}`}
                 id={`task-${id}`}
-                onChange={() => toggleStatusTask(id, list.id, !completed)}
+                onChange={() => onToggleStatus(id, list.id, !completed)}
                 defaultChecked={completed}
               />
               <label className="checkbox__label" htmlFor={`task-${id}`}>
@@ -174,11 +174,11 @@ const Task = ({
             </div>
             <div className="task__control">
               {!completed && (
-                <div className="task__control-item" onClick={() => editTask(id, text)}>
+                <div className="task__control-item" onClick={() => onEditTask(id, text)}>
                   <img src={editSvg} alt="Edit icon" />
                 </div>
               )}
-              <div className="task__control-item" onClick={() => removeTask(id)}>
+              <div className="task__control-item" onClick={() => onRemove(id)}>
                 <img src={trashSvg} alt="Remove icon" />
               </div>
             </div>

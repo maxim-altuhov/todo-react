@@ -2,19 +2,21 @@ import './Input.scss';
 
 const Input = ({
   onChangeValue,
+  value,
   placeholder = 'Текст',
   type = 'text',
-  required = false,
-  autofocus = false,
+  isRequired = false,
+  isAutofocus = false,
 }) => {
   return (
     <input
       className="input-field"
       type={type}
+      value={value}
       placeholder={placeholder}
       onChange={onChangeValue}
-      required={required}
-      autoFocus={autofocus}
+      required={isRequired}
+      autoFocus={isAutofocus}
     />
   );
 };

@@ -1,13 +1,17 @@
 import { useState, useEffect } from 'react';
 import classNames from 'classnames';
 
-import { useHttp } from './hooks/http.hook';
-import { AddList, List, Task, Spinner } from './components';
-import { popUpDefault, popUpError } from './utils/popUp';
+import { useHttp } from '../../hooks/http.hook';
+import { AddList, List, Task, Spinner } from '..';
+import { popUpDefault, popUpError } from '../../utils/popUp';
 
-import menu from './assets/img/arrow.svg';
+import menu from '../../assets/img/arrow.svg';
+import './App.scss';
 
 const App = () => {
+  const TABLET_WIDTH = 900;
+  const MOBILE_WIDTH = 375;
+
   const { request } = useHttp();
   const [lists, setLists] = useState(null);
   const [colors, setColors] = useState(null);
@@ -16,8 +20,6 @@ const App = () => {
   const [isOpenMenu, setMenuStatus] = useState(false);
   const [isOpenPopup, setPopupStatus] = useState(false);
   const [isLoading, setLoading] = useState(true);
-  const TABLET_WIDTH = 900;
-  const MOBILE_WIDTH = 375;
 
   useEffect(() => {
     updateWindowWidth();
@@ -63,7 +65,7 @@ const App = () => {
   const onAddTasks = (listId, data) => {
     const newList = lists.map((list) => {
       if (list.id === listId) {
-        list.tasks = [...list.tasks, data];
+        list.tasks = [data, ...list.tasks];
       }
 
       return list;
@@ -88,7 +90,7 @@ const App = () => {
     setLists(newList);
   };
 
-  const onRemove = (e, id) => {
+  const onRemoveList = (e, id) => {
     e.stopPropagation();
 
     popUpDefault.fire({
@@ -110,7 +112,7 @@ const App = () => {
     });
   };
 
-  const onActiveList = (list) => {
+  const onSetActiveList = (list) => {
     setActiveList(list);
 
     if (windowWidth <= MOBILE_WIDTH) {
@@ -160,13 +162,17 @@ const App = () => {
     setLists(newList);
   };
 
-  const onMenuStatus = () => {
+  const onChangeMenuStatus = () => {
     setMenuStatus((isOpenMenu) => !isOpenMenu);
 
     if (isOpenPopup) setPopupStatus(false);
   };
 
-  return !isLoading ? (
+  return isLoading ? (
+    <div className="spinner-block">
+      <Spinner width={100} height={100} />
+    </div>
+  ) : (
     <div className="todo">
       <div
         className={classNames('todo__sidebar', {
@@ -175,19 +181,24 @@ const App = () => {
         })}
       >
         <p className="todo__sidebar-title">Список задач:</p>
-        <img className="todo__sidebar-menu" src={menu} alt="menu icon" onClick={onMenuStatus} />
-        {lists ? (
+        <img
+          className="todo__sidebar-menu"
+          src={menu}
+          alt="menu icon"
+          onClick={onChangeMenuStatus}
+        />
+        {lists.length ? (
           <>
             <List
-              onRemove={onRemove}
-              onActiveList={onActiveList}
+              onRemoveList={onRemoveList}
+              onSetActiveList={onSetActiveList}
               items={lists}
               activeList={activeList}
               isRemovable
             />
             <AddList
-              onAdd={onAddList}
-              onMenuStatus={onMenuStatus}
+              onAddList={onAddList}
+              onChangeMenuStatus={onChangeMenuStatus}
               setStatusPopup={setPopupStatus}
               isOpenPopup={isOpenPopup}
               isOpenMenu={isOpenMenu}
@@ -199,7 +210,7 @@ const App = () => {
         )}
       </div>
       <div className="todo__tasks">
-        {lists && activeList ? (
+        {lists.length && activeList ? (
           <Task
             onToggleStatusTask={onToggleStatusTask}
             onAddTasks={onAddTasks}
@@ -212,10 +223,6 @@ const App = () => {
           <p className="todo__tasks-title">Список не выбран</p>
         )}
       </div>
-    </div>
-  ) : (
-    <div className="spinner-block">
-      <Spinner width={100} height={100} />
     </div>
   );
 };

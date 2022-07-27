@@ -14,7 +14,7 @@ const AddTask = ({ list, onAddTasks }) => {
   const [isOpenForm, setStatusForm] = useState(false);
   const [inputValue, setInputValue] = useState('');
 
-  const toggleForm = () => {
+  const onToggleForm = () => {
     setStatusForm(!isOpenForm);
     setInputValue('');
   };
@@ -35,7 +35,7 @@ const AddTask = ({ list, onAddTasks }) => {
     request('http://localhost:3001/tasks', 'POST', JSON.stringify(newTask))
       .then((data) => {
         onAddTasks(list.id, data);
-        toggleForm();
+        onToggleForm();
       })
       .catch(() => {
         popUpError.fire({
@@ -48,7 +48,7 @@ const AddTask = ({ list, onAddTasks }) => {
   return (
     <>
       {!isOpenForm ? (
-        <div onClick={toggleForm} className="add-btn">
+        <div onClick={onToggleForm} className="add-btn">
           <img src={addSvg} alt="Add icon" />
           <span>Новая задача</span>
         </div>
@@ -57,20 +57,20 @@ const AddTask = ({ list, onAddTasks }) => {
           <Input
             placeholder="Текст задачи"
             value={inputValue}
+            isRequired
+            isAutofocus
             onChangeValue={(e) => setInputValue(e.target.value)}
-            required
-            autofocus
           />
           <div className="task-form__btn-block">
             <div className="task-form__btn-block-item">
               <Button
                 type="submit"
                 text={isLoading ? 'Добавление...' : 'Добавить'}
-                disabled={isLoading}
+                isDisabled={isLoading}
               />
             </div>
             <div className="task-form__btn-block-item">
-              <Button onClick={toggleForm} text="Отмена" theme="gray" />
+              <Button onClick={onToggleForm} text="Отмена" theme="gray" />
             </div>
           </div>
         </form>

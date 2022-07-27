@@ -7,7 +7,7 @@ const Button = ({
   type = 'button',
   text = 'Текст',
   theme = 'green',
-  disabled = false,
+  isDisabled = false,
 }) => {
   return (
     <button
@@ -17,7 +17,7 @@ const Button = ({
       })}
       type={type}
       onClick={onClick}
-      disabled={disabled}
+      disabled={isDisabled}
     >
       {text}
     </button>

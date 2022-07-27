@@ -1,18 +1,25 @@
 import { useState } from 'react';
-import classNames from 'classnames';
 import { v4 as uuidv4 } from 'uuid';
 import { HexColorPicker } from 'react-colorful';
+import classNames from 'classnames';
 
 import { useHttp } from '../../hooks/http.hook';
-import { List, Input, Button } from '../index.js';
+import { List, Input, Button } from '../index';
 import { popUpError } from '../../utils/popUp';
 
 import './AddList.scss';
 
-const AddList = ({ colors, onAdd, onMenuStatus, setStatusPopup, isOpenMenu, isOpenPopup }) => {
-  const { request } = useHttp();
-
+const AddList = ({
+  colors,
+  onAddList,
+  setStatusPopup,
+  onChangeMenuStatus,
+  isOpenMenu,
+  isOpenPopup,
+}) => {
   const DEFAULT_CUSTOM_COLOR = '#2a6fb5';
+
+  const { request } = useHttp();
   const [customColor, setCustomColor] = useState(DEFAULT_CUSTOM_COLOR);
   const [selectedColorId, setSelectedColor] = useState(1);
   const [inputValue, setInputValue] = useState('');
@@ -33,7 +40,7 @@ const AddList = ({ colors, onAdd, onMenuStatus, setStatusPopup, isOpenMenu, isOp
 
     request('http://localhost:3001/lists', 'POST', JSON.stringify(newList))
       .then(() => {
-        onAdd({
+        onAddList({
           ...newList,
           tasks: [],
         });
@@ -54,14 +61,14 @@ const AddList = ({ colors, onAdd, onMenuStatus, setStatusPopup, isOpenMenu, isOp
     setChangeColorStatus(false);
     setStatusPopup((isOpenPopup) => !isOpenPopup);
 
-    if (!isOpenMenu) onMenuStatus();
+    if (!isOpenMenu) onChangeMenuStatus();
   };
 
   return (
     <div className="add-list">
       <List
         onSetStatusPopup={onSetStatusPopup}
-        addClassName="list_type_add-btn"
+        type="add-btn"
         items={[
           {
             name: 'Добавить список',
@@ -73,8 +80,8 @@ const AddList = ({ colors, onAdd, onMenuStatus, setStatusPopup, isOpenMenu, isOp
           <button onClick={() => setStatusPopup(false)} className="add-list__close"></button>
           <form action="#" onSubmit={onCreateList}>
             <Input
-              required
-              autofocus
+              isRequired
+              isAutofocus
               placeholder="Название списка"
               type="text"
               value={inputValue}
@@ -82,11 +89,11 @@ const AddList = ({ colors, onAdd, onMenuStatus, setStatusPopup, isOpenMenu, isOp
             />
 
             <ul className="add-list__colors-block">
-              {colors ? (
+              {colors.length ? (
                 colors.map(({ id, hex }) => (
                   <li
-                    onClick={() => setSelectedColor(id)}
                     key={id}
+                    onClick={() => setSelectedColor(id)}
                     className={classNames('add-list__color', {
                       'add-list__color_active': selectedColorId === id,
                     })}
@@ -122,7 +129,7 @@ const AddList = ({ colors, onAdd, onMenuStatus, setStatusPopup, isOpenMenu, isOp
             <Button
               type="submit"
               text={isLoading ? 'Добавление...' : 'Добавить'}
-              disabled={isLoading}
+              isDisabled={isLoading}
             />
           </form>
         </div>
