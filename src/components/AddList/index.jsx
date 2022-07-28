@@ -1,16 +1,17 @@
 import { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { HexColorPicker } from 'react-colorful';
-import classNames from 'classnames';
 import { AiFillCloseCircle } from 'react-icons/ai';
+import classNames from 'classnames';
 
-import useHttp from '../../hooks/http.hook';
+import { useCustomContext } from '../../context';
 import { List, Input, Button } from '../index';
 import { initErrorPopUp } from '../../utils/popUp';
+import useHttp from '../../hooks/http.hook';
 
 import './AddList.scss';
 
-const AddList = ({ onAddList, setStatusPopup, onChangeMenuStatus, isOpenMenu, isOpenPopup }) => {
+const AddList = () => {
   const [colors] = useState([
     '#42B883',
     '#64C4ED',
@@ -23,6 +24,7 @@ const AddList = ({ onAddList, setStatusPopup, onChangeMenuStatus, isOpenMenu, is
 
   const DEFAULT_CUSTOM_COLOR = '#2a6fb5';
   const { request } = useHttp();
+  const { state, dispatch } = useCustomContext();
   const [customColor, setCustomColor] = useState(DEFAULT_CUSTOM_COLOR);
   const [selectedColorId, setSelectedColorId] = useState(0);
   const [inputValue, setInputValue] = useState('');
@@ -42,9 +44,12 @@ const AddList = ({ onAddList, setStatusPopup, onChangeMenuStatus, isOpenMenu, is
 
     request('http://localhost:3001/lists', 'POST', JSON.stringify(newList))
       .then(() => {
-        onAddList({
-          ...newList,
-          tasks: [],
+        dispatch({
+          type: 'addList',
+          payload: {
+            ...newList,
+            tasks: [],
+          },
         });
         setSelectedColorId(0);
         setInputValue('');
@@ -57,15 +62,13 @@ const AddList = ({ onAddList, setStatusPopup, onChangeMenuStatus, isOpenMenu, is
 
   const onSetStatusPopup = () => {
     setChangeColorStatus(false);
-    setStatusPopup((isOpenPopup) => !isOpenPopup);
-
-    if (!isOpenMenu) onChangeMenuStatus();
+    dispatch({ type: 'togglePopup' });
   };
 
   return (
     <div className="add-list">
       <List
-        onSetStatusPopup={onSetStatusPopup}
+        onClick={onSetStatusPopup}
         type="add-btn"
         items={[
           {
@@ -73,12 +76,12 @@ const AddList = ({ onAddList, setStatusPopup, onChangeMenuStatus, isOpenMenu, is
           },
         ]}
       />
-      {isOpenPopup && (
+      {state.isOpenPopup && (
         <div className="add-list__popup">
           <AiFillCloseCircle
             size={23}
             title="Close"
-            onClick={() => setStatusPopup(false)}
+            onClick={() => dispatch({ type: 'togglePopup' })}
             className="add-list__close"
           />
           <form action="#" onSubmit={onCreateList}>
@@ -86,7 +89,6 @@ const AddList = ({ onAddList, setStatusPopup, onChangeMenuStatus, isOpenMenu, is
               isRequired
               isAutofocus
               placeholder="Название списка"
-              type="text"
               value={inputValue}
               onChangeValue={(e) => setInputValue(e.target.value)}
             />

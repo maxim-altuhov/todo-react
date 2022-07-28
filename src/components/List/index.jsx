@@ -1,36 +1,52 @@
 import classNames from 'classnames';
 import { GrFormClose, GrAdd } from 'react-icons/gr';
 
+import { useCustomContext } from '../../context';
+import { popUpDefault, initErrorPopUp } from '../../utils/popUp';
+import useHttp from '../../hooks/http.hook';
 import './List.scss';
 
-const List = ({
-  items,
-  type,
-  activeList,
-  onSetStatusPopup,
-  onRemoveList,
-  onSetActiveList,
-  isRemovable,
-}) => {
+const List = ({ type, items = [], isRemovableList, onClick }) => {
+  const { request } = useHttp();
+  const { state, dispatch } = useCustomContext();
+  const inputItems = isRemovableList ? state.lists : items;
+
+  const onRemoveList = (e, id) => {
+    e.stopPropagation();
+
+    popUpDefault.fire({
+      title: 'Удалить список задач?',
+      confirmButtonText: 'Удалить',
+      showLoaderOnConfirm: true,
+      preConfirm: () => {
+        return request(`http://localhost:3001/lists/${id}`, 'DELETE')
+          .then(() => dispatch({ type: 'removeList', payload: id }))
+          .catch(() => initErrorPopUp());
+      },
+    });
+  };
+
   return (
     <ul
-      onClick={onSetStatusPopup}
+      onClick={onClick}
       className={classNames('list', { 'list_type_add-btn': type === 'add-btn' })}
     >
-      {items.map((list) => {
+      {inputItems.map((list) => {
         const { id, color, name, tasks } = list;
 
         return (
           <li
             key={`list-${id}`}
-            onClick={onSetActiveList ? () => onSetActiveList(list) : null}
+            onClick={
+              isRemovableList ? () => dispatch({ type: 'setActiveList', payload: list }) : null
+            }
             className={classNames('list__item', {
-              list__item_active: activeList && activeList.id === list.id,
+              list__item_active: state.activeList && state.activeList.id === list.id,
             })}
           >
             <i
               className={classNames('list__icon', {
-                list__icon_colored: isRemovable,
+                list__icon_colored: isRemovableList,
                 'list__icon_type_add-btn': type === 'add-btn',
               })}
               style={{ backgroundColor: color }}
@@ -41,7 +57,7 @@ const List = ({
               {name}
               {tasks && ` (${tasks.length})`}
             </span>
-            {isRemovable ? (
+            {isRemovableList ? (
               <GrFormClose
                 size={22}
                 title="Remove list"
