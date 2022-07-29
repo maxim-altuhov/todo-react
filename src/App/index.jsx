@@ -1,4 +1,5 @@
 import { useState, useEffect, useReducer } from 'react';
+import { Routes, Route, useLocation } from 'react-router-dom';
 import { CgArrowRightR } from 'react-icons/cg';
 import classNames from 'classnames';
 
@@ -16,15 +17,7 @@ const App = () => {
   const { Provider } = dataContext;
   const [windowWidth, setWindowWidth] = useState(null);
   const [isLoading, setLoading] = useState(true);
-
-  useEffect(() => {
-    updateWindowWidth();
-    window.addEventListener('resize', updateWindowWidth);
-
-    return () => {
-      window.removeEventListener('resize', updateWindowWidth);
-    };
-  }, []);
+  let location = useLocation();
 
   const initState = () => {
     request('http://localhost:3001/lists?_embed=tasks')
@@ -35,6 +28,25 @@ const App = () => {
 
   const [state, dispatch] = useReducer(reducer, null, initState);
   const providerState = { state, dispatch };
+
+  useEffect(() => {
+    updateWindowWidth();
+    window.addEventListener('resize', updateWindowWidth);
+
+    return () => {
+      window.removeEventListener('resize', updateWindowWidth);
+    };
+  }, []);
+
+  useEffect(() => {
+    const listId = location.pathname.split('list/')[1];
+
+    if (state && state.lists) {
+      const list = state.lists.find((list) => list.id === listId);
+      dispatch({ type: 'setActiveList', payload: list });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [state?.activeList, location.pathname]);
 
   const updateWindowWidth = () => {
     setWindowWidth(window.innerWidth);
@@ -71,7 +83,9 @@ const App = () => {
         </div>
         <div className="todo__tasks">
           {state.lists && state.activeList ? (
-            <Task />
+            <Routes>
+              <Route path="/list/:id" element={<Task />}></Route>
+            </Routes>
           ) : (
             <p className="todo__tasks-title">Список не выбран</p>
           )}

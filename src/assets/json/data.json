@@ -4,16 +4,6 @@
       "id": "0284aeef-b217-474c-9757-cf5b93e2e407",
       "name": "Разработка",
       "color": "#C355F5"
-    },
-    {
-      "id": "fba8b07b-2430-4070-b816-9a9267565032",
-      "name": "123355",
-      "color": "#ff0000"
-    },
-    {
-      "id": "2d8916b5-ff53-4d56-9216-57b00fae1e86",
-      "name": "1",
-      "color": "#42B883"
     }
   ],
   "tasks": [
@@ -49,7 +39,7 @@
       "id": "fed6ee6b-4b22-4370-870c-65b068e50b87",
       "listId": "0284aeef-b217-474c-9757-cf5b93e2e407",
       "text": "Сделать React Router",
-      "isCompleted": false,
+      "isCompleted": true,
       "controlTime": 1658501387770
     },
     {
@@ -88,13 +78,6 @@
       "controlTime": 1658501420394
     },
     {
-      "id": "5dcd56db-29d9-466a-b5d3-7bb9b6230246",
-      "listId": "fba8b07b-2430-4070-b816-9a9267565032",
-      "text": "3",
-      "isCompleted": false,
-      "controlTime": 1658756664086
-    },
-    {
       "id": "6ac47ba9-717c-4831-9cfa-261c7e9a8d43",
       "text": "1232",
       "isCompleted": false,
@@ -123,69 +106,6 @@
       "text": "wdwdw",
       "isCompleted": false,
       "controlTime": 1659031161606
-    },
-    {
-      "id": "f10935b2-95ca-48d8-bdac-a805d313864b",
-      "listId": "fba8b07b-2430-4070-b816-9a9267565032",
-      "text": "aaa",
-      "isCompleted": false,
-      "controlTime": 1659031276584
-    },
-    {
-      "id": "bea9a39d-d026-41f5-a6e3-b836a03d7075",
-      "listId": "fba8b07b-2430-4070-b816-9a9267565032",
-      "text": "aasds",
-      "isCompleted": false,
-      "controlTime": 1659031389936
-    },
-    {
-      "id": "2604db75-9b0f-4e5e-bdea-4375dfd2d28c",
-      "listId": "fba8b07b-2430-4070-b816-9a9267565032",
-      "text": "1",
-      "isCompleted": false,
-      "controlTime": 1659076362382
-    },
-    {
-      "id": "4b16ce1b-02c9-4dd0-998e-3eab1890c179",
-      "listId": "fba8b07b-2430-4070-b816-9a9267565032",
-      "text": "2",
-      "isCompleted": false,
-      "controlTime": 1659076372752
-    },
-    {
-      "id": "1070fed1-e4b3-43fe-ab84-ecf0cd56f3f0",
-      "listId": "fba8b07b-2430-4070-b816-9a9267565032",
-      "text": "44",
-      "isCompleted": false,
-      "controlTime": 1659076453676
-    },
-    {
-      "id": "e683c136-7f5b-4536-8409-e7f955947909",
-      "listId": "fba8b07b-2430-4070-b816-9a9267565032",
-      "text": "5454",
-      "isCompleted": false,
-      "controlTime": 1659076490018
-    },
-    {
-      "id": "87f6b620-e94c-4f93-929c-e98718b4795d",
-      "listId": "fba8b07b-2430-4070-b816-9a9267565032",
-      "text": "4444",
-      "isCompleted": false,
-      "controlTime": 1659076494206
-    },
-    {
-      "id": "d5690961-ae42-48a1-8328-e51696056a89",
-      "listId": "2d8916b5-ff53-4d56-9216-57b00fae1e86",
-      "text": "2",
-      "isCompleted": false,
-      "controlTime": 1659077023047
-    },
-    {
-      "id": "de91a6b5-70d1-46a5-88e0-e49733fb5950",
-      "listId": "2d8916b5-ff53-4d56-9216-57b00fae1e86",
-      "text": "232",
-      "isCompleted": false,
-      "controlTime": 1659077047442
     }
   ]
 }

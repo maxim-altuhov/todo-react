@@ -4,17 +4,17 @@ const reducer = (state, action) => {
       return {
         ...state,
         lists: action.payload,
+        activeList: null,
         isOpenMenu: false,
         isOpenPopup: false,
-        activeList: null,
       };
     case 'addList':
       return {
         ...state,
         lists: [...state.lists, action.payload],
+        activeList: action.payload,
         isOpenMenu: false,
         isOpenPopup: false,
-        activeList: action.payload,
       };
     case 'toggleMenu':
       return {

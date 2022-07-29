@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
+import { useNavigate } from 'react-router-dom';
 import { HexColorPicker } from 'react-colorful';
 import { AiFillCloseCircle } from 'react-icons/ai';
 import classNames from 'classnames';
@@ -21,7 +22,6 @@ const AddList = () => {
     '#110133',
     '#FF6464',
   ]);
-
   const DEFAULT_CUSTOM_COLOR = '#2a6fb5';
   const { request } = useHttp();
   const { state, dispatch } = useCustomContext();
@@ -30,6 +30,7 @@ const AddList = () => {
   const [inputValue, setInputValue] = useState('');
   const [isOpenChangeColor, setChangeColorStatus] = useState(false);
   const [isLoading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const onCreateList = (e) => {
     e.preventDefault();
@@ -43,11 +44,11 @@ const AddList = () => {
     };
 
     request('http://localhost:3001/lists', 'POST', JSON.stringify(newList))
-      .then(() => {
+      .then((data) => {
         dispatch({
           type: 'addList',
           payload: {
-            ...newList,
+            ...data,
             tasks: [],
           },
         });
@@ -55,6 +56,7 @@ const AddList = () => {
         setInputValue('');
         setCustomColor(DEFAULT_CUSTOM_COLOR);
         setChangeColorStatus(false);
+        navigate(`/list/${data.id}`);
       })
       .catch(() => initErrorPopUp())
       .finally(() => setLoading(false));

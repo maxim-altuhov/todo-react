@@ -1,4 +1,5 @@
 import { GrFormClose, GrAdd } from 'react-icons/gr';
+import { useNavigate } from 'react-router-dom';
 import classNames from 'classnames';
 
 import { useCustomContext } from '../../context';
@@ -10,6 +11,7 @@ const List = ({ type, items = [], isRemovableList, onClick }) => {
   const { request } = useHttp();
   const { state, dispatch } = useCustomContext();
   const inputItems = isRemovableList ? state.lists : items;
+  const navigate = useNavigate();
 
   const onRemoveList = (e, id) => {
     e.stopPropagation();
@@ -37,9 +39,7 @@ const List = ({ type, items = [], isRemovableList, onClick }) => {
         return (
           <li
             key={`list-${id}`}
-            onClick={
-              isRemovableList ? () => dispatch({ type: 'setActiveList', payload: item }) : null
-            }
+            onClick={isRemovableList ? () => navigate(`/list/${item.id}`) : null}
             className={classNames('list__item', {
               list__item_active: state.activeList && state.activeList.id === item.id,
             })}
