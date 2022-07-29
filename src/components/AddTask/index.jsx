@@ -2,17 +2,20 @@ import { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { GrAdd } from 'react-icons/gr';
 
-import useHttp from '../../hooks/http.hook';
+import { useCustomContext } from '../../context';
 import { Input, Button } from '../index';
 import { initErrorPopUp } from '../../utils/popUp';
+import useHttp from '../../hooks/http.hook';
 
 import './AddTask.scss';
 
-const AddTask = ({ list, onAddTasks }) => {
+const AddTask = () => {
   const { request } = useHttp();
+  const { state, dispatch } = useCustomContext();
   const [isLoading, setLoading] = useState(false);
   const [isOpenForm, setStatusForm] = useState(false);
   const [inputValue, setInputValue] = useState('');
+  const { id } = state.activeList;
 
   const onToggleForm = () => {
     setStatusForm(!isOpenForm);
@@ -24,7 +27,7 @@ const AddTask = ({ list, onAddTasks }) => {
 
     const newTask = {
       id: uuidv4(),
-      listId: list.id,
+      listId: id,
       text: inputValue,
       isCompleted: false,
       controlTime: new Date().getTime(),
@@ -34,7 +37,7 @@ const AddTask = ({ list, onAddTasks }) => {
 
     request('http://localhost:3001/tasks', 'POST', JSON.stringify(newTask))
       .then((data) => {
-        onAddTasks(list.id, data);
+        dispatch({ type: 'addTask', payload: { data } });
         onToggleForm();
       })
       .catch(() => initErrorPopUp())
@@ -55,7 +58,7 @@ const AddTask = ({ list, onAddTasks }) => {
             value={inputValue}
             isRequired
             isAutofocus
-            onChangeValue={(e) => setInputValue(e.target.value)}
+            onChange={(e) => setInputValue(e.target.value)}
           />
           <div className="task-form__btn-block">
             <div className="task-form__btn-block-item">

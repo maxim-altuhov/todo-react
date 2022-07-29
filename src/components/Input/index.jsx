@@ -1,8 +1,8 @@
 import './Input.scss';
 
 const Input = ({
-  onChangeValue,
   value,
+  onChange,
   placeholder = 'Текст',
   type = 'text',
   isRequired = false,
@@ -14,7 +14,7 @@ const Input = ({
       type={type}
       value={value}
       placeholder={placeholder}
-      onChange={onChangeValue}
+      onChange={onChange}
       required={isRequired}
       autoFocus={isAutofocus}
     />

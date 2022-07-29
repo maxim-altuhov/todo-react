@@ -2,22 +2,17 @@ import { HexColorPicker } from 'react-colorful';
 import { TbTrashX } from 'react-icons/tb';
 import { CgEditFlipH, CgCheck } from 'react-icons/cg';
 
-import useHttp from '../../hooks/http.hook';
+import { useCustomContext } from '../../context';
 import { popUpDefault, popUpInput, initErrorPopUp } from '../../utils/popUp';
 import { AddTask } from '../index';
+import useHttp from '../../hooks/http.hook';
 
 import './Task.scss';
 
-const Task = ({
-  list,
-  onEditListTitle,
-  onAddTasks,
-  onRemoveTask,
-  onEditTaskText,
-  onToggleStatusTask,
-}) => {
+const Task = () => {
   const { request } = useHttp();
-  const { id, tasks, color, name } = list;
+  const { state, dispatch } = useCustomContext();
+  const { id, tasks, color, name } = state.activeList;
 
   const onEditTitle = () => {
     let newColor = color;
@@ -49,7 +44,7 @@ const Task = ({
             }),
           )
             .then(() => {
-              onEditListTitle(id, newName, newColor);
+              dispatch({ type: 'editListTitle', payload: { id, newName, newColor } });
             })
             .catch(() => initErrorPopUp());
         }
@@ -74,7 +69,7 @@ const Task = ({
             }),
           )
             .then(() => {
-              onEditTaskText(taskId, id, value);
+              dispatch({ type: 'editTaskName', payload: { taskId, id, value } });
             })
             .catch(() => initErrorPopUp());
         }
@@ -90,7 +85,7 @@ const Task = ({
       preConfirm: () => {
         return request(`http://localhost:3001/tasks/${taskId}`, 'DELETE')
           .then(() => {
-            onRemoveTask(taskId, id);
+            dispatch({ type: 'removeTask', payload: { taskId, id } });
           })
           .catch(() => initErrorPopUp());
       },
@@ -98,7 +93,7 @@ const Task = ({
   };
 
   const onToggleStatus = (taskId, listId, isCompleted) => {
-    onToggleStatusTask(taskId, listId, isCompleted);
+    dispatch({ type: 'toggleStatusTask', payload: { taskId, listId, isCompleted } });
 
     request(
       `http://localhost:3001/tasks/${taskId}`,
@@ -125,7 +120,7 @@ const Task = ({
         </div>
         {tasks && tasks.length === 0 && <p className="task__none">Задачи отсутствуют</p>}
 
-        <AddTask key={id} list={list} onAddTasks={onAddTasks} />
+        <AddTask key={id} />
         {tasks.sort(initCustomSort).map(({ id, text, isCompleted }) => (
           <div key={id} className="task__item">
             <div className="checkbox">
@@ -134,7 +129,7 @@ const Task = ({
                 type="checkbox"
                 name={`name-${id}`}
                 id={`task-${id}`}
-                onChange={() => onToggleStatus(id, list.id, !isCompleted)}
+                onChange={() => onToggleStatus(id, state.activeList.id, !isCompleted)}
                 defaultChecked={isCompleted}
               />
               <label className="checkbox__label" htmlFor={`task-${id}`}>

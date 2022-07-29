@@ -60,7 +60,7 @@ const AddList = () => {
       .finally(() => setLoading(false));
   };
 
-  const onSetStatusPopup = () => {
+  const togglePopup = () => {
     setChangeColorStatus(false);
     dispatch({ type: 'togglePopup' });
   };
@@ -68,7 +68,7 @@ const AddList = () => {
   return (
     <div className="add-list">
       <List
-        onClick={onSetStatusPopup}
+        onClick={togglePopup}
         type="add-btn"
         items={[
           {
@@ -90,7 +90,7 @@ const AddList = () => {
               isAutofocus
               placeholder="Название списка"
               value={inputValue}
-              onChangeValue={(e) => setInputValue(e.target.value)}
+              onChange={(e) => setInputValue(e.target.value)}
             />
             <ul className="add-list__colors-block">
               {colors.map((color, index) => (

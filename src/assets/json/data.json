@@ -11,24 +11,9 @@
       "color": "#ff0000"
     },
     {
-      "id": "29e0d7d2-e86c-4a2b-9f09-8a014fb8c8c8",
-      "name": "11111",
-      "color": "#110133"
-    },
-    {
-      "id": "8b2dfcd3-e516-4a0e-86d1-184becda1b28",
-      "name": "2224",
-      "color": "#ff0000"
-    },
-    {
-      "id": "3e3cd52f-ee1d-4ff6-90ca-4e7aae2c0578",
-      "name": "111",
-      "color": "#ff00e8"
-    },
-    {
-      "id": "57fcd17a-06f1-4155-a731-bc7ae46a0766",
+      "id": "2d8916b5-ff53-4d56-9216-57b00fae1e86",
       "name": "1",
-      "color": "#2a6fb5"
+      "color": "#42B883"
     }
   ],
   "tasks": [
@@ -36,7 +21,7 @@
       "id": "5f404374-bdc5-4d0c-9cb6-f3f12dfe48d5",
       "listId": "0284aeef-b217-474c-9757-cf5b93e2e407",
       "text": "Возможно перейти на Redux / Состояния компонентов скомпоновать в одном месте",
-      "isCompleted": false,
+      "isCompleted": true,
       "controlTime": 1658501372322
     },
     {
@@ -103,20 +88,6 @@
       "controlTime": 1658501420394
     },
     {
-      "id": "d000d557-0c26-4d30-bf9a-1c0fb468579e",
-      "listId": "fba8b07b-2430-4070-b816-9a9267565032",
-      "text": "1",
-      "isCompleted": false,
-      "controlTime": 1658756659021
-    },
-    {
-      "id": "f6e80141-e643-42ef-9aaa-bafb79e6f639",
-      "listId": "fba8b07b-2430-4070-b816-9a9267565032",
-      "text": "2",
-      "isCompleted": false,
-      "controlTime": 1658756662224
-    },
-    {
       "id": "5dcd56db-29d9-466a-b5d3-7bb9b6230246",
       "listId": "fba8b07b-2430-4070-b816-9a9267565032",
       "text": "3",
@@ -124,25 +95,97 @@
       "controlTime": 1658756664086
     },
     {
-      "id": "4c29cc5d-8fff-4f10-9b1c-50adaa1a0f53",
+      "id": "6ac47ba9-717c-4831-9cfa-261c7e9a8d43",
+      "text": "1232",
+      "isCompleted": false,
+      "controlTime": 1659030984080
+    },
+    {
+      "id": "df304575-85b2-4bb1-b7a1-79865452a4f0",
+      "text": "1111",
+      "isCompleted": false,
+      "controlTime": 1659030997336
+    },
+    {
+      "id": "e72ca3b8-90db-415f-99c6-deb9465463cc",
+      "text": "1123",
+      "isCompleted": false,
+      "controlTime": 1659031030286
+    },
+    {
+      "id": "cce5ce6d-1a3f-4258-a88a-60e6109b1d3e",
+      "text": "www",
+      "isCompleted": false,
+      "controlTime": 1659031095176
+    },
+    {
+      "id": "306cd18b-bd33-4f49-aefc-62af15f5689d",
+      "text": "wdwdw",
+      "isCompleted": false,
+      "controlTime": 1659031161606
+    },
+    {
+      "id": "f10935b2-95ca-48d8-bdac-a805d313864b",
       "listId": "fba8b07b-2430-4070-b816-9a9267565032",
-      "text": "4",
+      "text": "aaa",
       "isCompleted": false,
-      "controlTime": 1658756665638
+      "controlTime": 1659031276584
     },
     {
-      "id": "cf6e3ec7-d506-42cb-8775-e1becba56d51",
-      "listId": "57fcd17a-06f1-4155-a731-bc7ae46a0766",
-      "text": "2",
+      "id": "bea9a39d-d026-41f5-a6e3-b836a03d7075",
+      "listId": "fba8b07b-2430-4070-b816-9a9267565032",
+      "text": "aasds",
       "isCompleted": false,
-      "controlTime": 1658934306373
+      "controlTime": 1659031389936
     },
     {
-      "id": "094d40cc-e75c-4e35-9dca-993d81645286",
-      "listId": "0284aeef-b217-474c-9757-cf5b93e2e407",
+      "id": "2604db75-9b0f-4e5e-bdea-4375dfd2d28c",
+      "listId": "fba8b07b-2430-4070-b816-9a9267565032",
       "text": "1",
       "isCompleted": false,
-      "controlTime": 1658940872459
+      "controlTime": 1659076362382
+    },
+    {
+      "id": "4b16ce1b-02c9-4dd0-998e-3eab1890c179",
+      "listId": "fba8b07b-2430-4070-b816-9a9267565032",
+      "text": "2",
+      "isCompleted": false,
+      "controlTime": 1659076372752
+    },
+    {
+      "id": "1070fed1-e4b3-43fe-ab84-ecf0cd56f3f0",
+      "listId": "fba8b07b-2430-4070-b816-9a9267565032",
+      "text": "44",
+      "isCompleted": false,
+      "controlTime": 1659076453676
+    },
+    {
+      "id": "e683c136-7f5b-4536-8409-e7f955947909",
+      "listId": "fba8b07b-2430-4070-b816-9a9267565032",
+      "text": "5454",
+      "isCompleted": false,
+      "controlTime": 1659076490018
+    },
+    {
+      "id": "87f6b620-e94c-4f93-929c-e98718b4795d",
+      "listId": "fba8b07b-2430-4070-b816-9a9267565032",
+      "text": "4444",
+      "isCompleted": false,
+      "controlTime": 1659076494206
+    },
+    {
+      "id": "d5690961-ae42-48a1-8328-e51696056a89",
+      "listId": "2d8916b5-ff53-4d56-9216-57b00fae1e86",
+      "text": "2",
+      "isCompleted": false,
+      "controlTime": 1659077023047
+    },
+    {
+      "id": "de91a6b5-70d1-46a5-88e0-e49733fb5950",
+      "listId": "2d8916b5-ff53-4d56-9216-57b00fae1e86",
+      "text": "232",
+      "isCompleted": false,
+      "controlTime": 1659077047442
     }
   ]
 }

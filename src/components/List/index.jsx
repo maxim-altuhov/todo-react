@@ -1,5 +1,5 @@
-import classNames from 'classnames';
 import { GrFormClose, GrAdd } from 'react-icons/gr';
+import classNames from 'classnames';
 
 import { useCustomContext } from '../../context';
 import { popUpDefault, initErrorPopUp } from '../../utils/popUp';
@@ -31,17 +31,17 @@ const List = ({ type, items = [], isRemovableList, onClick }) => {
       onClick={onClick}
       className={classNames('list', { 'list_type_add-btn': type === 'add-btn' })}
     >
-      {inputItems.map((list) => {
-        const { id, color, name, tasks } = list;
+      {inputItems.map((item) => {
+        const { id, color, name, tasks } = item;
 
         return (
           <li
             key={`list-${id}`}
             onClick={
-              isRemovableList ? () => dispatch({ type: 'setActiveList', payload: list }) : null
+              isRemovableList ? () => dispatch({ type: 'setActiveList', payload: item }) : null
             }
             className={classNames('list__item', {
-              list__item_active: state.activeList && state.activeList.id === list.id,
+              list__item_active: state.activeList && state.activeList.id === item.id,
             })}
           >
             <i
