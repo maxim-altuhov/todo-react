@@ -21,9 +21,11 @@ const App = () => {
 
   const initState = () => {
     request('http://localhost:3001/lists?_embed=tasks')
-      .then((data) => dispatch({ type: 'init', payload: data }))
-      .catch(() => initErrorPopUp())
-      .finally(() => setLoading(false));
+      .then((data) => {
+        dispatch({ type: 'init', payload: data });
+        setLoading(false);
+      })
+      .catch(() => initErrorPopUp());
   };
 
   const [state, dispatch] = useReducer(reducer, null, initState);

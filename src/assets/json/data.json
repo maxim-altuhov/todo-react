@@ -4,6 +4,21 @@
       "id": "0284aeef-b217-474c-9757-cf5b93e2e407",
       "name": "Разработка",
       "color": "#C355F5"
+    },
+    {
+      "id": "8c52b41e-ca68-40d1-a223-b218b620bb3e",
+      "name": "12122",
+      "color": "#2a6fb5"
+    },
+    {
+      "id": "c3a5ea29-198c-4114-9191-3814fea38206",
+      "name": "212121221",
+      "color": "#e87807"
+    },
+    {
+      "id": "abc7f988-b93b-4423-95a4-c252cf3bd93c",
+      "name": "133",
+      "color": "#FFBBCC"
     }
   ],
   "tasks": [
@@ -18,7 +33,7 @@
       "id": "837787a7-8de0-4557-9fa0-8227fdb175b9",
       "listId": "0284aeef-b217-474c-9757-cf5b93e2e407",
       "text": "Доступность",
-      "isCompleted": false,
+      "isCompleted": true,
       "controlTime": 1658501376880
     },
     {

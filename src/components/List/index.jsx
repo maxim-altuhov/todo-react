@@ -7,7 +7,7 @@ import { popUpDefault, initErrorPopUp } from '../../utils/popUp';
 import useHttp from '../../hooks/http.hook';
 import './List.scss';
 
-const List = ({ type, items = [], isRemovableList, onClick }) => {
+const List = ({ type, items = [], isRemovableList, onClick, onKeyPress }) => {
   const { request } = useHttp();
   const { state, dispatch } = useCustomContext();
   const inputItems = isRemovableList ? state.lists : items;
@@ -31,6 +31,7 @@ const List = ({ type, items = [], isRemovableList, onClick }) => {
   return (
     <ul
       onClick={onClick}
+      onKeyPress={onKeyPress}
       className={classNames('list', { 'list_type_add-btn': type === 'add-btn' })}
     >
       {inputItems.map((item) => {
@@ -39,7 +40,9 @@ const List = ({ type, items = [], isRemovableList, onClick }) => {
         return (
           <li
             key={`list-${id}`}
+            tabIndex={0}
             onClick={isRemovableList ? () => navigate(`/list/${item.id}`) : null}
+            onKeyPress={(e) => e.key === 'Enter' && isRemovableList && navigate(`/list/${item.id}`)}
             className={classNames('list__item', {
               list__item_active: state.activeList && state.activeList.id === item.id,
             })}
@@ -61,8 +64,10 @@ const List = ({ type, items = [], isRemovableList, onClick }) => {
               <GrFormClose
                 size={22}
                 title="Remove list"
+                tabIndex={0}
                 className="list__close"
                 onClick={(e) => onRemoveList(e, id)}
+                onKeyPress={(e) => e.key === 'Enter' && onRemoveList(e, id)}
               />
             ) : null}
           </li>

@@ -25,7 +25,8 @@
     cursor: pointer;
 
     &_active,
-    &:hover {
+    &:hover,
+    &:focus {
       border-color: #525252;
     }
   }
@@ -40,7 +41,6 @@
     border-radius: 50%;
     border: 2px solid #c5c5c5;
     font-weight: 500;
-    font-size: 15px;
     color: #c5c5c5;
     cursor: pointer;
     transition: all 0.1s linear;
@@ -57,7 +57,8 @@
     }
 
     &_active,
-    &:hover {
+    &:hover,
+    &:focus {
       border-color: #525252;
       color: #525252;
     }
@@ -67,7 +68,13 @@
     position: absolute;
     top: -10px;
     right: -10px;
+    opacity: 0.6;
     cursor: pointer;
+
+    &:hover,
+    &:focus {
+      opacity: 1;
+    }
   }
 
   .react-colorful {

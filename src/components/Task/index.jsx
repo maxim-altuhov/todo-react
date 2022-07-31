@@ -116,45 +116,58 @@ const Task = () => {
           <h2 className="task__title" style={{ color }}>
             {name}
           </h2>
-          <CgEditFlipH size={28} title="Edit title" className="task__icon" onClick={onEditTitle} />
+          <CgEditFlipH
+            size={28}
+            tabIndex={0}
+            title="Edit title"
+            className="task__icon"
+            onClick={onEditTitle}
+            onKeyPress={(e) => e.key === 'Enter' && onEditTitle()}
+          />
         </div>
+        {tasks && <AddTask key={id} />}
         {tasks && tasks.length === 0 && <p className="task__none">Задачи отсутствуют</p>}
+        {!tasks && <p className="task__none">Ошибка загрузки списка задач</p>}
 
-        <AddTask key={id} />
-        {tasks.sort(initCustomSort).map(({ id, text, isCompleted }) => (
-          <div key={id} className="task__item">
-            <div className="checkbox">
-              <input
-                className="checkbox__input"
-                type="checkbox"
-                name={`name-${id}`}
-                id={`task-${id}`}
-                onChange={() => onToggleStatus(id, state.activeList.id, !isCompleted)}
-                defaultChecked={isCompleted}
-              />
-              <label className="checkbox__label" htmlFor={`task-${id}`}>
-                <CgCheck size={20} color={'#fff'} />
-              </label>
-              <span className="task__text">{text}</span>
-            </div>
-            <div className="task__control">
-              {!isCompleted && (
-                <CgEditFlipH
-                  size={22}
-                  title="Edit task"
-                  className="task__control-item"
-                  onClick={() => onEditTask(id, text)}
+        {tasks &&
+          tasks.sort(initCustomSort).map(({ id, text, isCompleted }) => (
+            <div key={id} className="task__item">
+              <div className="checkbox">
+                <input
+                  className="checkbox__input"
+                  type="checkbox"
+                  name={`name-${id}`}
+                  id={`task-${id}`}
+                  onChange={() => onToggleStatus(id, state.activeList.id, !isCompleted)}
+                  defaultChecked={isCompleted}
                 />
-              )}
-              <TbTrashX
-                size={22}
-                title="Delete"
-                className="task__control-item"
-                onClick={() => onRemove(id)}
-              />
+                <label className="checkbox__label" htmlFor={`task-${id}`}>
+                  <CgCheck size={20} color={'#fff'} />
+                </label>
+                <span className="task__text">{text}</span>
+              </div>
+              <div className="task__control">
+                {!isCompleted && (
+                  <CgEditFlipH
+                    size={22}
+                    tabIndex={0}
+                    title="Edit task"
+                    className="task__control-item"
+                    onClick={() => onEditTask(id, text)}
+                    onKeyPress={(e) => e.key === 'Enter' && onEditTask(id, text)}
+                  />
+                )}
+                <TbTrashX
+                  size={22}
+                  tabIndex={0}
+                  title="Delete"
+                  className="task__control-item"
+                  onClick={() => onRemove(id)}
+                  onKeyPress={(e) => e.key === 'Enter' && onRemove(id)}
+                />
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
       </div>
     </>
   );

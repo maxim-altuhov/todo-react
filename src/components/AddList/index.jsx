@@ -62,15 +62,21 @@ const AddList = () => {
       .finally(() => setLoading(false));
   };
 
-  const togglePopup = () => {
+  const onTogglePopup = () => {
     setChangeColorStatus(false);
     dispatch({ type: 'togglePopup' });
+  };
+
+  const onOpenCustomColorPopUp = () => {
+    setSelectedColorId(colors.length);
+    setChangeColorStatus((isOpenChangeColor) => !isOpenChangeColor);
   };
 
   return (
     <div className="add-list">
       <List
-        onClick={togglePopup}
+        onClick={onTogglePopup}
+        onKeyPress={(e) => e.key === 'Enter' && onTogglePopup()}
         type="add-btn"
         items={[
           {
@@ -82,8 +88,10 @@ const AddList = () => {
         <div className="add-list__popup">
           <AiFillCloseCircle
             size={23}
+            tabIndex={0}
             title="Close"
             onClick={() => dispatch({ type: 'togglePopup' })}
+            onKeyPress={(e) => e.key === 'Enter' && dispatch({ type: 'togglePopup' })}
             className="add-list__close"
           />
           <form action="#" onSubmit={onCreateList}>
@@ -98,7 +106,9 @@ const AddList = () => {
               {colors.map((color, index) => (
                 <li
                   key={`color-${index}`}
+                  tabIndex={0}
                   onClick={() => setSelectedColorId(index)}
+                  onKeyPress={(e) => e.key === 'Enter' && setSelectedColorId(index)}
                   className={classNames('add-list__color', {
                     'add-list__color_active': selectedColorId === index,
                   })}
@@ -106,10 +116,9 @@ const AddList = () => {
                 ></li>
               ))}
               <li
-                onClick={() => {
-                  setSelectedColorId(colors.length);
-                  setChangeColorStatus((isOpenChangeColor) => !isOpenChangeColor);
-                }}
+                tabIndex={0}
+                onClick={() => onOpenCustomColorPopUp()}
+                onKeyPress={(e) => e.key === 'Enter' && onOpenCustomColorPopUp()}
                 className={classNames('add-list__color-add', {
                   'add-list__color-add_active': selectedColorId === colors.length,
                 })}
