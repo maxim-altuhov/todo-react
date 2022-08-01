@@ -1,19 +1,8 @@
 .list {
   margin-bottom: 20px;
 
-  &_type {
-    &_add-btn {
-      opacity: 0.4;
-      transition: opacity 0.2s linear;
-      margin-bottom: 15px;
-
-      &:hover {
-        opacity: 1;
-      }
-    }
-  }
-
   &__item {
+    height: 40px;
     font-weight: 500;
     font-size: 1rem;
     position: relative;
@@ -49,33 +38,20 @@
   }
 
   &__icon {
-    width: 18px;
-    height: 18px;
-    margin-right: 9px;
-    opacity: 0.5;
     flex: 0 0 auto;
-
-    &_colored {
-      position: relative;
-      left: 2px;
-      width: 12px;
-      height: 12px;
-      border-radius: 50%;
-      opacity: 1;
-      margin-right: 15px;
-    }
-
-    &_type_add-btn {
-      display: flex;
-      align-items: center;
-      opacity: 1;
-    }
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    margin-right: 15px;
+    margin-bottom: 2px;
+    opacity: 1;
   }
 
   &__label {
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
+    line-height: 1;
 
     &:first-letter {
       text-transform: uppercase;

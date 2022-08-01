@@ -6,7 +6,7 @@ import { AiFillCloseCircle } from 'react-icons/ai';
 import classNames from 'classnames';
 
 import { useCustomContext } from '../../context';
-import { List, Input, Button } from '../index';
+import { AddBtn, Input, Button } from '../index';
 import { initErrorPopUp } from '../../utils/popUp';
 import useHttp from '../../hooks/http.hook';
 
@@ -74,16 +74,7 @@ const AddList = () => {
 
   return (
     <div className="add-list">
-      <List
-        onClick={onTogglePopup}
-        onKeyPress={(e) => e.key === 'Enter' && onTogglePopup()}
-        type="add-btn"
-        items={[
-          {
-            name: 'Добавить список',
-          },
-        ]}
-      />
+      <AddBtn onClick={onTogglePopup} text="Добавить список" title="Add list" />
       {state.isOpenPopup && (
         <div className="add-list__popup">
           <AiFillCloseCircle

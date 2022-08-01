@@ -76,7 +76,7 @@ const App = () => {
           />
           {state.lists ? (
             <>
-              <List isRemovableList />
+              <List />
               <AddList />
             </>
           ) : (

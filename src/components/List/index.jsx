@@ -1,5 +1,5 @@
-import { GrFormClose, GrAdd } from 'react-icons/gr';
 import { useNavigate } from 'react-router-dom';
+import { GrFormClose } from 'react-icons/gr';
 import classNames from 'classnames';
 
 import { useCustomContext } from '../../context';
@@ -7,10 +7,9 @@ import { popUpDefault, initErrorPopUp } from '../../utils/popUp';
 import useHttp from '../../hooks/http.hook';
 import './List.scss';
 
-const List = ({ type, items = [], isRemovableList, onClick, onKeyPress }) => {
+const List = (props) => {
   const { request } = useHttp();
   const { state, dispatch } = useCustomContext();
-  const inputItems = isRemovableList ? state.lists : items;
   const navigate = useNavigate();
 
   const onRemoveList = (e, id) => {
@@ -29,50 +28,37 @@ const List = ({ type, items = [], isRemovableList, onClick, onKeyPress }) => {
   };
 
   return (
-    <ul
-      onClick={onClick}
-      onKeyPress={onKeyPress}
-      className={classNames('list', { 'list_type_add-btn': type === 'add-btn' })}
-    >
-      {inputItems.map((item) => {
-        const { id, color, name, tasks } = item;
+    <ul {...props} className="list">
+      {state.lists &&
+        state.lists.map((item) => {
+          const { id, color, name, tasks } = item;
 
-        return (
-          <li
-            key={`list-${id}`}
-            tabIndex={0}
-            onClick={isRemovableList ? () => navigate(`/list/${item.id}`) : null}
-            onKeyPress={(e) => e.key === 'Enter' && isRemovableList && navigate(`/list/${item.id}`)}
-            className={classNames('list__item', {
-              list__item_active: state.activeList && state.activeList.id === item.id,
-            })}
-          >
-            <i
-              className={classNames('list__icon', {
-                list__icon_colored: isRemovableList,
-                'list__icon_type_add-btn': type === 'add-btn',
+          return (
+            <li
+              key={`list-${id}`}
+              tabIndex={0}
+              onClick={() => navigate(`/list/${item.id}`)}
+              onKeyPress={(e) => e.key === 'Enter' && navigate(`/list/${item.id}`)}
+              className={classNames('list__item', {
+                list__item_active: state.activeList && state.activeList.id === item.id,
               })}
-              style={{ backgroundColor: color }}
             >
-              {type === 'add-btn' && <GrAdd size={22} title="Add list" />}
-            </i>
-            <span className="list__label">
-              {name}
-              {tasks && ` (${tasks.length})`}
-            </span>
-            {isRemovableList ? (
+              <i className="list__icon" style={{ backgroundColor: color }}></i>
+              <span className="list__label">
+                {name}
+                {tasks && ` (${tasks.length})`}
+              </span>
               <GrFormClose
                 size={22}
-                title="Remove list"
                 tabIndex={0}
+                title="Remove list"
                 className="list__close"
                 onClick={(e) => onRemoveList(e, id)}
                 onKeyPress={(e) => e.key === 'Enter' && onRemoveList(e, id)}
               />
-            ) : null}
-          </li>
-        );
-      })}
+            </li>
+          );
+        })}
     </ul>
   );
 };

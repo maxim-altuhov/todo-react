@@ -15,11 +15,11 @@
   &__sidebar {
     background-color: #f4f6f8;
     min-width: 285px;
-    padding: 60px 20px;
+    padding: 70px 20px;
     border-right: 1px solid #f1f1f1;
     border-radius: 10px 0px 0px 10px;
     overflow-y: auto;
-    transition: width 0.3s linear;
+    transition: width 0.2s linear;
 
     @media (max-width: 900px) {
       position: absolute;
@@ -38,15 +38,17 @@
     }
 
     &_close {
-      padding: 60px 0;
+      padding: 70px 0;
 
-      .list__item {
+      .list__item,
+      .add-btn {
+        justify-content: center;
         width: 40px;
         height: 40px;
         border-radius: 100%;
         padding: 0;
-        justify-content: center;
         margin: 0 auto;
+        margin-bottom: 5px;
 
         @media (max-width: 575px) {
           width: 30px;
@@ -55,12 +57,19 @@
         }
       }
 
+      .add-btn {
+        display: block;
+        margin: 0;
+        margin: 0 auto;
+      }
+
       .list__icon {
-        margin-right: 0;
+        margin: 0;
         left: 0;
       }
 
-      .list__label {
+      .list__label,
+      .add-btn__text {
         display: none;
       }
 

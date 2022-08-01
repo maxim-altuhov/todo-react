@@ -1,4 +1,18 @@
 .add-list {
+  .add-btn {
+    margin-left: 8px;
+    font-size: 1.1rem;
+    padding: 0;
+    margin-bottom: 20px;
+
+    &__text {
+      margin-left: 11px;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+  }
+
   &__popup {
     position: relative;
     width: 100%;

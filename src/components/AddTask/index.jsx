@@ -1,9 +1,8 @@
 import { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
-import { GrAdd } from 'react-icons/gr';
 
 import { useCustomContext } from '../../context';
-import { Input, Button } from '../index';
+import { AddBtn, Input, Button } from '../index';
 import { initErrorPopUp } from '../../utils/popUp';
 import useHttp from '../../hooks/http.hook';
 
@@ -47,10 +46,7 @@ const AddTask = () => {
   return (
     <>
       {!isOpenForm ? (
-        <button onClick={onToggleForm} className="add-btn">
-          <GrAdd size={20} title="Add task" />
-          <span>Новая задача</span>
-        </button>
+        <AddBtn onClick={onToggleForm} text="Новая задача" title="Add task" />
       ) : (
         <form action="#" className="task-form" onSubmit={onAddNewTask}>
           <Input
