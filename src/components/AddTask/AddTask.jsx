@@ -1,20 +1,19 @@
 import { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
-import { useCustomContext } from '../../context';
-import { AddBtn, Input, Button } from '../index';
-import { initErrorPopUp } from '../../utils/popUp';
-import useHttp from '../../hooks/http.hook';
+import { AddBtn, Input, Button } from '../';
+import { initErrorPopUp } from 'utils/popUp';
+import { useHttp } from 'hooks/http.hook';
 
 import './AddTask.scss';
 
 const AddTask = () => {
   const { request } = useHttp();
-  const { state, dispatch } = useCustomContext();
+  // const { state, dispatch } = useCustomContext();
   const [isLoading, setLoading] = useState(false);
   const [isOpenForm, setStatusForm] = useState(false);
   const [inputValue, setInputValue] = useState('');
-  const { id } = state.activeList;
+  // const { id } = state.activeList;
 
   const onToggleForm = () => {
     setStatusForm(!isOpenForm);
@@ -26,7 +25,7 @@ const AddTask = () => {
 
     const newTask = {
       id: uuidv4(),
-      listId: id,
+      // listId: id,
       text: inputValue,
       isCompleted: false,
       controlTime: new Date().getTime(),
@@ -36,7 +35,7 @@ const AddTask = () => {
 
     request('http://localhost:3001/tasks', 'POST', JSON.stringify(newTask))
       .then((data) => {
-        dispatch({ type: 'addTask', payload: { data } });
+        // dispatch({ type: 'addTask', payload: { data } });
         onToggleForm();
       })
       .catch(() => initErrorPopUp())

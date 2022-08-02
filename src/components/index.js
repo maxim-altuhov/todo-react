@@ -1,10 +1,11 @@
-import Task from './Task';
-import AddTask from './AddTask';
-import List from './List';
-import AddList from './AddList';
-import AddBtn from './AddBtn';
-import Input from './Input';
-import Button from './Button';
-import Spinner from './Spinner';
+import Task from './Task/Task';
+import AddTask from './AddTask/AddTask';
+import List from './List/List';
+import AddList from './AddList/AddList';
+import AddBtn from './AddBtn/AddBtn';
+import Input from './Input/Input';
+import Button from './Button/Button';
+import Spinner from './Spinner/Spinner';
+import Error from './Error/Error';
 
-export { Task, AddTask, List, AddList, AddBtn, Input, Button, Spinner };
+export { Task, AddTask, List, AddList, AddBtn, Input, Button, Spinner, Error };

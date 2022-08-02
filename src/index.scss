@@ -1,4 +1,4 @@
-@import '../src/assets/styles/mixins.scss';
+@import 'assets/styles/mixins.scss';
 
 * {
   @include scrollbars($size: 7px, $foreground-color: #8b8b8b, $background-color: #c5c4c3);
