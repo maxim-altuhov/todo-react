@@ -11,8 +11,8 @@ import './App.scss';
 
 const App = () => {
   const TABLET_WIDTH = 900;
-  const { lists, activeList, status, isOpenMenu } = useSelector((state) => state.lists);
   const [windowWidth, setWindowWidth] = useState(null);
+  const { lists, activeList, globalStatus, isOpenMenu } = useSelector((state) => state.lists);
   const dispatch = useDispatch();
   const location = useLocation();
 
@@ -29,19 +29,15 @@ const App = () => {
 
   useEffect(() => {
     const listId = location.pathname.split('list/')[1];
-
-    if (lists) {
-      const list = lists.find((list) => list.id === listId);
-      dispatch(setActiveList(list));
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [activeList, location.pathname]);
+    const list = lists.find((list) => list.id === listId);
+    dispatch(setActiveList(list));
+  }, [dispatch, lists, activeList, location.pathname]);
 
   const updateWindowWidth = () => {
     setWindowWidth(window.innerWidth);
   };
 
-  return status === 'loading' ? (
+  return globalStatus === 'loading' ? (
     <div className="spinner-block">
       <Spinner width={100} height={100} />
     </div>
@@ -64,12 +60,11 @@ const App = () => {
         <AddList />
       </div>
       <div className="todo__tasks">
-        {activeList ? (
+        {lists && activeList && (
           <Routes>
             <Route path="/list/:id" element={<Task />}></Route>
+            <Route path="/" element={<p className="todo__tasks-title">Список не выбран</p>}></Route>
           </Routes>
-        ) : (
-          <p className="todo__tasks-title">Список не выбран</p>
         )}
       </div>
     </div>

@@ -3,33 +3,34 @@ import { useDispatch, useSelector } from 'react-redux';
 import { GrFormClose } from 'react-icons/gr';
 import classNames from 'classnames';
 
-import { popUpDefault, initErrorPopUp } from 'utils/popUp';
+import { popUpDefault } from 'utils/popUp';
+import { initRemoveList } from 'store/listsSlice';
 import { Error } from '../';
 import './List.scss';
 
 const List = (props) => {
-  const { lists, activeList, status, error } = useSelector((state) => state.lists);
+  const { lists, activeList, globalStatus, error } = useSelector((state) => state.lists);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-  // const onRemoveList = (e, id) => {
-  //   e.stopPropagation();
+  const onRemoveList = (e, id) => {
+    e.stopPropagation();
 
-  //   popUpDefault.fire({
-  //     title: 'Удалить список задач?',
-  //     confirmButtonText: 'Удалить',
-  //     showLoaderOnConfirm: true,
-  //     preConfirm: () => {
-  //       return request(`http://localhost:3001/lists/${id}`, 'DELETE')
-  //         // .then(() => dispatch({ type: 'removeList', payload: id }))
-  //         .catch(() => initErrorPopUp());
-  //     },
-  //   });
-  // };
+    popUpDefault.fire({
+      title: 'Удалить список задач?',
+      confirmButtonText: 'Удалить',
+      showLoaderOnConfirm: true,
+      preConfirm: () => {
+        return dispatch(initRemoveList(id)).then(() => {
+          navigate('');
+        });
+      },
+    });
+  };
 
   return (
     <ul {...props} className="list">
-      {error && <Error />}
-      {status === 'resolved' &&
+      {globalStatus === 'resolved' &&
         lists.map((item) => {
           const { id, color, name, tasks } = item;
 
@@ -53,12 +54,13 @@ const List = (props) => {
                 tabIndex={0}
                 title="Remove list"
                 className="list__close"
-                // onClick={(e) => onRemoveList(e, id)}
-                // onKeyPress={(e) => e.key === 'Enter' && onRemoveList(e, id)}
+                onClick={(e) => onRemoveList(e, id)}
+                onKeyPress={(e) => e.key === 'Enter' && onRemoveList(e, id)}
               />
             </li>
           );
         })}
+      {error && <Error />}
     </ul>
   );
 };

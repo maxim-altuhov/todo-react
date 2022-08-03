@@ -13,8 +13,151 @@ export const fetchLists = createAsyncThunk('lists/fetchLists', async (_, { rejec
   });
 });
 
-const setError = (state, action) => {
-  state.status = 'rejected';
+export const createList = createAsyncThunk(
+  'lists/createList',
+  async (newList, { rejectWithValue, dispatch }) => {
+    const { request } = useHttp();
+
+    return await request('http://localhost:3001/lists', 'POST', JSON.stringify(newList))
+      .then((data) => {
+        dispatch(
+          addList({
+            ...data,
+            tasks: [],
+          }),
+        );
+      })
+      .catch((e) => {
+        initErrorPopUp();
+
+        return rejectWithValue(e.message);
+      });
+  },
+);
+
+export const initRemoveList = createAsyncThunk(
+  'lists/initRemoveList',
+  async (id, { rejectWithValue, dispatch }) => {
+    const { request } = useHttp();
+
+    return await request(`http://localhost:3001/lists/${id}`, 'DELETE')
+      .then(() => {
+        dispatch(removeList({ id }));
+      })
+      .catch((e) => {
+        initErrorPopUp();
+
+        return rejectWithValue(e.message);
+      });
+  },
+);
+
+export const initEditTaskTitle = createAsyncThunk(
+  'lists/initEditTaskTitle',
+  async ({ id, newName, newColor }, { rejectWithValue, dispatch }) => {
+    const { request } = useHttp();
+
+    return await request(
+      `http://localhost:3001/lists/${id}`,
+      'PATCH',
+      JSON.stringify({
+        name: newName,
+        color: newColor,
+      }),
+    )
+      .then(() => {
+        dispatch(editListTitle({ id, newName, newColor }));
+      })
+      .catch((e) => {
+        initErrorPopUp();
+
+        return rejectWithValue(e.message);
+      });
+  },
+);
+
+export const addNewTask = createAsyncThunk(
+  'lists/addNewTask',
+  async (newTask, { rejectWithValue, dispatch }) => {
+    const { request } = useHttp();
+
+    return await request('http://localhost:3001/tasks', 'POST', JSON.stringify(newTask))
+      .then(() => dispatch(addTask({ newTask })))
+      .catch((e) => {
+        initErrorPopUp();
+
+        return rejectWithValue(e.message);
+      });
+  },
+);
+
+export const initEditTask = createAsyncThunk(
+  'lists/initEditTask',
+  async ({ taskId, id, value }, { rejectWithValue, dispatch }) => {
+    const { request } = useHttp();
+
+    return await request(
+      `http://localhost:3001/tasks/${taskId}`,
+      'PATCH',
+      JSON.stringify({
+        text: value,
+      }),
+    )
+      .then(() => dispatch(editTaskName({ taskId, id, value })))
+      .catch((e) => {
+        initErrorPopUp();
+
+        return rejectWithValue(e.message);
+      });
+  },
+);
+
+export const initRemoveTask = createAsyncThunk(
+  'lists/initRemoveTask',
+  async ({ taskId, id }, { rejectWithValue, dispatch }) => {
+    const { request } = useHttp();
+
+    return await request(`http://localhost:3001/tasks/${taskId}`, 'DELETE')
+      .then(() => dispatch(removeTask({ taskId, id })))
+      .catch((e) => {
+        initErrorPopUp();
+
+        return rejectWithValue(e.message);
+      });
+  },
+);
+
+export const initToggleTask = createAsyncThunk(
+  'lists/initToggleTask',
+  async ({ taskId, listId, isCompleted }, { rejectWithValue, dispatch }) => {
+    const { request } = useHttp();
+
+    return await request(
+      `http://localhost:3001/tasks/${taskId}`,
+      'PATCH',
+      JSON.stringify({ isCompleted }),
+    )
+      .then(() => dispatch(toggleStatusTask({ taskId, listId, isCompleted })))
+      .catch((e) => {
+        initErrorPopUp();
+
+        return rejectWithValue(e.message);
+      });
+  },
+);
+
+const setLoadingStatus = (state) => {
+  state.currentStatus = 'loading';
+  state.error = null;
+};
+
+const setResolvedStatus = (state) => {
+  state.currentStatus = 'resolved';
+  state.error = null;
+};
+
+const setRejectedStatus = (state, action) => {
+  state.currentStatus = 'rejected';
   state.error = action.payload;
 };
 
@@ -22,8 +165,10 @@ const listsSlice = createSlice({
   name: 'lists',
   initialState: {
     lists: [],
+    colors: ['#42B883', '#64C4ED', '#FFBBCC', '#B6E6BD', '#C355F5', '#110133', '#FF6464'],
     activeList: null,
-    status: null,
+    globalStatus: 'waiting',
+    currentStatus: 'waiting',
     error: null,
     isOpenMenu: false,
     isOpenPopup: false,
@@ -54,8 +199,8 @@ const listsSlice = createSlice({
     },
     addTask(state, action) {
       state.lists = state.lists.map((list) => {
-        if (list.id === action.payload.data.listId) {
-          list.tasks.unshift(action.payload.data);
+        if (list.id === action.payload.newTask.listId) {
+          list.tasks.unshift(action.payload.newTask);
         }
 
         return list;
@@ -109,15 +254,39 @@ const listsSlice = createSlice({
   },
   extraReducers: {
     [fetchLists.pending]: (state) => {
-      state.status = 'loading';
+      state.globalStatus = 'loading';
       state.error = null;
     },
     [fetchLists.fulfilled]: (state, action) => {
       state.lists = action.payload;
-      state.status = 'resolved';
+      state.globalStatus = 'resolved';
       state.error = null;
     },
-    [fetchLists.rejected]: setError,
+    [fetchLists.rejected]: (state, action) => {
+      state.globalStatus = 'rejected';
+      state.error = action.payload;
+    },
+    [createList.pending]: setLoadingStatus,
+    [createList.fulfilled]: setResolvedStatus,
+    [createList.rejected]: setRejectedStatus,
+    [addNewTask.pending]: setLoadingStatus,
+    [addNewTask.fulfilled]: setResolvedStatus,
+    [addNewTask.rejected]: setRejectedStatus,
+    [initRemoveList.pending]: setLoadingStatus,
+    [initRemoveList.fulfilled]: setResolvedStatus,
+    [initRemoveList.rejected]: setRejectedStatus,
+    [initEditTaskTitle.pending]: setLoadingStatus,
+    [initEditTaskTitle.fulfilled]: setResolvedStatus,
+    [initEditTaskTitle.rejected]: setRejectedStatus,
+    [initEditTask.pending]: setLoadingStatus,
+    [initEditTask.fulfilled]: setResolvedStatus,
+    [initEditTask.rejected]: setRejectedStatus,
+    [initRemoveTask.pending]: setLoadingStatus,
+    [initRemoveTask.fulfilled]: setResolvedStatus,
+    [initRemoveTask.rejected]: setRejectedStatus,
+    [initToggleTask.pending]: setLoadingStatus,
+    [initToggleTask.fulfilled]: setResolvedStatus,
+    [initToggleTask.rejected]: setRejectedStatus,
   },
 });
 

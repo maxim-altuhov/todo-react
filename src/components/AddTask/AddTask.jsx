@@ -1,19 +1,17 @@
 import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
 
 import { AddBtn, Input, Button } from '../';
-import { initErrorPopUp } from 'utils/popUp';
-import { useHttp } from 'hooks/http.hook';
+import { addNewTask } from 'store/listsSlice';
 
 import './AddTask.scss';
 
 const AddTask = () => {
-  const { request } = useHttp();
-  // const { state, dispatch } = useCustomContext();
-  const [isLoading, setLoading] = useState(false);
+  const { activeList, currentStatus } = useSelector((state) => state.lists);
   const [isOpenForm, setStatusForm] = useState(false);
   const [inputValue, setInputValue] = useState('');
-  // const { id } = state.activeList;
+  const dispatch = useDispatch();
 
   const onToggleForm = () => {
     setStatusForm(!isOpenForm);
@@ -25,21 +23,15 @@ const AddTask = () => {
 
     const newTask = {
       id: uuidv4(),
-      // listId: id,
+      listId: activeList.id,
       text: inputValue,
       isCompleted: false,
       controlTime: new Date().getTime(),
     };
 
-    setLoading(true);
-
-    request('http://localhost:3001/tasks', 'POST', JSON.stringify(newTask))
-      .then((data) => {
-        // dispatch({ type: 'addTask', payload: { data } });
-        onToggleForm();
-      })
-      .catch(() => initErrorPopUp())
-      .finally(() => setLoading(false));
+    dispatch(addNewTask(newTask)).then(() => {
+      onToggleForm();
+    });
   };
 
   return (
@@ -59,12 +51,17 @@ const AddTask = () => {
             <div className="task-form__btn-block-item">
               <Button
                 type="submit"
-                text={isLoading ? 'Добавление...' : 'Добавить'}
-                isDisabled={isLoading}
+                text={currentStatus === 'loading' ? 'Добавление...' : 'Добавить'}
+                isDisabled={currentStatus === 'loading'}
               />
             </div>
             <div className="task-form__btn-block-item">
-              <Button onClick={onToggleForm} text="Отмена" theme="gray" />
+              <Button
+                onClick={onToggleForm}
+                text="Отмена"
+                theme="gray"
+                isDisabled={currentStatus === 'loading'}
+              />
             </div>
           </div>
         </form>
