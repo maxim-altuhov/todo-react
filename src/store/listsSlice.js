@@ -1,13 +1,11 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
-import { useHttp } from 'hooks/http.hook';
+import { request } from 'utils/request';
 import { initErrorPopUp } from 'utils/popUp';
 
 export const fetchLists = createAsyncThunk('lists/fetchLists', async (_, { rejectWithValue }) => {
-  const { request } = useHttp();
-
   return await request('http://localhost:3001/lists?_embed=tasks').catch((e) => {
-    initErrorPopUp();
+    initErrorPopUp(e.message);
 
     return rejectWithValue(e.message);
   });
@@ -16,8 +14,6 @@ export const fetchLists = createAsyncThunk('lists/fetchLists', async (_, { rejec
 export const createList = createAsyncThunk(
   'lists/createList',
   async (newList, { rejectWithValue, dispatch }) => {
-    const { request } = useHttp();
-
     return await request('http://localhost:3001/lists', 'POST', JSON.stringify(newList))
       .then((data) => {
         dispatch(
@@ -28,7 +24,7 @@ export const createList = createAsyncThunk(
         );
       })
       .catch((e) => {
-        initErrorPopUp();
+        initErrorPopUp(e.message);
 
         return rejectWithValue(e.message);
       });
@@ -38,14 +34,12 @@ export const createList = createAsyncThunk(
 export const initRemoveList = createAsyncThunk(
   'lists/initRemoveList',
   async (id, { rejectWithValue, dispatch }) => {
-    const { request } = useHttp();
-
     return await request(`http://localhost:3001/lists/${id}`, 'DELETE')
       .then(() => {
         dispatch(removeList({ id }));
       })
       .catch((e) => {
-        initErrorPopUp();
+        initErrorPopUp(e.message);
 
         return rejectWithValue(e.message);
       });
@@ -55,8 +49,6 @@ export const initRemoveList = createAsyncThunk(
 export const initEditTaskTitle = createAsyncThunk(
   'lists/initEditTaskTitle',
   async ({ id, newName, newColor }, { rejectWithValue, dispatch }) => {
-    const { request } = useHttp();
-
     return await request(
       `http://localhost:3001/lists/${id}`,
       'PATCH',
@@ -69,22 +61,20 @@ export const initEditTaskTitle = createAsyncThunk(
         dispatch(editListTitle({ id, newName, newColor }));
       })
       .catch((e) => {
-        initErrorPopUp();
+        initErrorPopUp(e.message);
 
         return rejectWithValue(e.message);
       });
   },
 );
 
-export const addNewTask = createAsyncThunk(
-  'lists/addNewTask',
+export const initAddTask = createAsyncThunk(
+  'lists/initAddTask',
   async (newTask, { rejectWithValue, dispatch }) => {
-    const { request } = useHttp();
-
     return await request('http://localhost:3001/tasks', 'POST', JSON.stringify(newTask))
       .then(() => dispatch(addTask({ newTask })))
       .catch((e) => {
-        initErrorPopUp();
+        initErrorPopUp(e.message);
 
         return rejectWithValue(e.message);
       });
@@ -94,8 +84,6 @@ export const addNewTask = createAsyncThunk(
 export const initEditTask = createAsyncThunk(
   'lists/initEditTask',
   async ({ taskId, id, value }, { rejectWithValue, dispatch }) => {
-    const { request } = useHttp();
-
     return await request(
       `http://localhost:3001/tasks/${taskId}`,
       'PATCH',
@@ -105,7 +93,7 @@ export const initEditTask = createAsyncThunk(
     )
       .then(() => dispatch(editTaskName({ taskId, id, value })))
       .catch((e) => {
-        initErrorPopUp();
+        initErrorPopUp(e.message);
 
         return rejectWithValue(e.message);
       });
@@ -115,12 +103,10 @@ export const initEditTask = createAsyncThunk(
 export const initRemoveTask = createAsyncThunk(
   'lists/initRemoveTask',
   async ({ taskId, id }, { rejectWithValue, dispatch }) => {
-    const { request } = useHttp();
-
     return await request(`http://localhost:3001/tasks/${taskId}`, 'DELETE')
       .then(() => dispatch(removeTask({ taskId, id })))
       .catch((e) => {
-        initErrorPopUp();
+        initErrorPopUp(e.message);
 
         return rejectWithValue(e.message);
       });
@@ -130,8 +116,6 @@ export const initRemoveTask = createAsyncThunk(
 export const initToggleTask = createAsyncThunk(
   'lists/initToggleTask',
   async ({ taskId, listId, isCompleted }, { rejectWithValue, dispatch }) => {
-    const { request } = useHttp();
-
     return await request(
       `http://localhost:3001/tasks/${taskId}`,
       'PATCH',
@@ -139,7 +123,7 @@ export const initToggleTask = createAsyncThunk(
     )
       .then(() => dispatch(toggleStatusTask({ taskId, listId, isCompleted })))
       .catch((e) => {
-        initErrorPopUp();
+        initErrorPopUp(e.message);
 
         return rejectWithValue(e.message);
       });
@@ -269,9 +253,9 @@ const listsSlice = createSlice({
     [createList.pending]: setLoadingStatus,
     [createList.fulfilled]: setResolvedStatus,
     [createList.rejected]: setRejectedStatus,
-    [addNewTask.pending]: setLoadingStatus,
-    [addNewTask.fulfilled]: setResolvedStatus,
-    [addNewTask.rejected]: setRejectedStatus,
+    [initAddTask.pending]: setLoadingStatus,
+    [initAddTask.fulfilled]: setResolvedStatus,
+    [initAddTask.rejected]: setRejectedStatus,
     [initRemoveList.pending]: setLoadingStatus,
     [initRemoveList.fulfilled]: setResolvedStatus,
     [initRemoveList.rejected]: setRejectedStatus,

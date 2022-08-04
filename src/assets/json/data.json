@@ -1,67 +1,86 @@
 {
   "lists": [
     {
-      "id": "53ddc170-6045-4d31-811b-78480800f4b9",
-      "name": "1232222",
-      "color": "#3300ff"
+      "id": "2be83a01-2747-4703-ab83-a012119eb35d",
+      "name": "Разработка",
+      "color": "#d50cb7"
+    },
+    {
+      "id": "f994ee82-6b1d-4d4f-bae4-1c4cdac819fb",
+      "name": "Тестовый",
+      "color": "#2a6fb5"
     }
   ],
   "tasks": [
     {
-      "id": "aae955dd-5529-4596-bae8-ff543cedf18c",
-      "listId": "53ddc170-6045-4d31-811b-78480800f4b9",
-      "text": "111",
-      "isCompleted": true,
-      "controlTime": 1659521485979
-    },
-    {
-      "id": "88cfd0ff-9800-4a82-a8e4-2551e3bfe71d",
-      "listId": "53ddc170-6045-4d31-811b-78480800f4b9",
-      "text": "222",
-      "isCompleted": true,
-      "controlTime": 1659521508883
-    },
-    {
-      "id": "a832f3bc-0346-4f5b-9721-bfb56d52af74",
-      "listId": "53ddc170-6045-4d31-811b-78480800f4b9",
-      "text": "2222",
-      "isCompleted": true,
-      "controlTime": 1659521975134
-    },
-    {
-      "id": "0dd5a065-42ef-4278-9c36-9cceb9333954",
-      "listId": "53ddc170-6045-4d31-811b-78480800f4b9",
-      "text": "11111ewe2222",
-      "isCompleted": true,
-      "controlTime": 1659521979834
-    },
-    {
-      "id": "10a31315-a5fc-4896-88a9-8ff20c34c142",
-      "listId": "53ddc170-6045-4d31-811b-78480800f4b9",
-      "text": "1111",
+      "id": "026e5501-7b4c-4205-abc5-8248c6f52ce4",
+      "listId": "2be83a01-2747-4703-ab83-a012119eb35d",
+      "text": "Кнопки удаления всех задач/выполненных",
       "isCompleted": false,
-      "controlTime": 1659521997340
+      "controlTime": 1659522465642
     },
     {
-      "id": "086be233-a363-4581-8c57-3e92e5e6f216",
-      "listId": "53ddc170-6045-4d31-811b-78480800f4b9",
-      "text": "2222",
-      "isCompleted": true,
-      "controlTime": 1659522003318
+      "id": "34843cc6-0060-4f1d-a7ae-bae162fb5aef",
+      "listId": "2be83a01-2747-4703-ab83-a012119eb35d",
+      "text": "Форма для авторизации",
+      "isCompleted": false,
+      "controlTime": 1659522484236
     },
     {
-      "id": "65909967-7eec-4471-a3f7-9c87a7f4bfc6",
-      "listId": "53ddc170-6045-4d31-811b-78480800f4b9",
-      "text": "3232",
-      "isCompleted": true,
-      "controlTime": 1659522033757
+      "id": "c27d2f77-5433-4045-9884-1bd8cf7b562d",
+      "listId": "2be83a01-2747-4703-ab83-a012119eb35d",
+      "text": "Оптимизировать listsSlice",
+      "isCompleted": false,
+      "controlTime": 1659522596278
     },
     {
-      "id": "3e102d3b-0bee-4b92-a556-6dfaa2ef87b2",
-      "listId": "53ddc170-6045-4d31-811b-78480800f4b9",
-      "text": "111",
-      "isCompleted": true,
-      "controlTime": 1659522038704
+      "id": "59f39879-6de6-4707-abaf-beb788b394c2",
+      "listId": "f994ee82-6b1d-4d4f-bae4-1c4cdac819fb",
+      "text": "1",
+      "isCompleted": false,
+      "controlTime": 1659522650096
+    },
+    {
+      "id": "e183c989-e1e3-430d-8a64-ef9c563d0795",
+      "listId": "f994ee82-6b1d-4d4f-bae4-1c4cdac819fb",
+      "text": "2",
+      "isCompleted": false,
+      "controlTime": 1659522651319
+    },
+    {
+      "id": "a3112331-769e-4a28-ae13-24e33fd22779",
+      "listId": "f994ee82-6b1d-4d4f-bae4-1c4cdac819fb",
+      "text": "3",
+      "isCompleted": false,
+      "controlTime": 1659522652482
+    },
+    {
+      "id": "ba3056c2-1803-47bb-8a82-72109d4e7c88",
+      "listId": "f994ee82-6b1d-4d4f-bae4-1c4cdac819fb",
+      "text": "4",
+      "isCompleted": false,
+      "controlTime": 1659522655267
+    },
+    {
+      "id": "a248e37c-569f-4762-b9bc-6518804b60ff",
+      "listId": "2be83a01-2747-4703-ab83-a012119eb35d",
+      "text": "Организовать авторизацию и разделение БД",
+      "isCompleted": false,
+      "controlTime": 1659522799796
+    },
+    {
+      "id": "e3b82ad4-f63b-4969-91fe-7347b44af20e",
+      "listId": "f994ee82-6b1d-4d4f-bae4-1c4cdac819fb",
+      "text": "5",
+      "isCompleted": false,
+      "controlTime": 1659534249851
+    },
+    {
+      "id": "ccc3491d-c413-4cfb-9669-861a2c729c7e",
+      "listId": "f994ee82-6b1d-4d4f-bae4-1c4cdac819fb",
+      "text": "2321",
+      "isCompleted": false,
+      "controlTime": 1659597418866
     }
   ]
 }

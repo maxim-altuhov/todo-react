@@ -5,11 +5,10 @@ import classNames from 'classnames';
 
 import { popUpDefault } from 'utils/popUp';
 import { initRemoveList } from 'store/listsSlice';
-import { Error } from '../';
 import './List.scss';
 
 const List = (props) => {
-  const { lists, activeList, globalStatus, error } = useSelector((state) => state.lists);
+  const { lists, activeList, globalStatus } = useSelector((state) => state.lists);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -60,7 +59,6 @@ const List = (props) => {
             </li>
           );
         })}
-      {error && <Error />}
     </ul>
   );
 };

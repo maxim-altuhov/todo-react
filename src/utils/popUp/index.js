@@ -31,10 +31,11 @@ const popUpInput = popUpDefault.mixin({
   input: 'text',
 });
 
-const initErrorPopUp = () => {
+const initErrorPopUp = (error = '') => {
   popUpError.fire({
-    title: 'Произошла ошибка загрузки данных!',
+    titleText: 'Произошла ошибка загрузки данных!',
     text: 'Попробуйте обновить страницу',
+    footer: `Ошибка ${error}`,
   });
 };
 

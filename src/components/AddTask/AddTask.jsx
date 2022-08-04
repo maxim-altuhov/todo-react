@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
 
 import { AddBtn, Input, Button } from '../';
-import { addNewTask } from 'store/listsSlice';
+import { initAddTask } from 'store/listsSlice';
 
 import './AddTask.scss';
 
@@ -29,7 +29,7 @@ const AddTask = () => {
       controlTime: new Date().getTime(),
     };
 
-    dispatch(addNewTask(newTask)).then(() => {
+    dispatch(initAddTask(newTask)).then(() => {
       onToggleForm();
     });
   };
@@ -56,12 +56,7 @@ const AddTask = () => {
               />
             </div>
             <div className="task-form__btn-block-item">
-              <Button
-                onClick={onToggleForm}
-                text="Отмена"
-                theme="gray"
-                isDisabled={currentStatus === 'loading'}
-              />
+              <Button onClick={onToggleForm} text="Отмена" theme="gray" />
             </div>
           </div>
         </form>

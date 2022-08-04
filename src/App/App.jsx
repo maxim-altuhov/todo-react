@@ -4,7 +4,7 @@ import { Routes, Route, useLocation } from 'react-router-dom';
 import { CgArrowRightR } from 'react-icons/cg';
 import classNames from 'classnames';
 
-import { fetchLists, setActiveList } from 'store/listsSlice';
+import { fetchLists, setActiveList, toggleMenu } from 'store/listsSlice';
 import { AddList, List, Task, Spinner } from 'components';
 
 import './App.scss';
@@ -53,18 +53,20 @@ const App = () => {
         <CgArrowRightR
           size={22}
           title="Menu"
-          onClick={() => dispatch({ type: 'toggleMenu' })}
+          onClick={() => dispatch(toggleMenu())}
           className="todo__sidebar-menu"
         />
         <List />
         <AddList />
       </div>
       <div className="todo__tasks">
-        {lists && activeList && (
+        {lists && activeList ? (
           <Routes>
             <Route path="/list/:id" element={<Task />}></Route>
             <Route path="/" element={<p className="todo__tasks-title">Список не выбран</p>}></Route>
           </Routes>
+        ) : (
+          <p className="todo__tasks-title">Список не выбран</p>
         )}
       </div>
     </div>
