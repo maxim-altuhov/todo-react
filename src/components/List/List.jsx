@@ -17,8 +17,6 @@ const List = (props) => {
 
     popUpDefault.fire({
       title: 'Удалить список задач?',
-      confirmButtonText: 'Удалить',
-      showLoaderOnConfirm: true,
       preConfirm: () => {
         return dispatch(initRemoveList(id)).then(() => {
           navigate('');
@@ -51,7 +49,7 @@ const List = (props) => {
               <GrFormClose
                 size={22}
                 tabIndex={0}
-                title="Remove list"
+                title="Удалить список"
                 className="list__close"
                 onClick={(e) => onRemoveList(e, id)}
                 onKeyPress={(e) => e.key === 'Enter' && onRemoveList(e, id)}

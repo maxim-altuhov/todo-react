@@ -113,6 +113,42 @@ export const initRemoveTask = createAsyncThunk(
   },
 );
 
+export const initRemoveAllTask = createAsyncThunk(
+  'lists/initRemoveAllTask',
+  async ({ tasks, id }, { rejectWithValue, dispatch }) => {
+    const fetchRemoveTasks = tasks.map(async ({ id }) => {
+      try {
+        return await request(`http://localhost:3001/tasks/${id}`, 'DELETE');
+      } catch (e) {
+        initErrorPopUp(e.message);
+        return rejectWithValue(e.message);
+      }
+    });
+
+    await Promise.allSettled([fetchRemoveTasks]).then(() => {
+      dispatch(removeAllTask({ id }));
+    });
+  },
+);
+
+export const initRemoveAllCompletedTasks = createAsyncThunk(
+  'lists/initRemoveAllCompletedTasks',
+  async ({ tasks, id }, { rejectWithValue, dispatch, getState }) => {
+    const fetchRemoveTasks = tasks.map(async ({ id, isCompleted }) => {
+      try {
+        if (isCompleted) return await request(`http://localhost:3001/tasks/${id}`, 'DELETE');
+      } catch (e) {
+        initErrorPopUp(e.message);
+        return rejectWithValue(e.message);
+      }
+    });
+
+    await Promise.allSettled([fetchRemoveTasks]).then((data) => {
+      dispatch(removeAllCompletedTask({ id }));
+    });
+  },
+);
+
 export const initToggleTask = createAsyncThunk(
   'lists/initToggleTask',
   async ({ taskId, listId, isCompleted }, { rejectWithValue, dispatch }) => {
@@ -199,6 +235,24 @@ const listsSlice = createSlice({
         return list;
       });
     },
+    removeAllTask(state, action) {
+      state.lists = state.lists.map((list) => {
+        if (list.id === action.payload.id) {
+          list.tasks = [];
+        }
+
+        return list;
+      });
+    },
+    removeAllCompletedTask(state, action) {
+      state.lists = state.lists.map((list) => {
+        if (list.id === action.payload.id) {
+          list.tasks = list.tasks.filter((task) => !task.isCompleted);
+        }
+
+        return list;
+      });
+    },
     editListTitle(state, action) {
       state.lists = state.lists.map((list) => {
         if (list.id === action.payload.id) {
@@ -268,6 +322,12 @@ const listsSlice = createSlice({
     [initRemoveTask.pending]: setLoadingStatus,
     [initRemoveTask.fulfilled]: setResolvedStatus,
     [initRemoveTask.rejected]: setRejectedStatus,
+    [initRemoveAllTask.pending]: setLoadingStatus,
+    [initRemoveAllTask.fulfilled]: setResolvedStatus,
+    [initRemoveAllTask.rejected]: setRejectedStatus,
+    [initRemoveAllCompletedTasks.pending]: setLoadingStatus,
+    [initRemoveAllCompletedTasks.fulfilled]: setResolvedStatus,
+    [initRemoveAllCompletedTasks.rejected]: setRejectedStatus,
     [initToggleTask.pending]: setLoadingStatus,
     [initToggleTask.fulfilled]: setResolvedStatus,
     [initToggleTask.rejected]: setRejectedStatus,
@@ -282,6 +342,8 @@ export const {
   removeList,
   addTask,
   removeTask,
+  removeAllTask,
+  removeAllCompletedTask,
   editListTitle,
   editTaskName,
   toggleStatusTask,

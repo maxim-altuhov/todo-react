@@ -1,10 +1,19 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { HexColorPicker } from 'react-colorful';
 import { TbTrashX } from 'react-icons/tb';
+import { MdRemoveDone } from 'react-icons/md';
+import { CgPlayListRemove } from 'react-icons/cg';
 import { CgEditFlipH, CgCheck } from 'react-icons/cg';
 
 import { popUpDefault, popUpInput } from 'utils/popUp';
-import { initEditTaskTitle, initEditTask, initRemoveTask, initToggleTask } from 'store/listsSlice';
+import {
+  initEditTaskTitle,
+  initEditTask,
+  initRemoveTask,
+  initRemoveAllTask,
+  initRemoveAllCompletedTasks,
+  initToggleTask,
+} from 'store/listsSlice';
 import { AddTask } from '../';
 
 import './Task.scss';
@@ -29,8 +38,6 @@ const Task = () => {
           />
         </div>
       ),
-      confirmButtonText: 'Изменить',
-      showLoaderOnConfirm: true,
       preConfirm: (newName) => {
         const changedValue = newName !== name || newColor !== color;
 
@@ -44,8 +51,6 @@ const Task = () => {
   const onEditTask = (taskId, text) => {
     popUpInput.fire({
       inputValue: text,
-      confirmButtonText: 'Изменить',
-      showLoaderOnConfirm: true,
       preConfirm: (value) => {
         const changedValue = value && value !== text;
 
@@ -59,11 +64,21 @@ const Task = () => {
   const onRemove = (taskId) => {
     popUpDefault.fire({
       title: 'Удалить задачу?',
-      confirmButtonText: 'Удалить',
-      showLoaderOnConfirm: true,
-      preConfirm: () => {
-        return dispatch(initRemoveTask({ taskId, id }));
-      },
+      preConfirm: () => dispatch(initRemoveTask({ taskId, id })),
+    });
+  };
+
+  const onRemoveAllTasks = () => {
+    popUpDefault.fire({
+      title: 'Удалить все задачи?',
+      preConfirm: () => dispatch(initRemoveAllTask({ tasks, id })),
+    });
+  };
+
+  const onRemoveAllCompletedTasks = () => {
+    popUpDefault.fire({
+      title: 'Удалить все завершенные задачи?',
+      preConfirm: () => dispatch(initRemoveAllCompletedTasks({ tasks, id })),
     });
   };
 
@@ -88,7 +103,7 @@ const Task = () => {
           <CgEditFlipH
             size={28}
             tabIndex={0}
-            title="Edit title"
+            title="Редактировать"
             className="task__icon"
             onClick={onEditTitle}
             onKeyPress={(e) => e.key === 'Enter' && onEditTitle()}
@@ -97,6 +112,28 @@ const Task = () => {
         {tasks && <AddTask key={id} />}
         {tasks && tasks.length === 0 && <p className="task__none">Задачи отсутствуют</p>}
         {!tasks && <p className="task__none">Ошибка загрузки списка задач</p>}
+        {tasks && tasks.length > 0 && (
+          <div className="task__control task__control_type_remove-block">
+            <CgPlayListRemove
+              size={25}
+              tabIndex={0}
+              title="Удалить все"
+              className="task__control-item"
+              onClick={() => onRemoveAllTasks()}
+              onKeyPress={(e) => e.key === 'Enter' && onRemoveAllTasks()}
+            />
+            {tasks.some((task) => task.isCompleted === true) && (
+              <MdRemoveDone
+                size={22}
+                tabIndex={0}
+                title="Удалить выполненные"
+                className="task__control-item"
+                onClick={() => onRemoveAllCompletedTasks()}
+                onKeyPress={(e) => e.key === 'Enter' && onRemoveAllCompletedTasks()}
+              />
+            )}
+          </div>
+        )}
         {tasks &&
           [...tasks].sort(initCustomSort).map(({ id, text, isCompleted }) => (
             <div key={id} className="task__item">
@@ -119,7 +156,7 @@ const Task = () => {
                   <CgEditFlipH
                     size={22}
                     tabIndex={0}
-                    title="Edit task"
+                    title="Редактировать"
                     className="task__control-item"
                     onClick={() => onEditTask(id, text)}
                     onKeyPress={(e) => e.key === 'Enter' && onEditTask(id, text)}
@@ -128,7 +165,7 @@ const Task = () => {
                 <TbTrashX
                   size={22}
                   tabIndex={0}
-                  title="Delete"
+                  title="Удалить"
                   className="task__control-item"
                   onClick={() => onRemove(id)}
                   onKeyPress={(e) => e.key === 'Enter' && onRemove(id)}

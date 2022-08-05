@@ -19,16 +19,20 @@ const popUpDefault = popUp.mixin({
   focusConfirm: false,
   showDenyButton: true,
   denyButtonText: 'Отмена',
+  confirmButtonText: 'Удалить',
+  showLoaderOnConfirm: true,
 });
 
 const popUpError = popUpDefault.mixin({
   icon: 'error',
   showConfirmButton: false,
   showDenyButton: false,
+  showLoaderOnConfirm: false,
 });
 
 const popUpInput = popUpDefault.mixin({
   input: 'text',
+  confirmButtonText: 'Изменить',
 });
 
 const initErrorPopUp = (error = '') => {

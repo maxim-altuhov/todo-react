@@ -52,13 +52,13 @@ const AddList = () => {
 
   return (
     <div className="add-list">
-      <AddBtn onClick={onTogglePopup} text="Добавить список" title="Add list" />
+      <AddBtn onClick={onTogglePopup} text="Добавить список" title="Добавить список" />
       {isOpenPopup && (
         <div className="add-list__popup">
           <AiFillCloseCircle
             size={23}
             tabIndex={0}
-            title="Close"
+            title="Закрыть"
             onClick={() => dispatch(togglePopup())}
             onKeyPress={(e) => e.key === 'Enter' && dispatch(togglePopup())}
             className="add-list__close"

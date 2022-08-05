@@ -28,10 +28,12 @@ const App = () => {
   }, []);
 
   useEffect(() => {
+    console.log(1);
     const listId = location.pathname.split('list/')[1];
     const list = lists.find((list) => list.id === listId);
     dispatch(setActiveList(list));
-  }, [dispatch, lists, activeList, location.pathname]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [lists, location.pathname]);
 
   const updateWindowWidth = () => {
     setWindowWidth(window.innerWidth);
@@ -52,7 +54,7 @@ const App = () => {
         <p className="todo__sidebar-title">Список задач:</p>
         <CgArrowRightR
           size={22}
-          title="Menu"
+          title="Меню"
           onClick={() => dispatch(toggleMenu())}
           className="todo__sidebar-menu"
         />

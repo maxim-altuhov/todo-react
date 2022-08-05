@@ -4,21 +4,9 @@
       "id": "2be83a01-2747-4703-ab83-a012119eb35d",
       "name": "Разработка",
       "color": "#d50cb7"
-    },
-    {
-      "id": "f994ee82-6b1d-4d4f-bae4-1c4cdac819fb",
-      "name": "Тестовый",
-      "color": "#2a6fb5"
     }
   ],
   "tasks": [
-    {
-      "id": "026e5501-7b4c-4205-abc5-8248c6f52ce4",
-      "listId": "2be83a01-2747-4703-ab83-a012119eb35d",
-      "text": "Кнопки удаления всех задач/выполненных",
-      "isCompleted": false,
-      "controlTime": 1659522465642
-    },
     {
       "id": "34843cc6-0060-4f1d-a7ae-bae162fb5aef",
       "listId": "2be83a01-2747-4703-ab83-a012119eb35d",
@@ -27,60 +15,11 @@
       "controlTime": 1659522484236
     },
     {
-      "id": "c27d2f77-5433-4045-9884-1bd8cf7b562d",
-      "listId": "2be83a01-2747-4703-ab83-a012119eb35d",
-      "text": "Оптимизировать listsSlice",
-      "isCompleted": false,
-      "controlTime": 1659522596278
-    },
-    {
-      "id": "59f39879-6de6-4707-abaf-beb788b394c2",
-      "listId": "f994ee82-6b1d-4d4f-bae4-1c4cdac819fb",
-      "text": "1",
-      "isCompleted": false,
-      "controlTime": 1659522650096
-    },
-    {
-      "id": "e183c989-e1e3-430d-8a64-ef9c563d0795",
-      "listId": "f994ee82-6b1d-4d4f-bae4-1c4cdac819fb",
-      "text": "2",
-      "isCompleted": false,
-      "controlTime": 1659522651319
-    },
-    {
-      "id": "a3112331-769e-4a28-ae13-24e33fd22779",
-      "listId": "f994ee82-6b1d-4d4f-bae4-1c4cdac819fb",
-      "text": "3",
-      "isCompleted": false,
-      "controlTime": 1659522652482
-    },
-    {
-      "id": "ba3056c2-1803-47bb-8a82-72109d4e7c88",
-      "listId": "f994ee82-6b1d-4d4f-bae4-1c4cdac819fb",
-      "text": "4",
-      "isCompleted": false,
-      "controlTime": 1659522655267
-    },
-    {
       "id": "a248e37c-569f-4762-b9bc-6518804b60ff",
       "listId": "2be83a01-2747-4703-ab83-a012119eb35d",
       "text": "Организовать авторизацию и разделение БД",
       "isCompleted": false,
       "controlTime": 1659522799796
-    },
-    {
-      "id": "e3b82ad4-f63b-4969-91fe-7347b44af20e",
-      "listId": "f994ee82-6b1d-4d4f-bae4-1c4cdac819fb",
-      "text": "5",
-      "isCompleted": false,
-      "controlTime": 1659534249851
-    },
-    {
-      "id": "ccc3491d-c413-4cfb-9669-861a2c729c7e",
-      "listId": "f994ee82-6b1d-4d4f-bae4-1c4cdac819fb",
-      "text": "2321",
-      "isCompleted": false,
-      "controlTime": 1659597418866
     }
   ]
 }

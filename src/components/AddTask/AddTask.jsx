@@ -37,7 +37,7 @@ const AddTask = () => {
   return (
     <>
       {!isOpenForm ? (
-        <AddBtn onClick={onToggleForm} text="Новая задача" title="Add task" />
+        <AddBtn onClick={onToggleForm} text="Новая задача" title="Добавить задачу" />
       ) : (
         <form action="#" className="task-form" onSubmit={onAddNewTask}>
           <Input

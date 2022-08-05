@@ -14,7 +14,7 @@
 
   &__sidebar {
     background-color: #f4f6f8;
-    min-width: 285px;
+    width: 285px;
     padding: 70px 20px;
     border-right: 1px solid #f1f1f1;
     border-radius: 10px 0px 0px 10px;
@@ -121,7 +121,7 @@
   }
 
   &__tasks {
-    padding: 45px 25px 45px 45px;
+    padding: 45px 25px 45px 35px;
     width: 600px;
     overflow-y: auto;
 
