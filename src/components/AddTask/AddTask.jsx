@@ -45,7 +45,7 @@ const AddTask = () => {
             value={inputValue}
             isRequired
             isAutofocus
-            onChange={(e) => setInputValue(e.target.value)}
+            onChange={(e) => setInputValue(e.target.value.trimStart())}
           />
           <div className="task-form__btn-block">
             <div className="task-form__btn-block-item">
