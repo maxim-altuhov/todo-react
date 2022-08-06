@@ -69,6 +69,7 @@ const AddList = () => {
               isAutofocus
               placeholder="Название списка"
               value={inputValue}
+              name="list-name"
               onChange={(e) => setInputValue(e.target.value.trimStart())}
             />
             <ul className="add-list__colors-block">

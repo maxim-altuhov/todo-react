@@ -6,6 +6,7 @@ import { CgPlayListRemove } from 'react-icons/cg';
 import { CgEditFlipH, CgCheck } from 'react-icons/cg';
 
 import { popUpDefault, popUpInput } from 'utils/popUp';
+import { AddTask } from '../';
 import {
   initEditTaskTitle,
   initEditTask,
@@ -14,7 +15,6 @@ import {
   initRemoveAllCompletedTasks,
   initToggleTask,
 } from 'store/listsSlice';
-import { AddTask } from '../';
 
 import './Task.scss';
 
@@ -97,9 +97,9 @@ const Task = () => {
     <>
       <div className="task">
         <div className="task__top">
-          <h2 className="task__title" style={{ color }}>
+          <h1 className="task__title" style={{ color }}>
             {name}
-          </h2>
+          </h1>
           <CgEditFlipH
             size={28}
             tabIndex={0}
@@ -110,9 +110,9 @@ const Task = () => {
           />
         </div>
         {tasks && <AddTask key={id} />}
-        {tasks && tasks.length === 0 && <p className="task__none">Задачи отсутствуют</p>}
+        {tasks?.length === 0 && <p className="task__none">Задачи отсутствуют</p>}
         {!tasks && <p className="task__none">Ошибка загрузки списка задач</p>}
-        {tasks && tasks.length > 0 && (
+        {tasks?.length > 0 && (
           <div className="task__control task__control_type_remove-block">
             <CgPlayListRemove
               size={25}

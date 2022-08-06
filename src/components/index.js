@@ -7,5 +7,6 @@ import Input from './Input/Input';
 import Button from './Button/Button';
 import Spinner from './Spinner/Spinner';
 import Error from './Error/Error';
+import Form from './Form/Form';
 
-export { Task, AddTask, List, AddList, AddBtn, Input, Button, Spinner, Error };
+export { Task, AddTask, List, AddList, AddBtn, Input, Button, Spinner, Error, Form };

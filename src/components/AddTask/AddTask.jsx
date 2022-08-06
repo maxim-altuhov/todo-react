@@ -43,6 +43,7 @@ const AddTask = () => {
           <Input
             placeholder="Текст задачи"
             value={inputValue}
+            name="task-name"
             isRequired
             isAutofocus
             onChange={(e) => setInputValue(e.target.value.trimStart())}

@@ -1,4 +1,5 @@
 @import 'assets/styles/mixins.scss';
+@import 'assets/styles/base.scss';
 
 * {
   @include scrollbars($size: 7px, $foreground-color: #8b8b8b, $background-color: #c5c4c3);
@@ -21,16 +22,4 @@ body {
 button {
   background-color: transparent;
   border: 0;
-}
-
-.root {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 50px 0;
-
-  @media (max-width: 900px) {
-    padding: 0;
-    display: block;
-  }
 }

@@ -1,0 +1,52 @@
+.form {
+  max-width: 250px;
+  border: 1px solid rgb(136, 136, 136);
+  border-radius: 5px;
+  padding: 20px;
+
+  &__title {
+    text-align: center;
+    font-weight: 500;
+    margin-bottom: 5px;
+  }
+
+  &__group {
+    margin-bottom: 8px;
+  }
+
+  &__label {
+    color: rgb(109, 109, 109);
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+
+    input {
+      margin-top: 5px;
+    }
+
+    &_type_error {
+      input {
+        border-color: rgb(168, 6, 1);
+      }
+    }
+  }
+
+  &__btn {
+    margin-top: 18px;
+  }
+
+  &__error {
+    font-size: 12px;
+    font-weight: 500;
+    color: rgb(168, 6, 1);
+    margin-top: 6px;
+  }
+
+  a.form__link {
+    display: block;
+    text-align: center;
+    color: #000;
+    margin-top: 15px;
+    font-size: 13px;
+  }
+}

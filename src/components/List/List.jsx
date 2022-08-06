@@ -40,6 +40,7 @@ const List = (props) => {
               className={classNames('list__item', {
                 list__item_active: activeList && activeList.id === item.id,
               })}
+              style={{ '--color-border': color }}
             >
               <i className="list__icon" style={{ backgroundColor: color }}></i>
               <span className="list__label">

@@ -8,6 +8,7 @@ const Button = ({
   text = 'Текст',
   theme = 'green',
   isDisabled = false,
+  ...rest
 }) => {
   return (
     <button
@@ -18,6 +19,7 @@ const Button = ({
       type={type}
       onClick={onClick}
       disabled={isDisabled}
+      {...rest}
     >
       {text}
     </button>

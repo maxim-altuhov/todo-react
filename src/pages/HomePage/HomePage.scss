@@ -1,3 +1,15 @@
+.container-todo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 50px 0;
+
+  @media (max-width: 900px) {
+    padding: 0;
+    display: block;
+  }
+}
+
 .todo {
   position: relative;
   min-width: 320px;
@@ -31,6 +43,19 @@
       min-width: auto;
       width: 75px;
       flex: 0 0 auto;
+
+      .list__item {
+        background-color: rgba(255, 255, 255, 0.8);
+        &_active {
+          border-width: 1px;
+          border-style: solid;
+          border-color: var(--color-border);
+        }
+      }
+
+      .list__close {
+        opacity: 1;
+      }
     }
 
     @media (max-width: 575px) {
