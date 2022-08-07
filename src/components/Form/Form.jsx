@@ -6,35 +6,53 @@ import { Button, Input } from '../';
 
 import './Form.scss';
 
-const Form = ({ type = 'login' }) => {
+const Form = ({ isLoginForm }) => {
   const {
     register,
-    handleSubmit,
     reset,
+    handleSubmit,
     formState: { errors },
-  } = useForm();
+  } = useForm({
+    mode: 'onChange',
+  });
 
-  const onTest = (data) => {
+  const validateRules = {
+    validateLength: {
+      value: 4,
+      message: 'Должно быть минимум 4 символа',
+    },
+    patternEmail: {
+      value: /^[-\w.]+@([A-z0-9][-A-z0-9]+\.)+[A-z]{2,4}$/,
+      message: 'Некорректный E-mail',
+    },
+    patternPassword: {
+      value: /^(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9]+)$/,
+      message: 'Пароль должен состоять из латинских букв и цифр',
+    },
+  };
+
+  const onSubmit = (data) => {
     alert(JSON.stringify(data));
     reset();
   };
 
   return (
     <>
-      <form className="form" onSubmit={handleSubmit(onTest)}>
-        <p className="form__title">{type === 'login' ? 'Авторизация' : 'Регистрация'}</p>
+      <form className="form" onSubmit={handleSubmit(onSubmit)}>
+        <p className="form__title">{isLoginForm ? 'Авторизация' : 'Регистрация'}</p>
         <div className="form__group">
-          <label className={classNames('form__label', { form__label_type_error: errors?.login })}>
-            Логин
+          <label className={classNames('form__label', { form__label_type_error: errors?.email })}>
+            E-mail
             <Input
-              type="text"
-              placeholder="Введите логин"
-              {...register('login', {
-                required: 'Введите логин',
+              type="email"
+              placeholder="Введите E-mail"
+              {...register('email', {
+                required: 'Введите E-mail',
+                pattern: !isLoginForm && validateRules.patternEmail,
               })}
             />
           </label>
-          <>{errors?.login && <p className="form__error">{errors?.login?.message}</p>}</>
+          <>{errors?.email && <p className="form__error">{errors?.email?.message}</p>}</>
         </div>
         <div className="form__group">
           <label
@@ -44,42 +62,21 @@ const Form = ({ type = 'login' }) => {
           >
             Пароль
             <Input
-              type="password"
+              type={isLoginForm ? 'password' : 'text'}
               placeholder="Введите пароль"
               {...register('password', {
                 required: 'Введите пароль',
+                minLength: !isLoginForm && validateRules.validateLength,
+                pattern: !isLoginForm && validateRules.patternPassword,
               })}
             />
           </label>
           <>{errors?.password && <p className="form__error">{errors?.password?.message}</p>}</>
         </div>
-        {type === 'reg' && (
-          <div className="form__group">
-            <label
-              className={classNames('form__label', {
-                form__label_type_error: errors?.password,
-              })}
-            >
-              Повторите пароль
-              <Input
-                type="password"
-                placeholder="Повторите пароль"
-                {...register('passwordSecond', {
-                  required: 'Повторите пароль',
-                })}
-              />
-            </label>
-            <>
-              {errors?.passwordSecond && (
-                <p className="form__error">{errors?.passwordSecond?.message}</p>
-              )}
-            </>
-          </div>
-        )}
         <div className="form__btn">
-          <Button type="submit" text={type === 'reg' ? 'Зарегистрироваться' : 'Войти в аккаунт'} />
+          <Button type="submit" text={isLoginForm ? 'Войти в аккаунт' : 'Зарегистрироваться'} />
         </div>
-        {type === 'login' ? (
+        {isLoginForm ? (
           <Link to={'/reg'} className="form__link">
             Регистрация
           </Link>
