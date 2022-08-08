@@ -7,13 +7,13 @@ import { AiFillCloseCircle } from 'react-icons/ai';
 import classNames from 'classnames';
 
 import { AddBtn, Input, Button } from '../';
-import { createList, togglePopup } from 'store/listsSlice';
+import { createList, togglePopup } from 'store/slices/listSlice';
 
 import './AddList.scss';
 
 const AddList = () => {
   const DEFAULT_CUSTOM_COLOR = '#2a6fb5';
-  const { colors, currentStatus, isOpenPopup } = useSelector((state) => state.lists);
+  const { colors, currentStatus, isOpenPopup } = useSelector((state) => state.list);
   const [customColor, setCustomColor] = useState(DEFAULT_CUSTOM_COLOR);
   const [selectedColorId, setSelectedColorId] = useState(0);
   const [inputValue, setInputValue] = useState('');

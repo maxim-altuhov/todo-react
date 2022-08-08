@@ -146,17 +146,17 @@
   }
 
   &__tasks {
-    padding: 45px 25px 45px 35px;
+    padding: 50px 25px 45px 35px;
     width: 600px;
     overflow-y: auto;
 
     @media (max-width: 900px) {
       width: 100%;
-      padding: 45px 15px 45px 90px;
+      padding: 50px 15px 45px 90px;
     }
 
     @media (max-width: 575px) {
-      padding: 30px 10px 30px 55px;
+      padding: 50px 10px 30px 55px;
     }
   }
 
@@ -167,6 +167,44 @@
 
     @media (max-width: 575px) {
       font-size: 1.6rem;
+    }
+  }
+
+  &__user {
+    width: 150px;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    right: 7px;
+    top: 7px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    background-color: #eeeded;
+    border-radius: 7px;
+    opacity: 0.5;
+    cursor: pointer;
+
+    @media (max-width: 575px) {
+      width: 70px;
+    }
+
+    &:hover,
+    &:focus {
+      opacity: 1;
+    }
+  }
+
+  &__user-name {
+    display: block;
+    width: 100px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+
+    @media (max-width: 575px) {
+      display: none;
     }
   }
 }

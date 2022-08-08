@@ -4,11 +4,11 @@ import { GrFormClose } from 'react-icons/gr';
 import classNames from 'classnames';
 
 import { popUpDefault } from 'utils/popUp';
-import { initRemoveList } from 'store/listsSlice';
+import { initRemoveList } from 'store/slices/listSlice';
 import './List.scss';
 
 const List = (props) => {
-  const { lists, activeList, globalStatus } = useSelector((state) => state.lists);
+  const { lists, activeList, globalStatus } = useSelector((state) => state.list);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 

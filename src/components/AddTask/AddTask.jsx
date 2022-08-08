@@ -3,12 +3,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
 
 import { AddBtn, Input, Button } from '../';
-import { initAddTask } from 'store/listsSlice';
+import { initAddTask } from 'store/slices/listSlice';
 
 import './AddTask.scss';
 
 const AddTask = () => {
-  const { activeList, currentStatus } = useSelector((state) => state.lists);
+  const { activeList, currentStatus } = useSelector((state) => state.list);
   const [isOpenForm, setStatusForm] = useState(false);
   const [inputValue, setInputValue] = useState('');
   const dispatch = useDispatch();

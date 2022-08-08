@@ -14,12 +14,12 @@ import {
   initRemoveAllTask,
   initRemoveAllCompletedTasks,
   initToggleTask,
-} from 'store/listsSlice';
+} from 'store/slices/listSlice';
 
 import './Task.scss';
 
 const Task = () => {
-  const { activeList } = useSelector((state) => state.lists);
+  const { activeList } = useSelector((state) => state.list);
   const { id, tasks, color, name } = activeList;
   const dispatch = useDispatch();
 

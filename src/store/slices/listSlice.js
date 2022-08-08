@@ -3,7 +3,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { request } from 'utils/request';
 import { initErrorPopUp } from 'utils/popUp';
 
-export const fetchLists = createAsyncThunk('lists/fetchLists', async (_, { rejectWithValue }) => {
+export const fetchLists = createAsyncThunk('list/fetchLists', async (_, { rejectWithValue }) => {
   return await request('http://localhost:3001/lists?_embed=tasks').catch((e) => {
     initErrorPopUp(e.message);
 
@@ -12,7 +12,7 @@ export const fetchLists = createAsyncThunk('lists/fetchLists', async (_, { rejec
 });
 
 export const createList = createAsyncThunk(
-  'lists/createList',
+  'list/createList',
   async (newList, { rejectWithValue, dispatch }) => {
     return await request('http://localhost:3001/lists', 'POST', JSON.stringify(newList))
       .then((data) => {
@@ -32,7 +32,7 @@ export const createList = createAsyncThunk(
 );
 
 export const initRemoveList = createAsyncThunk(
-  'lists/initRemoveList',
+  'list/initRemoveList',
   async (id, { rejectWithValue, dispatch }) => {
     return await request(`http://localhost:3001/lists/${id}`, 'DELETE')
       .then(() => {
@@ -47,7 +47,7 @@ export const initRemoveList = createAsyncThunk(
 );
 
 export const initEditTaskTitle = createAsyncThunk(
-  'lists/initEditTaskTitle',
+  'list/initEditTaskTitle',
   async ({ id, newName, newColor }, { rejectWithValue, dispatch }) => {
     return await request(
       `http://localhost:3001/lists/${id}`,
@@ -69,7 +69,7 @@ export const initEditTaskTitle = createAsyncThunk(
 );
 
 export const initAddTask = createAsyncThunk(
-  'lists/initAddTask',
+  'list/initAddTask',
   async (newTask, { rejectWithValue, dispatch }) => {
     return await request('http://localhost:3001/tasks', 'POST', JSON.stringify(newTask))
       .then(() => dispatch(addTask({ newTask })))
@@ -82,7 +82,7 @@ export const initAddTask = createAsyncThunk(
 );
 
 export const initEditTask = createAsyncThunk(
-  'lists/initEditTask',
+  'list/initEditTask',
   async ({ taskId, id, value }, { rejectWithValue, dispatch }) => {
     return await request(
       `http://localhost:3001/tasks/${taskId}`,
@@ -101,7 +101,7 @@ export const initEditTask = createAsyncThunk(
 );
 
 export const initRemoveTask = createAsyncThunk(
-  'lists/initRemoveTask',
+  'list/initRemoveTask',
   async ({ taskId, id }, { rejectWithValue, dispatch }) => {
     return await request(`http://localhost:3001/tasks/${taskId}`, 'DELETE')
       .then(() => dispatch(removeTask({ taskId, id })))
@@ -114,7 +114,7 @@ export const initRemoveTask = createAsyncThunk(
 );
 
 export const initRemoveAllTask = createAsyncThunk(
-  'lists/initRemoveAllTask',
+  'list/initRemoveAllTask',
   async ({ tasks, id }, { rejectWithValue, dispatch }) => {
     const fetchRemoveTasks = tasks.map(async ({ id }) => {
       try {
@@ -132,7 +132,7 @@ export const initRemoveAllTask = createAsyncThunk(
 );
 
 export const initRemoveAllCompletedTasks = createAsyncThunk(
-  'lists/initRemoveAllCompletedTasks',
+  'list/initRemoveAllCompletedTasks',
   async ({ tasks, id }, { rejectWithValue, dispatch, getState }) => {
     const fetchRemoveTasks = tasks.map(async ({ id, isCompleted }) => {
       try {
@@ -150,7 +150,7 @@ export const initRemoveAllCompletedTasks = createAsyncThunk(
 );
 
 export const initToggleTask = createAsyncThunk(
-  'lists/initToggleTask',
+  'list/initToggleTask',
   async ({ taskId, listId, isCompleted }, { rejectWithValue, dispatch }) => {
     return await request(
       `http://localhost:3001/tasks/${taskId}`,
@@ -181,8 +181,8 @@ const setRejectedStatus = (state, action) => {
   state.error = action.payload;
 };
 
-const listsSlice = createSlice({
-  name: 'lists',
+const listSlice = createSlice({
+  name: 'list',
   initialState: {
     lists: [],
     colors: ['#42B883', '#64C4ED', '#FFBBCC', '#B6E6BD', '#C355F5', '#110133', '#FF6464'],
@@ -347,6 +347,6 @@ export const {
   editListTitle,
   editTaskName,
   toggleStatusTask,
-} = listsSlice.actions;
+} = listSlice.actions;
 
-export default listsSlice.reducer;
+export default listSlice.reducer;

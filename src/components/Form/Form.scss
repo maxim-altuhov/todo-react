@@ -16,7 +16,7 @@
 
   &__label {
     color: rgb(109, 109, 109);
-    font-size: 13px;
+    font-size: 1.07rem;
     font-weight: 500;
     cursor: pointer;
 
@@ -36,7 +36,7 @@
   }
 
   &__error {
-    font-size: 12px;
+    font-size: 1.17rem;
     font-weight: 500;
     color: rgb(168, 6, 1);
     margin-top: 6px;
@@ -47,6 +47,6 @@
     text-align: center;
     color: #000;
     margin-top: 15px;
-    font-size: 13px;
+    font-size: 1.07rem;
   }
 }

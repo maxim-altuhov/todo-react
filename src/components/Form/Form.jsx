@@ -1,16 +1,26 @@
+import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from 'firebase/auth';
 import { useForm } from 'react-hook-form';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import classNames from 'classnames';
 
+import { setUser } from 'store/slices/userSlice';
+import { initErrorPopUp, initUserErrorPopUp } from 'utils/popUp';
 import { Button, Input } from '../';
 
 import './Form.scss';
 
 const Form = ({ isLoginForm }) => {
+  const [isLoading, setLoadingStatus] = useState(false);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const {
     register,
     reset,
     handleSubmit,
+    getValues,
     formState: { errors },
   } = useForm({
     mode: 'onChange',
@@ -18,8 +28,8 @@ const Form = ({ isLoginForm }) => {
 
   const validateRules = {
     validateLength: {
-      value: 4,
-      message: 'Должно быть минимум 4 символа',
+      value: 6,
+      message: 'Должно быть минимум 6 символов',
     },
     patternEmail: {
       value: /^[-\w.]+@([A-z0-9][-A-z0-9]+\.)+[A-z]{2,4}$/,
@@ -31,9 +41,42 @@ const Form = ({ isLoginForm }) => {
     },
   };
 
-  const onSubmit = (data) => {
-    alert(JSON.stringify(data));
-    reset();
+  const onSubmit = () => {
+    const { email, password } = getValues();
+    const auth = getAuth();
+    setLoadingStatus(true);
+
+    if (isLoginForm) {
+      signInWithEmailAndPassword(auth, email, password)
+        .then(({ user }) => {
+          dispatch(
+            setUser({
+              email: user.email,
+              id: user.uid,
+              token: user.accessToken,
+            }),
+          );
+          navigate('/');
+          reset();
+        })
+        .catch(() => initUserErrorPopUp())
+        .finally(() => setLoadingStatus(false));
+    } else {
+      createUserWithEmailAndPassword(auth, email, password)
+        .then(({ user }) => {
+          dispatch(
+            setUser({
+              email: user.email,
+              id: user.uid,
+              token: user.accessToken,
+            }),
+          );
+          navigate('/');
+          reset();
+        })
+        .catch((e) => initErrorPopUp(e.message))
+        .finally(() => setLoadingStatus(false));
+    }
   };
 
   return (
@@ -74,7 +117,11 @@ const Form = ({ isLoginForm }) => {
           <>{errors?.password && <p className="form__error">{errors?.password?.message}</p>}</>
         </div>
         <div className="form__btn">
-          <Button type="submit" text={isLoginForm ? 'Войти в аккаунт' : 'Зарегистрироваться'} />
+          <Button
+            type="submit"
+            disabled={isLoading}
+            text={isLoginForm ? 'Войти в аккаунт' : 'Зарегистрироваться'}
+          />
         </div>
         {isLoginForm ? (
           <Link to={'/reg'} className="form__link">

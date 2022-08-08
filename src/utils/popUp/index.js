@@ -43,4 +43,10 @@ const initErrorPopUp = (error = '') => {
   });
 };
 
-export { popUp, popUpDefault, popUpError, popUpInput, initErrorPopUp };
+const initUserErrorPopUp = () => {
+  popUpError.fire({
+    titleText: 'Пользователь с таким именем и паролем не найден!',
+  });
+};
+
+export { popUp, popUpDefault, popUpError, popUpInput, initErrorPopUp, initUserErrorPopUp };

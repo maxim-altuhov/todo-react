@@ -4,6 +4,7 @@ import { Provider } from 'react-redux';
 
 import store from './store';
 import App from './App/App';
+import './firebase';
 import './index.scss';
 
 createRoot(document.getElementById('root')).render(

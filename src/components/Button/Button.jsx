@@ -5,9 +5,10 @@ import './Button.scss';
 const Button = ({
   onClick,
   type = 'button',
-  text = 'Текст',
+  text = '',
   theme = 'green',
   isDisabled = false,
+  children,
   ...rest
 }) => {
   return (
@@ -22,6 +23,7 @@ const Button = ({
       {...rest}
     >
       {text}
+      {children}
     </button>
   );
 };
