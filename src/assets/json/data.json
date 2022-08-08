@@ -2,7 +2,7 @@
   "lists": [
     {
       "id": "2be83a01-2747-4703-ab83-a012119eb35d",
-      "name": "Разработка Разработка Разработка",
+      "name": "Разработка",
       "color": "#d50cb7"
     }
   ],
@@ -10,9 +10,30 @@
     {
       "id": "a248e37c-569f-4762-b9bc-6518804b60ff",
       "listId": "2be83a01-2747-4703-ab83-a012119eb35d",
-      "text": "Организовать авторизацию и разделение БД",
-      "isCompleted": false,
+      "text": "Организовать авторизацию",
+      "isCompleted": true,
       "controlTime": 1659522799796
+    },
+    {
+      "id": "772782bd-7b6a-472b-8eb3-e6744be02101",
+      "listId": "2be83a01-2747-4703-ab83-a012119eb35d",
+      "text": "Разделение БД в зависимости от пользователя",
+      "isCompleted": false,
+      "controlTime": 1659966279910
+    },
+    {
+      "id": "be1abd6e-69a3-4afa-a263-c2c7b6c85c05",
+      "listId": "2be83a01-2747-4703-ab83-a012119eb35d",
+      "text": "Вывод инфы, если пользователь с таким email уже есть",
+      "isCompleted": true,
+      "controlTime": 1659969645298
+    },
+    {
+      "id": "0af1138a-10ba-41cf-9611-49a10dec9c46",
+      "listId": "2be83a01-2747-4703-ab83-a012119eb35d",
+      "text": "Сброс пароля",
+      "isCompleted": false,
+      "controlTime": 1659969664258
     }
   ]
 }

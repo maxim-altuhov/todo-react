@@ -45,8 +45,29 @@ const initErrorPopUp = (error = '') => {
 
 const initUserErrorPopUp = () => {
   popUpError.fire({
-    titleText: 'Пользователь с таким именем и паролем не найден!',
+    titleText: 'Пользователь с таким E-mail не найден!',
   });
 };
 
-export { popUp, popUpDefault, popUpError, popUpInput, initErrorPopUp, initUserErrorPopUp };
+const initPassErrorPopUp = () => {
+  popUpError.fire({
+    titleText: 'Пароль неверный!',
+  });
+};
+
+const initEmailErrorPopUp = () => {
+  popUpError.fire({
+    titleText: 'Пользователь с таким E-mail уже есть!',
+  });
+};
+
+export {
+  popUp,
+  popUpDefault,
+  popUpError,
+  popUpInput,
+  initErrorPopUp,
+  initUserErrorPopUp,
+  initEmailErrorPopUp,
+  initPassErrorPopUp,
+};

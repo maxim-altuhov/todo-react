@@ -19,7 +19,7 @@ const List = (props) => {
       title: 'Удалить список задач?',
       preConfirm: () => {
         return dispatch(initRemoveList(id)).then(() => {
-          navigate('');
+          navigate('/');
         });
       },
     });

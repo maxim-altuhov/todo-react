@@ -6,7 +6,12 @@ import { Link, useNavigate } from 'react-router-dom';
 import classNames from 'classnames';
 
 import { setUser } from 'store/slices/userSlice';
-import { initErrorPopUp, initUserErrorPopUp } from 'utils/popUp';
+import {
+  initErrorPopUp,
+  initUserErrorPopUp,
+  initEmailErrorPopUp,
+  initPassErrorPopUp,
+} from 'utils/popUp';
 import { Button, Input } from '../';
 
 import './Form.scss';
@@ -41,41 +46,63 @@ const Form = ({ isLoginForm }) => {
     },
   };
 
+  const signInUser = (auth, email, password) => {
+    signInWithEmailAndPassword(auth, email, password)
+      .then(({ user }) => {
+        dispatch(
+          setUser({
+            email: user.email,
+            id: user.uid,
+            token: user.accessToken,
+          }),
+        );
+        navigate('/');
+        reset();
+      })
+      .catch((e) => {
+        if (e.code === 'auth/user-not-found') {
+          initUserErrorPopUp();
+        } else if (e.code === 'auth/wrong-password') {
+          initPassErrorPopUp();
+        } else {
+          initErrorPopUp(e.message);
+        }
+      })
+      .finally(() => setLoadingStatus(false));
+  };
+
+  const createUser = (auth, email, password) => {
+    createUserWithEmailAndPassword(auth, email, password)
+      .then(({ user }) => {
+        dispatch(
+          setUser({
+            email: user.email,
+            id: user.uid,
+            token: user.accessToken,
+          }),
+        );
+        navigate('/');
+        reset();
+      })
+      .catch((e) => {
+        if (e.code === 'auth/email-already-in-use') {
+          initEmailErrorPopUp();
+        } else {
+          initErrorPopUp(e.message);
+        }
+      })
+      .finally(() => setLoadingStatus(false));
+  };
+
   const onSubmit = () => {
     const { email, password } = getValues();
     const auth = getAuth();
     setLoadingStatus(true);
 
     if (isLoginForm) {
-      signInWithEmailAndPassword(auth, email, password)
-        .then(({ user }) => {
-          dispatch(
-            setUser({
-              email: user.email,
-              id: user.uid,
-              token: user.accessToken,
-            }),
-          );
-          navigate('/');
-          reset();
-        })
-        .catch(() => initUserErrorPopUp())
-        .finally(() => setLoadingStatus(false));
+      signInUser(auth, email, password);
     } else {
-      createUserWithEmailAndPassword(auth, email, password)
-        .then(({ user }) => {
-          dispatch(
-            setUser({
-              email: user.email,
-              id: user.uid,
-              token: user.accessToken,
-            }),
-          );
-          navigate('/');
-          reset();
-        })
-        .catch((e) => initErrorPopUp(e.message))
-        .finally(() => setLoadingStatus(false));
+      createUser(auth, email, password);
     }
   };
 
@@ -120,18 +147,14 @@ const Form = ({ isLoginForm }) => {
           <Button
             type="submit"
             disabled={isLoading}
-            text={isLoginForm ? 'Войти в аккаунт' : 'Зарегистрироваться'}
+            text={
+              isLoading ? 'Отправка...' : isLoginForm ? 'Войти в аккаунт' : 'Зарегистрироваться'
+            }
           />
         </div>
-        {isLoginForm ? (
-          <Link to={'/reg'} className="form__link">
-            Регистрация
-          </Link>
-        ) : (
-          <Link to={'/sign-in'} className="form__link">
-            Войти в свой аккаунт
-          </Link>
-        )}
+        <Link to={isLoginForm ? '/reg' : '/sign-in'} className="form__link">
+          {isLoginForm ? 'Регистрация' : 'Войти в свой аккаунт'}
+        </Link>
       </form>
     </>
   );
