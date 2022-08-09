@@ -9,7 +9,7 @@ import classNames from 'classnames';
 import { fetchLists, setActiveList, toggleMenu } from 'store/slices/listSlice';
 import { removeUser } from 'store/slices/userSlice';
 import { AddList, List, Task, Spinner } from 'components';
-import { initErrorPopUp } from 'utils/popUp';
+import { popUpDefault, initErrorPopUp } from 'utils/popUp';
 
 import './HomePage.scss';
 
@@ -48,12 +48,18 @@ const HomePage = () => {
   const onLogOutUser = () => {
     const auth = getAuth();
 
-    signOut(auth)
-      .then(() => {
-        navigate('/sign-in');
-        dispatch(removeUser());
-      })
-      .catch((error) => initErrorPopUp(error.message));
+    popUpDefault.fire({
+      title: 'Выйти из аккаунта?',
+      confirmButtonText: 'Выйти',
+      preConfirm: () => {
+        signOut(auth)
+          .then(() => {
+            navigate('/sign-in');
+            dispatch(removeUser());
+          })
+          .catch((error) => initErrorPopUp(error.message));
+      },
+    });
   };
 
   return globalStatus === 'loading' ? (
