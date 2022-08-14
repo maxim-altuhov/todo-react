@@ -14,7 +14,7 @@ const App = () => {
   const auth = getAuth();
 
   useEffect(() => {
-    const onAuthUser = onAuthStateChanged(auth, async (user) => {
+    const onAuthUser = onAuthStateChanged(auth, (user) => {
       if (user) {
         dispatch(
           setUser({

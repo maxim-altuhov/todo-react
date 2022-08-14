@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { v4 as uuidv4 } from 'uuid';
 import { HexColorPicker } from 'react-colorful';
 import { AiFillCloseCircle } from 'react-icons/ai';
 import classNames from 'classnames';
@@ -26,17 +25,16 @@ const AddList = () => {
 
     const selectedColor = colors[selectedColorId];
     const newList = {
-      id: uuidv4(),
       name: inputValue,
       color: selectedColor || customColor,
     };
 
-    dispatch(createList(newList)).then(() => {
+    dispatch(createList(newList)).then(({ payload }) => {
       setSelectedColorId(0);
       setInputValue('');
       setCustomColor(DEFAULT_CUSTOM_COLOR);
       setChangeColorStatus(false);
-      navigate(`/list/${newList.id}`);
+      navigate(`/list/${payload.payload.id}`);
     });
   };
 

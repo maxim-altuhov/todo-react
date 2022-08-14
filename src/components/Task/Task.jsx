@@ -51,11 +51,11 @@ const Task = () => {
   const onEditTask = (taskId, text) => {
     popUpInput.fire({
       inputValue: text,
-      preConfirm: (value) => {
-        const changedValue = value && value !== text;
+      preConfirm: (newText) => {
+        const isNewText = newText && newText !== text;
 
-        if (changedValue) {
-          return dispatch(initEditTask({ taskId, id, value }));
+        if (isNewText) {
+          return dispatch(initEditTask({ id, taskId, newText }));
         }
       },
     });
@@ -71,14 +71,14 @@ const Task = () => {
   const onRemoveAllTasks = () => {
     popUpDefault.fire({
       title: 'Удалить все задачи?',
-      preConfirm: () => dispatch(initRemoveAllTask({ tasks, id })),
+      preConfirm: () => dispatch(initRemoveAllTask({ id })),
     });
   };
 
   const onRemoveAllCompletedTasks = () => {
     popUpDefault.fire({
       title: 'Удалить все завершенные задачи?',
-      preConfirm: () => dispatch(initRemoveAllCompletedTasks({ tasks, id })),
+      preConfirm: () => dispatch(initRemoveAllCompletedTasks({ id })),
     });
   };
 
@@ -135,18 +135,18 @@ const Task = () => {
           </div>
         )}
         {tasks &&
-          [...tasks].sort(initCustomSort).map(({ id, text, isCompleted }) => (
-            <div key={id} className="task__item">
+          [...tasks].sort(initCustomSort).map(({ id: taskId, text, isCompleted }) => (
+            <div key={taskId} className="task__item">
               <div className="checkbox">
                 <input
                   className="checkbox__input"
                   type="checkbox"
-                  name={`name-${id}`}
-                  id={`task-${id}`}
-                  onChange={() => onToggleStatus(id, activeList.id, !isCompleted)}
+                  name={`name-${taskId}`}
+                  id={`task-${taskId}`}
+                  onChange={() => onToggleStatus(taskId, activeList.id, !isCompleted)}
                   defaultChecked={isCompleted}
                 />
-                <label className="checkbox__label" htmlFor={`task-${id}`}>
+                <label className="checkbox__label" htmlFor={`task-${taskId}`}>
                   <CgCheck size={20} color={'#fff'} />
                 </label>
                 <span className="task__text">{text}</span>
@@ -158,8 +158,8 @@ const Task = () => {
                     tabIndex={0}
                     title="Редактировать"
                     className="task__control-item"
-                    onClick={() => onEditTask(id, text)}
-                    onKeyPress={(e) => e.key === 'Enter' && onEditTask(id, text)}
+                    onClick={() => onEditTask(taskId, text)}
+                    onKeyPress={(e) => e.key === 'Enter' && onEditTask(taskId, text)}
                   />
                 )}
                 <TbTrashX
@@ -167,8 +167,8 @@ const Task = () => {
                   tabIndex={0}
                   title="Удалить"
                   className="task__control-item"
-                  onClick={() => onRemove(id)}
-                  onKeyPress={(e) => e.key === 'Enter' && onRemove(id)}
+                  onClick={() => onRemove(taskId)}
+                  onKeyPress={(e) => e.key === 'Enter' && onRemove(taskId)}
                 />
               </div>
             </div>

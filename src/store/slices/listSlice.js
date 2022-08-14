@@ -1,170 +1,20 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import {
+  doc,
+  collection,
+  addDoc,
+  deleteDoc,
+  getDocs,
+  updateDoc,
+  query,
+  where,
+} from 'firebase/firestore';
 
-import { request } from 'utils/request';
+import { database } from '../../firebase';
 import { initErrorPopUp } from 'utils/popUp';
 
-export const fetchLists = createAsyncThunk('list/fetchLists', async (_, { rejectWithValue }) => {
-  return await request('http://localhost:3001/lists?_embed=tasks').catch((e) => {
-    initErrorPopUp(e.message);
-
-    return rejectWithValue(e.message);
-  });
-});
-
-export const createList = createAsyncThunk(
-  'list/createList',
-  async (newList, { rejectWithValue, dispatch }) => {
-    return await request('http://localhost:3001/lists', 'POST', JSON.stringify(newList))
-      .then((data) => {
-        dispatch(
-          addList({
-            ...data,
-            tasks: [],
-          }),
-        );
-      })
-      .catch((e) => {
-        initErrorPopUp(e.message);
-
-        return rejectWithValue(e.message);
-      });
-  },
-);
-
-export const initRemoveList = createAsyncThunk(
-  'list/initRemoveList',
-  async (id, { rejectWithValue, dispatch }) => {
-    return await request(`http://localhost:3001/lists/${id}`, 'DELETE')
-      .then(() => {
-        dispatch(removeList({ id }));
-      })
-      .catch((e) => {
-        initErrorPopUp(e.message);
-
-        return rejectWithValue(e.message);
-      });
-  },
-);
-
-export const initEditTaskTitle = createAsyncThunk(
-  'list/initEditTaskTitle',
-  async ({ id, newName, newColor }, { rejectWithValue, dispatch }) => {
-    return await request(
-      `http://localhost:3001/lists/${id}`,
-      'PATCH',
-      JSON.stringify({
-        name: newName,
-        color: newColor,
-      }),
-    )
-      .then(() => {
-        dispatch(editListTitle({ id, newName, newColor }));
-      })
-      .catch((e) => {
-        initErrorPopUp(e.message);
-
-        return rejectWithValue(e.message);
-      });
-  },
-);
-
-export const initAddTask = createAsyncThunk(
-  'list/initAddTask',
-  async (newTask, { rejectWithValue, dispatch }) => {
-    return await request('http://localhost:3001/tasks', 'POST', JSON.stringify(newTask))
-      .then(() => dispatch(addTask({ newTask })))
-      .catch((e) => {
-        initErrorPopUp(e.message);
-
-        return rejectWithValue(e.message);
-      });
-  },
-);
-
-export const initEditTask = createAsyncThunk(
-  'list/initEditTask',
-  async ({ taskId, id, value }, { rejectWithValue, dispatch }) => {
-    return await request(
-      `http://localhost:3001/tasks/${taskId}`,
-      'PATCH',
-      JSON.stringify({
-        text: value,
-      }),
-    )
-      .then(() => dispatch(editTaskName({ taskId, id, value })))
-      .catch((e) => {
-        initErrorPopUp(e.message);
-
-        return rejectWithValue(e.message);
-      });
-  },
-);
-
-export const initRemoveTask = createAsyncThunk(
-  'list/initRemoveTask',
-  async ({ taskId, id }, { rejectWithValue, dispatch }) => {
-    return await request(`http://localhost:3001/tasks/${taskId}`, 'DELETE')
-      .then(() => dispatch(removeTask({ taskId, id })))
-      .catch((e) => {
-        initErrorPopUp(e.message);
-
-        return rejectWithValue(e.message);
-      });
-  },
-);
-
-export const initRemoveAllTask = createAsyncThunk(
-  'list/initRemoveAllTask',
-  async ({ tasks, id }, { rejectWithValue, dispatch }) => {
-    const fetchRemoveTasks = tasks.map(async ({ id }) => {
-      try {
-        return await request(`http://localhost:3001/tasks/${id}`, 'DELETE');
-      } catch (e) {
-        initErrorPopUp(e.message);
-        return rejectWithValue(e.message);
-      }
-    });
-
-    await Promise.allSettled([fetchRemoveTasks]).then(() => {
-      dispatch(removeAllTask({ id }));
-    });
-  },
-);
-
-export const initRemoveAllCompletedTasks = createAsyncThunk(
-  'list/initRemoveAllCompletedTasks',
-  async ({ tasks, id }, { rejectWithValue, dispatch, getState }) => {
-    const fetchRemoveTasks = tasks.map(async ({ id, isCompleted }) => {
-      try {
-        if (isCompleted) return await request(`http://localhost:3001/tasks/${id}`, 'DELETE');
-      } catch (e) {
-        initErrorPopUp(e.message);
-        return rejectWithValue(e.message);
-      }
-    });
-
-    await Promise.allSettled([fetchRemoveTasks]).then((data) => {
-      dispatch(removeAllCompletedTask({ id }));
-    });
-  },
-);
-
-export const initToggleTask = createAsyncThunk(
-  'list/initToggleTask',
-  async ({ taskId, listId, isCompleted }, { rejectWithValue, dispatch }) => {
-    return await request(
-      `http://localhost:3001/tasks/${taskId}`,
-      'PATCH',
-      JSON.stringify({ isCompleted }),
-    )
-      .then(() => dispatch(toggleStatusTask({ taskId, listId, isCompleted })))
-      .catch((e) => {
-        initErrorPopUp(e.message);
-
-        return rejectWithValue(e.message);
-      });
-  },
-);
+const listsColRef = collection(database, 'lists');
+const tasksColRef = collection(database, 'tasks');
 
 const setLoadingStatus = (state) => {
   state.currentStatus = 'loading';
@@ -180,6 +30,190 @@ const setRejectedStatus = (state, action) => {
   state.currentStatus = 'rejected';
   state.error = action.payload;
 };
+
+export const fetchLists = createAsyncThunk(
+  'list/fetchLists',
+  async (_, { fulfillWithValue, rejectWithValue }) => {
+    const tasks = await getDocs(tasksColRef)
+      .then((snapshot) => {
+        return snapshot.docs.map((task) => ({
+          ...task.data(),
+          id: task.id,
+        }));
+      })
+      .catch((e) => {
+        initErrorPopUp(e.message);
+
+        return rejectWithValue(e.message);
+      });
+
+    return await getDocs(listsColRef)
+      .then((snapshot) => {
+        const lists = snapshot.docs.map((list) => ({
+          ...list.data(),
+          id: list.id,
+          tasks: tasks.filter((task) => task.listId === list.id) || [],
+        }));
+
+        return fulfillWithValue(lists);
+      })
+      .catch((e) => {
+        initErrorPopUp(e.message);
+
+        return rejectWithValue(e.message);
+      });
+  },
+);
+
+export const createList = createAsyncThunk(
+  'list/createList',
+  async (newList, { rejectWithValue, dispatch }) => {
+    return await addDoc(listsColRef, newList)
+      .then(({ id }) => dispatch(addList({ ...newList, id, tasks: [] })))
+      .catch((e) => {
+        initErrorPopUp(e.message);
+
+        return rejectWithValue(e.message);
+      });
+  },
+);
+
+export const initRemoveList = createAsyncThunk(
+  'list/initRemoveList',
+  async (id, { rejectWithValue, dispatch }) => {
+    const listsDocRef = doc(database, 'lists', id);
+
+    return await deleteDoc(listsDocRef)
+      .then(() => dispatch(removeList({ id })))
+      .catch((e) => {
+        initErrorPopUp(e.message);
+
+        return rejectWithValue(e.message);
+      });
+  },
+);
+
+export const initEditTaskTitle = createAsyncThunk(
+  'list/initEditTaskTitle',
+  async ({ id, newName, newColor }, { rejectWithValue, dispatch }) => {
+    const listsDocRef = doc(database, 'lists', id);
+
+    return await updateDoc(listsDocRef, {
+      name: newName,
+      color: newColor,
+    })
+      .then(() => dispatch(editListTitle({ id, newName, newColor })))
+      .catch((e) => {
+        initErrorPopUp(e.message);
+
+        return rejectWithValue(e.message);
+      });
+  },
+);
+
+export const initAddTask = createAsyncThunk(
+  'list/initAddTask',
+  async ({ id, newTask }, { rejectWithValue, dispatch }) => {
+    return await addDoc(tasksColRef, { ...newTask, listId: id })
+      .then(({ id: taskId }) => dispatch(addTask({ id, taskId, newTask })))
+      .catch((e) => {
+        initErrorPopUp(e.message);
+
+        return rejectWithValue(e.message);
+      });
+  },
+);
+
+export const initEditTask = createAsyncThunk(
+  'list/initEditTask',
+  async ({ id, taskId, newText }, { rejectWithValue, dispatch }) => {
+    const tasksDocRef = doc(database, 'tasks', taskId);
+
+    return await updateDoc(tasksDocRef, {
+      text: newText,
+    })
+      .then(() => dispatch(editTaskName({ id, taskId, newText })))
+      .catch((e) => {
+        initErrorPopUp(e.message);
+
+        return rejectWithValue(e.message);
+      });
+  },
+);
+
+export const initRemoveTask = createAsyncThunk(
+  'list/initRemoveTask',
+  async ({ taskId, id }, { rejectWithValue, dispatch }) => {
+    const tasksDocRef = doc(database, 'tasks', taskId);
+
+    return await deleteDoc(tasksDocRef)
+      .then(() => dispatch(removeTask({ taskId, id })))
+      .catch((e) => {
+        initErrorPopUp(e.message);
+
+        return rejectWithValue(e.message);
+      });
+  },
+);
+
+export const initRemoveAllTask = createAsyncThunk(
+  'list/initRemoveAllTask',
+  async ({ id }, { rejectWithValue, dispatch }) => {
+    const queryTasks = query(tasksColRef, where('listId', '==', id));
+
+    return await getDocs(queryTasks)
+      .then((docs) => {
+        docs.forEach((doc) => deleteDoc(doc.ref));
+
+        dispatch(removeAllTask({ id }));
+      })
+      .catch((e) => {
+        initErrorPopUp(e.message);
+
+        return rejectWithValue(e.message);
+      });
+  },
+);
+
+export const initRemoveAllCompletedTasks = createAsyncThunk(
+  'list/initRemoveAllCompletedTasks',
+  async ({ id }, { rejectWithValue, dispatch }) => {
+    const queryTasks = query(
+      tasksColRef,
+      where('listId', '==', id),
+      where('isCompleted', '==', true),
+    );
+
+    return await getDocs(queryTasks)
+      .then((docs) => {
+        docs.forEach((doc) => deleteDoc(doc.ref));
+
+        dispatch(removeAllCompletedTask({ id }));
+      })
+      .catch((e) => {
+        initErrorPopUp(e.message);
+
+        return rejectWithValue(e.message);
+      });
+  },
+);
+
+export const initToggleTask = createAsyncThunk(
+  'list/initToggleTask',
+  async ({ taskId, listId, isCompleted }, { rejectWithValue, dispatch }) => {
+    const tasksDocRef = doc(database, 'tasks', taskId);
+
+    return await updateDoc(tasksDocRef, {
+      isCompleted,
+    })
+      .then(() => dispatch(toggleStatusTask({ taskId, listId, isCompleted })))
+      .catch((e) => {
+        initErrorPopUp(e.message);
+
+        return rejectWithValue(e.message);
+      });
+  },
+);
 
 const listSlice = createSlice({
   name: 'list',
@@ -219,8 +253,8 @@ const listSlice = createSlice({
     },
     addTask(state, action) {
       state.lists = state.lists.map((list) => {
-        if (list.id === action.payload.newTask.listId) {
-          list.tasks.unshift(action.payload.newTask);
+        if (list.id === action.payload.id) {
+          list.tasks.unshift({ ...action.payload.newTask, id: action.payload.taskId });
         }
 
         return list;
@@ -267,7 +301,7 @@ const listSlice = createSlice({
       state.lists = state.lists.map((list) => {
         if (list.id === action.payload.id) {
           list.tasks = list.tasks.map((task) => {
-            if (task.id === action.payload.taskId) task.text = action.payload.value;
+            if (task.id === action.payload.taskId) task.text = action.payload.newText;
 
             return task;
           });

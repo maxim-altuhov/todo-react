@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { v4 as uuidv4 } from 'uuid';
 
 import { AddBtn, Input, Button } from '../';
 import { initAddTask } from 'store/slices/listSlice';
@@ -12,6 +11,7 @@ const AddTask = () => {
   const [isOpenForm, setStatusForm] = useState(false);
   const [inputValue, setInputValue] = useState('');
   const dispatch = useDispatch();
+  const { id } = activeList;
 
   const onToggleForm = () => {
     setStatusForm(!isOpenForm);
@@ -22,16 +22,12 @@ const AddTask = () => {
     e.preventDefault();
 
     const newTask = {
-      id: uuidv4(),
-      listId: activeList.id,
       text: inputValue,
       isCompleted: false,
       controlTime: new Date().getTime(),
     };
 
-    dispatch(initAddTask(newTask)).then(() => {
-      onToggleForm();
-    });
+    dispatch(initAddTask({ id, newTask })).then(() => onToggleForm());
   };
 
   return (
