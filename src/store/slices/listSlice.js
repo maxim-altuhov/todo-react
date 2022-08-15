@@ -31,8 +31,8 @@ const setRejectedStatus = (state, action) => {
   state.error = action.payload;
 };
 
-export const fetchLists = createAsyncThunk(
-  'list/fetchLists',
+export const initFetchLists = createAsyncThunk(
+  'list/initFetchLists',
   async (_, { fulfillWithValue, rejectWithValue }) => {
     const tasks = await getDocs(tasksColRef)
       .then((snapshot) => {
@@ -65,8 +65,8 @@ export const fetchLists = createAsyncThunk(
   },
 );
 
-export const createList = createAsyncThunk(
-  'list/createList',
+export const initCreateList = createAsyncThunk(
+  'list/initCreateList',
   async (newList, { rejectWithValue, dispatch }) => {
     return await addDoc(listsColRef, newList)
       .then(({ id }) => dispatch(addList({ ...newList, id, tasks: [] })))
@@ -82,9 +82,15 @@ export const initRemoveList = createAsyncThunk(
   'list/initRemoveList',
   async (id, { rejectWithValue, dispatch }) => {
     const listsDocRef = doc(database, 'lists', id);
+    const queryTasks = query(tasksColRef, where('listId', '==', id));
 
     return await deleteDoc(listsDocRef)
-      .then(() => dispatch(removeList({ id })))
+      .then(() => {
+        dispatch(removeList({ id }));
+        getDocs(queryTasks).then((docs) => {
+          docs.forEach((doc) => deleteDoc(doc.ref));
+        });
+      })
       .catch((e) => {
         initErrorPopUp(e.message);
 
@@ -325,22 +331,22 @@ const listSlice = createSlice({
     },
   },
   extraReducers: {
-    [fetchLists.pending]: (state) => {
+    [initFetchLists.pending]: (state) => {
       state.globalStatus = 'loading';
       state.error = null;
     },
-    [fetchLists.fulfilled]: (state, action) => {
+    [initFetchLists.fulfilled]: (state, action) => {
       state.lists = action.payload;
       state.globalStatus = 'resolved';
       state.error = null;
     },
-    [fetchLists.rejected]: (state, action) => {
+    [initFetchLists.rejected]: (state, action) => {
       state.globalStatus = 'rejected';
       state.error = action.payload;
     },
-    [createList.pending]: setLoadingStatus,
-    [createList.fulfilled]: setResolvedStatus,
-    [createList.rejected]: setRejectedStatus,
+    [initCreateList.pending]: setLoadingStatus,
+    [initCreateList.fulfilled]: setResolvedStatus,
+    [initCreateList.rejected]: setRejectedStatus,
     [initAddTask.pending]: setLoadingStatus,
     [initAddTask.fulfilled]: setResolvedStatus,
     [initAddTask.rejected]: setRejectedStatus,

@@ -18,9 +18,9 @@ const List = (props) => {
     popUpDefault.fire({
       title: 'Удалить список задач?',
       preConfirm: () => {
-        return dispatch(initRemoveList(id)).then(() => {
-          navigate('/');
-        });
+        return dispatch(initRemoveList(id))
+          .unwrap()
+          .then(() => navigate('/'));
       },
     });
   };

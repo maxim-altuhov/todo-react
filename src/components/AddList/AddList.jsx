@@ -6,7 +6,7 @@ import { AiFillCloseCircle } from 'react-icons/ai';
 import classNames from 'classnames';
 
 import { AddBtn, Input, Button } from '../';
-import { createList, togglePopup } from 'store/slices/listSlice';
+import { initCreateList, togglePopup } from 'store/slices/listSlice';
 
 import './AddList.scss';
 
@@ -29,13 +29,15 @@ const AddList = () => {
       color: selectedColor || customColor,
     };
 
-    dispatch(createList(newList)).then(({ payload }) => {
-      setSelectedColorId(0);
-      setInputValue('');
-      setCustomColor(DEFAULT_CUSTOM_COLOR);
-      setChangeColorStatus(false);
-      navigate(`/list/${payload.payload.id}`);
-    });
+    dispatch(initCreateList(newList))
+      .unwrap()
+      .then(({ payload }) => {
+        setSelectedColorId(0);
+        setInputValue('');
+        setCustomColor(DEFAULT_CUSTOM_COLOR);
+        setChangeColorStatus(false);
+        navigate(`/list/${payload.id}`);
+      });
   };
 
   const onTogglePopup = () => {

@@ -25,7 +25,7 @@ const Form = ({ isLoginForm }) => {
   });
 
   const validateRules = {
-    validateLength: {
+    length: {
       value: 6,
       message: 'Должно быть минимум 6 символов',
     },
@@ -87,7 +87,7 @@ const Form = ({ isLoginForm }) => {
               placeholder="Введите пароль"
               {...register('password', {
                 required: 'Введите пароль',
-                minLength: !isLoginForm && validateRules.validateLength,
+                minLength: !isLoginForm && validateRules.length,
                 pattern: !isLoginForm && validateRules.patternPassword,
               })}
             />

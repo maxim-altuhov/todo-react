@@ -5,7 +5,7 @@ import { CgArrowRightR } from 'react-icons/cg';
 import { RiLogoutCircleRLine } from 'react-icons/ri';
 import classNames from 'classnames';
 
-import { fetchLists, setActiveList, toggleMenu } from 'store/slices/listSlice';
+import { initFetchLists, setActiveList, toggleMenu } from 'store/slices/listSlice';
 import { initRemoveUser } from 'store/slices/userSlice';
 import { AddList, List, Task, Spinner } from 'components';
 import { popUpDefault } from 'utils/popUp';
@@ -22,7 +22,7 @@ const HomePage = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    dispatch(fetchLists());
+    dispatch(initFetchLists());
     updateWindowWidth();
     window.addEventListener('resize', updateWindowWidth);
 

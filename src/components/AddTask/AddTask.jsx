@@ -27,7 +27,9 @@ const AddTask = () => {
       controlTime: new Date().getTime(),
     };
 
-    dispatch(initAddTask({ id, newTask })).then(() => onToggleForm());
+    dispatch(initAddTask({ id, newTask }))
+      .unwrap()
+      .then(() => onToggleForm());
   };
 
   return (
