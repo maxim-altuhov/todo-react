@@ -16,21 +16,6 @@ import { initErrorPopUp } from 'utils/popUp';
 const listsColRef = collection(database, 'lists');
 const tasksColRef = collection(database, 'tasks');
 
-const setLoadingStatus = (state) => {
-  state.currentStatus = 'loading';
-  state.error = null;
-};
-
-const setResolvedStatus = (state) => {
-  state.currentStatus = 'resolved';
-  state.error = null;
-};
-
-const setRejectedStatus = (state, action) => {
-  state.currentStatus = 'rejected';
-  state.error = action.payload;
-};
-
 export const initFetchLists = createAsyncThunk(
   'list/initFetchLists',
   async (_, { fulfillWithValue, rejectWithValue }) => {
@@ -80,13 +65,13 @@ export const initCreateList = createAsyncThunk(
 
 export const initRemoveList = createAsyncThunk(
   'list/initRemoveList',
-  async (id, { rejectWithValue, dispatch }) => {
-    const listsDocRef = doc(database, 'lists', id);
-    const queryTasks = query(tasksColRef, where('listId', '==', id));
+  async (listId, { rejectWithValue, dispatch }) => {
+    const listsDocRef = doc(database, 'lists', listId);
+    const queryTasks = query(tasksColRef, where('listId', '==', listId));
 
     return await deleteDoc(listsDocRef)
       .then(() => {
-        dispatch(removeList({ id }));
+        dispatch(removeList({ listId }));
         getDocs(queryTasks).then((docs) => {
           docs.forEach((doc) => deleteDoc(doc.ref));
         });
@@ -101,14 +86,14 @@ export const initRemoveList = createAsyncThunk(
 
 export const initEditTaskTitle = createAsyncThunk(
   'list/initEditTaskTitle',
-  async ({ id, newName, newColor }, { rejectWithValue, dispatch }) => {
-    const listsDocRef = doc(database, 'lists', id);
+  async ({ listId, newName, newColor }, { rejectWithValue, dispatch }) => {
+    const listsDocRef = doc(database, 'lists', listId);
 
     return await updateDoc(listsDocRef, {
       name: newName,
       color: newColor,
     })
-      .then(() => dispatch(editListTitle({ id, newName, newColor })))
+      .then(() => dispatch(editListTitle({ listId, newName, newColor })))
       .catch((e) => {
         initErrorPopUp(e.message);
 
@@ -119,9 +104,9 @@ export const initEditTaskTitle = createAsyncThunk(
 
 export const initAddTask = createAsyncThunk(
   'list/initAddTask',
-  async ({ id, newTask }, { rejectWithValue, dispatch }) => {
-    return await addDoc(tasksColRef, { ...newTask, listId: id })
-      .then(({ id: taskId }) => dispatch(addTask({ id, taskId, newTask })))
+  async ({ listId, newTask }, { rejectWithValue, dispatch }) => {
+    return await addDoc(tasksColRef, { ...newTask, listId })
+      .then(({ id: taskId }) => dispatch(addTask({ listId, taskId, newTask })))
       .catch((e) => {
         initErrorPopUp(e.message);
 
@@ -132,13 +117,13 @@ export const initAddTask = createAsyncThunk(
 
 export const initEditTask = createAsyncThunk(
   'list/initEditTask',
-  async ({ id, taskId, newText }, { rejectWithValue, dispatch }) => {
+  async ({ listId, taskId, newText }, { rejectWithValue, dispatch }) => {
     const tasksDocRef = doc(database, 'tasks', taskId);
 
     return await updateDoc(tasksDocRef, {
       text: newText,
     })
-      .then(() => dispatch(editTaskName({ id, taskId, newText })))
+      .then(() => dispatch(editTaskName({ listId, taskId, newText })))
       .catch((e) => {
         initErrorPopUp(e.message);
 
@@ -149,11 +134,11 @@ export const initEditTask = createAsyncThunk(
 
 export const initRemoveTask = createAsyncThunk(
   'list/initRemoveTask',
-  async ({ taskId, id }, { rejectWithValue, dispatch }) => {
+  async ({ listId, taskId }, { rejectWithValue, dispatch }) => {
     const tasksDocRef = doc(database, 'tasks', taskId);
 
     return await deleteDoc(tasksDocRef)
-      .then(() => dispatch(removeTask({ taskId, id })))
+      .then(() => dispatch(removeTask({ listId, taskId })))
       .catch((e) => {
         initErrorPopUp(e.message);
 
@@ -164,14 +149,14 @@ export const initRemoveTask = createAsyncThunk(
 
 export const initRemoveAllTask = createAsyncThunk(
   'list/initRemoveAllTask',
-  async ({ id }, { rejectWithValue, dispatch }) => {
-    const queryTasks = query(tasksColRef, where('listId', '==', id));
+  async ({ listId }, { rejectWithValue, dispatch }) => {
+    const queryTasks = query(tasksColRef, where('listId', '==', listId));
 
     return await getDocs(queryTasks)
       .then((docs) => {
         docs.forEach((doc) => deleteDoc(doc.ref));
 
-        dispatch(removeAllTask({ id }));
+        dispatch(removeAllTask({ listId }));
       })
       .catch((e) => {
         initErrorPopUp(e.message);
@@ -183,10 +168,10 @@ export const initRemoveAllTask = createAsyncThunk(
 
 export const initRemoveAllCompletedTasks = createAsyncThunk(
   'list/initRemoveAllCompletedTasks',
-  async ({ id }, { rejectWithValue, dispatch }) => {
+  async ({ listId }, { rejectWithValue, dispatch }) => {
     const queryTasks = query(
       tasksColRef,
-      where('listId', '==', id),
+      where('listId', '==', listId),
       where('isCompleted', '==', true),
     );
 
@@ -194,7 +179,7 @@ export const initRemoveAllCompletedTasks = createAsyncThunk(
       .then((docs) => {
         docs.forEach((doc) => deleteDoc(doc.ref));
 
-        dispatch(removeAllCompletedTask({ id }));
+        dispatch(removeAllCompletedTask({ listId }));
       })
       .catch((e) => {
         initErrorPopUp(e.message);
@@ -225,10 +210,8 @@ const listSlice = createSlice({
   name: 'list',
   initialState: {
     lists: [],
-    colors: ['#42B883', '#64C4ED', '#FFBBCC', '#B6E6BD', '#C355F5', '#110133', '#FF6464'],
     activeList: null,
-    globalStatus: 'waiting',
-    currentStatus: 'waiting',
+    status: 'waiting',
     error: null,
     isOpenMenu: false,
     isOpenPopup: false,
@@ -254,12 +237,12 @@ const listSlice = createSlice({
       state.isOpenPopup = false;
     },
     removeList(state, action) {
-      state.lists = state.lists.filter((list) => list.id !== action.payload.id);
+      state.lists = state.lists.filter((list) => list.id !== action.payload.listId);
       state.activeList = null;
     },
     addTask(state, action) {
       state.lists = state.lists.map((list) => {
-        if (list.id === action.payload.id) {
+        if (list.id === action.payload.listId) {
           list.tasks.unshift({ ...action.payload.newTask, id: action.payload.taskId });
         }
 
@@ -268,7 +251,7 @@ const listSlice = createSlice({
     },
     removeTask(state, action) {
       state.lists = state.lists.map((list) => {
-        if (list.id === action.payload.id) {
+        if (list.id === action.payload.listId) {
           list.tasks = list.tasks.filter((task) => task.id !== action.payload.taskId);
         }
 
@@ -277,7 +260,7 @@ const listSlice = createSlice({
     },
     removeAllTask(state, action) {
       state.lists = state.lists.map((list) => {
-        if (list.id === action.payload.id) {
+        if (list.id === action.payload.listId) {
           list.tasks = [];
         }
 
@@ -286,7 +269,7 @@ const listSlice = createSlice({
     },
     removeAllCompletedTask(state, action) {
       state.lists = state.lists.map((list) => {
-        if (list.id === action.payload.id) {
+        if (list.id === action.payload.listId) {
           list.tasks = list.tasks.filter((task) => !task.isCompleted);
         }
 
@@ -295,7 +278,7 @@ const listSlice = createSlice({
     },
     editListTitle(state, action) {
       state.lists = state.lists.map((list) => {
-        if (list.id === action.payload.id) {
+        if (list.id === action.payload.listId) {
           list.name = action.payload.newName;
           list.color = action.payload.newColor;
         }
@@ -305,7 +288,7 @@ const listSlice = createSlice({
     },
     editTaskName(state, action) {
       state.lists = state.lists.map((list) => {
-        if (list.id === action.payload.id) {
+        if (list.id === action.payload.listId) {
           list.tasks = list.tasks.map((task) => {
             if (task.id === action.payload.taskId) task.text = action.payload.newText;
 
@@ -332,45 +315,18 @@ const listSlice = createSlice({
   },
   extraReducers: {
     [initFetchLists.pending]: (state) => {
-      state.globalStatus = 'loading';
+      state.status = 'loading';
       state.error = null;
     },
     [initFetchLists.fulfilled]: (state, action) => {
       state.lists = action.payload;
-      state.globalStatus = 'resolved';
+      state.status = 'resolved';
       state.error = null;
     },
     [initFetchLists.rejected]: (state, action) => {
-      state.globalStatus = 'rejected';
+      state.status = 'rejected';
       state.error = action.payload;
     },
-    [initCreateList.pending]: setLoadingStatus,
-    [initCreateList.fulfilled]: setResolvedStatus,
-    [initCreateList.rejected]: setRejectedStatus,
-    [initAddTask.pending]: setLoadingStatus,
-    [initAddTask.fulfilled]: setResolvedStatus,
-    [initAddTask.rejected]: setRejectedStatus,
-    [initRemoveList.pending]: setLoadingStatus,
-    [initRemoveList.fulfilled]: setResolvedStatus,
-    [initRemoveList.rejected]: setRejectedStatus,
-    [initEditTaskTitle.pending]: setLoadingStatus,
-    [initEditTaskTitle.fulfilled]: setResolvedStatus,
-    [initEditTaskTitle.rejected]: setRejectedStatus,
-    [initEditTask.pending]: setLoadingStatus,
-    [initEditTask.fulfilled]: setResolvedStatus,
-    [initEditTask.rejected]: setRejectedStatus,
-    [initRemoveTask.pending]: setLoadingStatus,
-    [initRemoveTask.fulfilled]: setResolvedStatus,
-    [initRemoveTask.rejected]: setRejectedStatus,
-    [initRemoveAllTask.pending]: setLoadingStatus,
-    [initRemoveAllTask.fulfilled]: setResolvedStatus,
-    [initRemoveAllTask.rejected]: setRejectedStatus,
-    [initRemoveAllCompletedTasks.pending]: setLoadingStatus,
-    [initRemoveAllCompletedTasks.fulfilled]: setResolvedStatus,
-    [initRemoveAllCompletedTasks.rejected]: setRejectedStatus,
-    [initToggleTask.pending]: setLoadingStatus,
-    [initToggleTask.fulfilled]: setResolvedStatus,
-    [initToggleTask.rejected]: setRejectedStatus,
   },
 });
 

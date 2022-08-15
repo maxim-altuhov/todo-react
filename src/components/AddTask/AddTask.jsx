@@ -7,11 +7,12 @@ import { initAddTask } from 'store/slices/listSlice';
 import './AddTask.scss';
 
 const AddTask = () => {
-  const { activeList, currentStatus } = useSelector((state) => state.list);
+  const { activeList } = useSelector((state) => state.list);
   const [isOpenForm, setStatusForm] = useState(false);
   const [inputValue, setInputValue] = useState('');
+  const [isLoading, setLoadingStatus] = useState(false);
   const dispatch = useDispatch();
-  const { id } = activeList;
+  const { id: listId } = activeList;
 
   const onToggleForm = () => {
     setStatusForm(!isOpenForm);
@@ -20,6 +21,7 @@ const AddTask = () => {
 
   const onAddNewTask = (e) => {
     e.preventDefault();
+    setLoadingStatus(true);
 
     const newTask = {
       text: inputValue,
@@ -27,9 +29,10 @@ const AddTask = () => {
       controlTime: new Date().getTime(),
     };
 
-    dispatch(initAddTask({ id, newTask }))
+    dispatch(initAddTask({ listId, newTask }))
       .unwrap()
-      .then(() => onToggleForm());
+      .then(() => onToggleForm())
+      .finally(() => setLoadingStatus(false));
   };
 
   return (
@@ -50,8 +53,8 @@ const AddTask = () => {
             <div className="task-form__btn-block-item">
               <Button
                 type="submit"
-                text={currentStatus === 'loading' ? 'Добавление...' : 'Добавить'}
-                isDisabled={currentStatus === 'loading'}
+                text={isLoading ? 'Добавление...' : 'Добавить'}
+                isDisabled={isLoading}
               />
             </div>
             <div className="task-form__btn-block-item">

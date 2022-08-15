@@ -12,16 +12,27 @@ import './AddList.scss';
 
 const AddList = () => {
   const DEFAULT_CUSTOM_COLOR = '#2a6fb5';
-  const { colors, currentStatus, isOpenPopup } = useSelector((state) => state.list);
+  const { isOpenPopup } = useSelector((state) => state.list);
+  const [colors] = useState([
+    '#42B883',
+    '#64C4ED',
+    '#FFBBCC',
+    '#B6E6BD',
+    '#C355F5',
+    '#110133',
+    '#FF6464',
+  ]);
   const [customColor, setCustomColor] = useState(DEFAULT_CUSTOM_COLOR);
   const [selectedColorId, setSelectedColorId] = useState(0);
   const [inputValue, setInputValue] = useState('');
   const [isOpenChangeColor, setChangeColorStatus] = useState(false);
+  const [isLoading, setLoadingStatus] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const onCreateList = (e) => {
     e.preventDefault();
+    setLoadingStatus(true);
 
     const selectedColor = colors[selectedColorId];
     const newList = {
@@ -37,7 +48,8 @@ const AddList = () => {
         setCustomColor(DEFAULT_CUSTOM_COLOR);
         setChangeColorStatus(false);
         navigate(`/list/${payload.id}`);
-      });
+      })
+      .finally(() => setLoadingStatus(false));
   };
 
   const onTogglePopup = () => {
@@ -109,8 +121,8 @@ const AddList = () => {
 
             <Button
               type="submit"
-              text={currentStatus === 'loading' ? 'Добавление...' : 'Добавить'}
-              isDisabled={currentStatus === 'loading'}
+              text={isLoading ? 'Добавление...' : 'Добавить'}
+              isDisabled={isLoading}
             />
           </form>
         </div>

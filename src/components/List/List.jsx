@@ -8,17 +8,17 @@ import { initRemoveList } from 'store/slices/listSlice';
 import './List.scss';
 
 const List = (props) => {
-  const { lists, activeList, globalStatus } = useSelector((state) => state.list);
+  const { lists, activeList, status } = useSelector((state) => state.list);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const onRemoveList = (e, id) => {
+  const onRemoveList = (e, listId) => {
     e.stopPropagation();
 
     popUpDefault.fire({
       title: 'Удалить список задач?',
       preConfirm: () => {
-        return dispatch(initRemoveList(id))
+        return dispatch(initRemoveList(listId))
           .unwrap()
           .then(() => navigate('/'));
       },
@@ -27,7 +27,7 @@ const List = (props) => {
 
   return (
     <ul {...props} className="list">
-      {globalStatus === 'resolved' &&
+      {status === 'resolved' &&
         lists.map((item) => {
           const { id, color, name, tasks } = item;
 
@@ -35,10 +35,10 @@ const List = (props) => {
             <li
               key={`list-${id}`}
               tabIndex={0}
-              onClick={() => navigate(`/list/${item.id}`)}
-              onKeyPress={(e) => e.key === 'Enter' && navigate(`/list/${item.id}`)}
+              onClick={() => navigate(`/list/${id}`)}
+              onKeyPress={(e) => e.key === 'Enter' && navigate(`/list/${id}`)}
               className={classNames('list__item', {
-                list__item_active: activeList && activeList.id === item.id,
+                list__item_active: activeList && activeList.id === id,
               })}
               style={{ '--color-border': color }}
             >

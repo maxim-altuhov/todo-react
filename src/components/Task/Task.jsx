@@ -19,8 +19,8 @@ import {
 import './Task.scss';
 
 const Task = () => {
-  const { activeList } = useSelector((state) => state.list);
-  const { id, tasks, color, name } = activeList;
+  const { activeList, error } = useSelector((state) => state.list);
+  const { id: listId, tasks, color, name } = activeList;
   const dispatch = useDispatch();
 
   const onEditTitle = () => {
@@ -42,7 +42,7 @@ const Task = () => {
         const changedValue = newName !== name || newColor !== color;
 
         if (newName && changedValue) {
-          return dispatch(initEditTaskTitle({ id, newName, newColor }));
+          return dispatch(initEditTaskTitle({ listId, newName, newColor }));
         }
       },
     });
@@ -55,7 +55,7 @@ const Task = () => {
         const isNewText = newText && newText !== text;
 
         if (isNewText) {
-          return dispatch(initEditTask({ id, taskId, newText }));
+          return dispatch(initEditTask({ listId, taskId, newText }));
         }
       },
     });
@@ -64,21 +64,21 @@ const Task = () => {
   const onRemove = (taskId) => {
     popUpDefault.fire({
       title: 'Удалить задачу?',
-      preConfirm: () => dispatch(initRemoveTask({ taskId, id })),
+      preConfirm: () => dispatch(initRemoveTask({ listId, taskId })),
     });
   };
 
   const onRemoveAllTasks = () => {
     popUpDefault.fire({
       title: 'Удалить все задачи?',
-      preConfirm: () => dispatch(initRemoveAllTask({ id })),
+      preConfirm: () => dispatch(initRemoveAllTask({ listId })),
     });
   };
 
   const onRemoveAllCompletedTasks = () => {
     popUpDefault.fire({
       title: 'Удалить все завершенные задачи?',
-      preConfirm: () => dispatch(initRemoveAllCompletedTasks({ id })),
+      preConfirm: () => dispatch(initRemoveAllCompletedTasks({ listId })),
     });
   };
 
@@ -109,7 +109,7 @@ const Task = () => {
             onKeyPress={(e) => e.key === 'Enter' && onEditTitle()}
           />
         </div>
-        {tasks && <AddTask key={id} />}
+        {!error && tasks && <AddTask key={`addTask-${listId}`} />}
         {tasks?.length === 0 && <p className="task__none">Задачи отсутствуют</p>}
         {!tasks && <p className="task__none">Ошибка загрузки списка задач</p>}
         {tasks?.length > 0 && (

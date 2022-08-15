@@ -15,7 +15,7 @@ import './HomePage.scss';
 const HomePage = () => {
   const TABLET_WIDTH = 900;
   const [windowWidth, setWindowWidth] = useState(null);
-  const { lists, activeList, globalStatus, isOpenMenu, error } = useSelector((state) => state.list);
+  const { lists, activeList, status, isOpenMenu, error } = useSelector((state) => state.list);
   const { email } = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const location = useLocation();
@@ -56,7 +56,7 @@ const HomePage = () => {
     });
   };
 
-  return globalStatus === 'loading' ? (
+  return status === 'loading' ? (
     <div className="spinner-block">
       <Spinner width={100} height={100} />
     </div>
