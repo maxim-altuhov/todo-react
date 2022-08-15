@@ -14,7 +14,7 @@ const App = () => {
   const auth = getAuth();
 
   useEffect(() => {
-    const onAuthUser = onAuthStateChanged(auth, (user) => {
+    const observerAuthUser = onAuthStateChanged(auth, (user) => {
       if (user) {
         dispatch(
           setUser({
@@ -29,7 +29,7 @@ const App = () => {
       setLoadingStatus(false);
     });
 
-    return () => onAuthUser();
+    return () => observerAuthUser();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

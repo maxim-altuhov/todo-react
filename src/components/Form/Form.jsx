@@ -1,17 +1,10 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from 'firebase/auth';
 import { useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
 import classNames from 'classnames';
 
-import { setUser } from 'store/slices/userSlice';
-import {
-  initErrorPopUp,
-  initUserErrorPopUp,
-  initEmailErrorPopUp,
-  initPassErrorPopUp,
-} from 'utils/popUp';
+import { initSignInUser, initCreateUser } from 'store/slices/userSlice';
 import { Button, Input } from '../';
 
 import './Form.scss';
@@ -46,64 +39,22 @@ const Form = ({ isLoginForm }) => {
     },
   };
 
-  const signInUser = (auth, email, password) => {
-    signInWithEmailAndPassword(auth, email, password)
-      .then(({ user }) => {
-        dispatch(
-          setUser({
-            email: user.email,
-            id: user.uid,
-            token: user.accessToken,
-          }),
-        );
+  const initSubmitUserInfo = (email, password) => {
+    dispatch(
+      isLoginForm ? initSignInUser({ email, password }) : initCreateUser({ email, password }),
+    )
+      .unwrap()
+      .then(() => {
         navigate('/');
         reset();
-      })
-      .catch((e) => {
-        if (e.code === 'auth/user-not-found') {
-          initUserErrorPopUp();
-        } else if (e.code === 'auth/wrong-password') {
-          initPassErrorPopUp();
-        } else {
-          initErrorPopUp(e.message);
-        }
-      })
-      .finally(() => setLoadingStatus(false));
-  };
-
-  const createUser = (auth, email, password) => {
-    createUserWithEmailAndPassword(auth, email, password)
-      .then(({ user }) => {
-        dispatch(
-          setUser({
-            email: user.email,
-            id: user.uid,
-            token: user.accessToken,
-          }),
-        );
-        navigate('/');
-        reset();
-      })
-      .catch((e) => {
-        if (e.code === 'auth/email-already-in-use') {
-          initEmailErrorPopUp();
-        } else {
-          initErrorPopUp(e.message);
-        }
       })
       .finally(() => setLoadingStatus(false));
   };
 
   const onSubmit = () => {
     const { email, password } = getValues();
-    const auth = getAuth();
     setLoadingStatus(true);
-
-    if (isLoginForm) {
-      signInUser(auth, email, password);
-    } else {
-      createUser(auth, email, password);
-    }
+    initSubmitUserInfo(email, password);
   };
 
   return (

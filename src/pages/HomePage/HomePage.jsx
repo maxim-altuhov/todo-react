@@ -3,13 +3,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, Routes, Route, useLocation } from 'react-router-dom';
 import { CgArrowRightR } from 'react-icons/cg';
 import { RiLogoutCircleRLine } from 'react-icons/ri';
-import { getAuth, signOut } from 'firebase/auth';
 import classNames from 'classnames';
 
 import { fetchLists, setActiveList, toggleMenu } from 'store/slices/listSlice';
-import { removeUser } from 'store/slices/userSlice';
+import { initRemoveUser } from 'store/slices/userSlice';
 import { AddList, List, Task, Spinner } from 'components';
-import { popUpDefault, initErrorPopUp } from 'utils/popUp';
+import { popUpDefault } from 'utils/popUp';
 
 import './HomePage.scss';
 
@@ -46,18 +45,13 @@ const HomePage = () => {
   };
 
   const onLogOutUser = () => {
-    const auth = getAuth();
-
     popUpDefault.fire({
       title: 'Выйти из аккаунта?',
       confirmButtonText: 'Выйти',
       preConfirm: () => {
-        signOut(auth)
-          .then(() => {
-            navigate('/sign-in');
-            dispatch(removeUser());
-          })
-          .catch((error) => initErrorPopUp(error.message));
+        dispatch(initRemoveUser())
+          .unwrap()
+          .then(() => navigate('/sign-in'));
       },
     });
   };
