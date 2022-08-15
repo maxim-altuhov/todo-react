@@ -5,7 +5,6 @@ import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { setUser } from 'store/slices/userSlice';
 
 import { HomePage, LoginPage, RegisterPage } from 'pages';
-import { Spinner } from 'components';
 
 const App = () => {
   const [isAuth, setAuthStatus] = useState(false);
@@ -34,9 +33,7 @@ const App = () => {
   }, []);
 
   return isLoading ? (
-    <div className="spinner-block">
-      <Spinner width={100} height={100} />
-    </div>
+    <div className="loader-block">Загрузка данных...</div>
   ) : (
     <BrowserRouter>
       <Routes>

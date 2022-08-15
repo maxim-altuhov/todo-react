@@ -57,11 +57,11 @@ const HomePage = () => {
   };
 
   return status === 'loading' ? (
-    <div className="spinner-block">
-      <Spinner width={100} height={100} />
+    <div className="loader-block">
+      <Spinner />
     </div>
   ) : (
-    <div className="container-todo">
+    <div className="container-todo" style={{ display: status !== 'resolved' && 'none' }}>
       <div className="todo">
         <div
           className={classNames('todo__sidebar', {

@@ -38,6 +38,7 @@ const AddList = () => {
     const newList = {
       name: inputValue,
       color: selectedColor || customColor,
+      controlTime: new Date().getTime(),
     };
 
     dispatch(initCreateList(newList))

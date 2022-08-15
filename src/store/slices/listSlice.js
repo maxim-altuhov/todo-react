@@ -8,6 +8,7 @@ import {
   updateDoc,
   query,
   where,
+  orderBy,
 } from 'firebase/firestore';
 
 import { database } from '../../firebase';
@@ -19,12 +20,19 @@ const tasksColRef = collection(database, 'tasks');
 export const initFetchLists = createAsyncThunk(
   'list/initFetchLists',
   async (_, { fulfillWithValue, rejectWithValue }) => {
-    const tasks = await getDocs(tasksColRef)
-      .then((snapshot) => {
-        return snapshot.docs.map((task) => ({
-          ...task.data(),
-          id: task.id,
-        }));
+    const queryLists = query(listsColRef, orderBy('controlTime', 'asc'));
+    const queryTasks = query(tasksColRef, orderBy('controlTime', 'asc'));
+    let lists = [];
+    let tasks = [];
+
+    await getDocs(queryTasks)
+      .then((docs) => {
+        docs.forEach((task) => {
+          tasks.push({
+            ...task.data(),
+            id: task.id,
+          });
+        });
       })
       .catch((e) => {
         initErrorPopUp(e.message);
@@ -32,13 +40,15 @@ export const initFetchLists = createAsyncThunk(
         return rejectWithValue(e.message);
       });
 
-    return await getDocs(listsColRef)
-      .then((snapshot) => {
-        const lists = snapshot.docs.map((list) => ({
-          ...list.data(),
-          id: list.id,
-          tasks: tasks.filter((task) => task.listId === list.id) || [],
-        }));
+    return await getDocs(queryLists)
+      .then((docs) => {
+        docs.forEach((list) => {
+          lists.push({
+            ...list.data(),
+            id: list.id,
+            tasks: tasks.filter((task) => task.listId === list.id),
+          });
+        });
 
         return fulfillWithValue(lists);
       })
@@ -193,16 +203,13 @@ export const initToggleTask = createAsyncThunk(
   'list/initToggleTask',
   async ({ taskId, listId, isCompleted }, { rejectWithValue, dispatch }) => {
     const tasksDocRef = doc(database, 'tasks', taskId);
+    dispatch(toggleStatusTask({ taskId, listId, isCompleted }));
 
-    return await updateDoc(tasksDocRef, {
-      isCompleted,
-    })
-      .then(() => dispatch(toggleStatusTask({ taskId, listId, isCompleted })))
-      .catch((e) => {
-        initErrorPopUp(e.message);
+    return await updateDoc(tasksDocRef, { isCompleted }).catch((e) => {
+      initErrorPopUp(e.message);
 
-        return rejectWithValue(e.message);
-      });
+      return rejectWithValue(e.message);
+    });
   },
 );
 
