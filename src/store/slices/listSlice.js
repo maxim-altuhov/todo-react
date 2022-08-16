@@ -1,4 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { getAuth } from 'firebase/auth';
 import {
   doc,
   collection,
@@ -20,8 +21,14 @@ const tasksColRef = collection(database, 'tasks');
 export const initFetchLists = createAsyncThunk(
   'list/initFetchLists',
   async (_, { fulfillWithValue, rejectWithValue }) => {
-    const queryLists = query(listsColRef, orderBy('controlTime', 'asc'));
+    const auth = getAuth();
+    const user = auth.currentUser;
     const queryTasks = query(tasksColRef, orderBy('controlTime', 'asc'));
+    const queryLists = query(
+      listsColRef,
+      where('uid', '==', user.uid),
+      orderBy('controlTime', 'asc'),
+    );
     let lists = [];
     let tasks = [];
 
@@ -53,7 +60,11 @@ export const initFetchLists = createAsyncThunk(
         return fulfillWithValue(lists);
       })
       .catch((e) => {
-        initErrorPopUp(e.message);
+        if (e.code === 'permission-denied') {
+          initErrorPopUp('Для данного пользователя нет доступа!');
+        } else {
+          initErrorPopUp(e.message);
+        }
 
         return rejectWithValue(e.message);
       });

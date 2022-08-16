@@ -13,6 +13,7 @@ import './AddList.scss';
 const AddList = () => {
   const DEFAULT_CUSTOM_COLOR = '#2a6fb5';
   const { isOpenPopup } = useSelector((state) => state.list);
+  const { id: userId } = useSelector((state) => state.user);
   const [colors] = useState([
     '#42B883',
     '#64C4ED',
@@ -36,6 +37,7 @@ const AddList = () => {
 
     const selectedColor = colors[selectedColorId];
     const newList = {
+      uid: userId,
       name: inputValue,
       color: selectedColor || customColor,
       controlTime: new Date().getTime(),

@@ -39,7 +39,7 @@ const initErrorPopUp = (error = '') => {
   popUpError.fire({
     titleText: 'Произошла ошибка загрузки данных!',
     text: 'Попробуйте обновить страницу',
-    footer: `Ошибка ${error}`,
+    footer: `Ошибка: ${error}`,
   });
 };
 
