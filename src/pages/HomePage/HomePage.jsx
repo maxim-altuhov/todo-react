@@ -8,7 +8,7 @@ import classNames from 'classnames';
 import { initFetchLists, setActiveList, toggleMenu } from 'store/slices/listSlice';
 import { initRemoveUser } from 'store/slices/userSlice';
 import { AddList, List, Task, Spinner } from 'components';
-import { popUpDefault } from 'utils/popUp';
+import { popUp, popUpDefault } from 'utils/popUp';
 
 import './HomePage.scss';
 
@@ -36,6 +36,7 @@ const HomePage = () => {
     const listId = location.pathname.split('list/')[1];
     const list = lists.find((list) => list.id === listId);
 
+    popUp.close();
     dispatch(setActiveList(list));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [lists, location.pathname]);
@@ -51,7 +52,7 @@ const HomePage = () => {
       preConfirm: () => {
         dispatch(initRemoveUser())
           .unwrap()
-          .then(() => navigate('/sign-in'));
+          .then(() => navigate('/sign-in', { replace: true }));
       },
     });
   };

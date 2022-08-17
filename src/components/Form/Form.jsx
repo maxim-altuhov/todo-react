@@ -45,7 +45,7 @@ const Form = ({ isLoginForm }) => {
     )
       .unwrap()
       .then(() => {
-        navigate('/');
+        navigate('/', { replace: true });
         reset();
       })
       .finally(() => setLoadingStatus(false));

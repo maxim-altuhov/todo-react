@@ -4,6 +4,7 @@ import withReactContent from 'sweetalert2-react-content';
 import './popUp.scss';
 
 const popUp = withReactContent(Swal);
+const TABLET_WIDTH = 900;
 
 const popUpDefault = popUp.mixin({
   width: 320,
@@ -21,6 +22,7 @@ const popUpDefault = popUp.mixin({
   denyButtonText: 'Отмена',
   confirmButtonText: 'Удалить',
   showLoaderOnConfirm: true,
+  scrollbarPadding: window.innerWidth >= TABLET_WIDTH ? true : false,
 });
 
 const popUpError = popUpDefault.mixin({

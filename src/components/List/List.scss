@@ -1,6 +1,4 @@
 .list {
-  margin-bottom: 20px;
-
   &__item {
     height: 40px;
     font-weight: 500;
@@ -14,6 +12,10 @@
 
     &:first-letter {
       text-transform: uppercase;
+    }
+
+    &:last-of-type {
+      margin-bottom: 20px;
     }
 
     &:hover,

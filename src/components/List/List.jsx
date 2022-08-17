@@ -20,7 +20,7 @@ const List = (props) => {
       preConfirm: () => {
         return dispatch(initRemoveList(listId))
           .unwrap()
-          .then(() => navigate('/'));
+          .then(() => navigate('/', { replace: true }));
       },
     });
   };
@@ -35,8 +35,8 @@ const List = (props) => {
             <li
               key={`list-${id}`}
               tabIndex={0}
-              onClick={() => navigate(`/list/${id}`)}
-              onKeyPress={(e) => e.key === 'Enter' && navigate(`/list/${id}`)}
+              onClick={() => navigate(`/list/${id}`, { replace: true })}
+              onKeyPress={(e) => e.key === 'Enter' && navigate(`/list/${id}`, { replace: true })}
               className={classNames('list__item', {
                 list__item_active: activeList && activeList.id === id,
               })}

@@ -50,7 +50,7 @@ const AddList = () => {
         setInputValue('');
         setCustomColor(DEFAULT_CUSTOM_COLOR);
         setChangeColorStatus(false);
-        navigate(`/list/${payload.id}`);
+        navigate(`/list/${payload.id}`, { replace: true });
       })
       .finally(() => setLoadingStatus(false));
   };
