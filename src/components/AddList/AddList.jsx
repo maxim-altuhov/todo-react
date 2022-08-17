@@ -78,7 +78,7 @@ const AddList = () => {
             onKeyPress={(e) => e.key === 'Enter' && dispatch(togglePopup())}
             className="add-list__close"
           />
-          <form onSubmit={onCreateList}>
+          <form onSubmit={onCreateList} autocomplete="off">
             <Input
               isRequired
               isAutofocus

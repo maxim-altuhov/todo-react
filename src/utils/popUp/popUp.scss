@@ -4,6 +4,10 @@
     font-size: 1.6rem;
     font-weight: 700;
     margin-bottom: 7px;
+
+    @media (max-width: 900px) {
+      font-size: 1.4rem;
+    }
   }
 
   &__block-colors {

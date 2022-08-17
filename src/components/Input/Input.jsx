@@ -7,6 +7,7 @@ const Input = forwardRef(
     {
       value,
       onChange,
+      autocomplete = 'off',
       placeholder = 'Текст',
       type = 'text',
       isRequired = false,
@@ -18,10 +19,11 @@ const Input = forwardRef(
     return (
       <input
         className="input-field"
-        type={type}
         value={value}
-        placeholder={placeholder}
         onChange={onChange}
+        autocomplete={autocomplete}
+        placeholder={placeholder}
+        type={type}
         required={isRequired}
         autoFocus={isAutofocus}
         ref={ref}
