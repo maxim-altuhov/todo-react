@@ -20,33 +20,30 @@ export const initFetchLists = createAsyncThunk(
     const { user } = getState();
     const userColRef = collection(database, user.id);
     const queryLists = query(userColRef, orderBy('controlTime', 'asc'));
-    // TODO Переписать структуру запроса данных
-    const querySnapshotLists = await getDocs(queryLists);
-    let lists = [];
-
-    const getTasks = (snapshotTasks) => {
-      let tasks = [];
-
-      snapshotTasks.forEach((task) => {
-        tasks.push({ ...task.data(), id: task.id });
-      });
-
-      return tasks;
-    };
+    const querySnapshotLists = await getDocs(userColRef).catch((e) => initErrorPopUp(e.message));
+    let tasks = [];
 
     querySnapshotLists.forEach(async (list) => {
       const tasksColRef = collection(database, user.id, list.id, 'tasks');
-      const querySnapshotTasks = await getDocs(tasksColRef);
+      const querySnapshotTasks = await getDocs(tasksColRef).catch((e) => initErrorPopUp(e.message));
 
-      lists.push({
-        ...list.data(),
-        id: list.id,
-        tasks: getTasks(querySnapshotTasks),
+      querySnapshotTasks.forEach((task) => {
+        tasks.push({ ...task.data(), id: task.id, listId: list.id });
       });
     });
 
     return await getDocs(queryLists)
-      .then(() => {
+      .then((docs) => {
+        let lists = [];
+
+        docs.forEach((list) => {
+          lists.push({
+            ...list.data(),
+            id: list.id,
+            tasks: tasks.filter((task) => task.listId === list.id),
+          });
+        });
+
         return fulfillWithValue(lists);
       })
       .catch((e) => {
@@ -253,7 +250,7 @@ const listSlice = createSlice({
       state.isOpenPopup = false;
     },
     setActiveList(state, action) {
-      state.activeList = action.payload;
+      state.activeList = action.payload || null;
       state.isOpenMenu = false;
       state.isOpenPopup = false;
     },
@@ -340,7 +337,6 @@ const listSlice = createSlice({
       state.error = null;
     },
     [initFetchLists.fulfilled]: (state, action) => {
-      console.log('action.payload', action.payload);
       state.lists = action.payload;
       state.status = 'resolved';
       state.error = null;
