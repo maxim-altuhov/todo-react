@@ -37,7 +37,6 @@ const AddList = () => {
 
     const selectedColor = colors[selectedColorId];
     const newList = {
-      uid: userId,
       name: inputValue,
       color: selectedColor || customColor,
       controlTime: new Date().getTime(),
@@ -78,7 +77,7 @@ const AddList = () => {
             onKeyPress={(e) => e.key === 'Enter' && dispatch(togglePopup())}
             className="add-list__close"
           />
-          <form onSubmit={onCreateList} autocomplete="off">
+          <form onSubmit={onCreateList} autoComplete="off">
             <Input
               isRequired
               isAutofocus

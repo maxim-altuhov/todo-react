@@ -1,5 +1,4 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { getAuth } from 'firebase/auth';
 import {
   doc,
   collection,
@@ -15,53 +14,44 @@ import {
 import { database } from '../../firebase';
 import { initErrorPopUp } from 'utils/popUp';
 
-const listsColRef = collection(database, 'lists');
-const tasksColRef = collection(database, 'tasks');
-
 export const initFetchLists = createAsyncThunk(
   'list/initFetchLists',
-  async (_, { fulfillWithValue, rejectWithValue }) => {
-    const auth = getAuth();
-    const user = auth.currentUser;
-    const queryTasks = query(tasksColRef, orderBy('controlTime', 'asc'));
-    const queryLists = query(
-      listsColRef,
-      where('uid', '==', user.uid),
-      orderBy('controlTime', 'asc'),
-    );
+  async (_, { fulfillWithValue, rejectWithValue, getState }) => {
+    const { user } = getState();
+    const userColRef = collection(database, user.id);
+    const queryLists = query(userColRef, orderBy('controlTime', 'asc'));
+    // TODO Переписать структуру запроса данных
+    const querySnapshotLists = await getDocs(queryLists);
     let lists = [];
-    let tasks = [];
 
-    await getDocs(queryTasks)
-      .then((docs) => {
-        docs.forEach((task) => {
-          tasks.push({
-            ...task.data(),
-            id: task.id,
-          });
-        });
-      })
-      .catch((e) => {
-        initErrorPopUp(e.message);
+    const getTasks = (snapshotTasks) => {
+      let tasks = [];
 
-        return rejectWithValue(e.message);
+      snapshotTasks.forEach((task) => {
+        tasks.push({ ...task.data(), id: task.id });
       });
 
-    return await getDocs(queryLists)
-      .then((docs) => {
-        docs.forEach((list) => {
-          lists.push({
-            ...list.data(),
-            id: list.id,
-            tasks: tasks.filter((task) => task.listId === list.id),
-          });
-        });
+      return tasks;
+    };
 
+    querySnapshotLists.forEach(async (list) => {
+      const tasksColRef = collection(database, user.id, list.id, 'tasks');
+      const querySnapshotTasks = await getDocs(tasksColRef);
+
+      lists.push({
+        ...list.data(),
+        id: list.id,
+        tasks: getTasks(querySnapshotTasks),
+      });
+    });
+
+    return await getDocs(queryLists)
+      .then(() => {
         return fulfillWithValue(lists);
       })
       .catch((e) => {
         if (e.code === 'permission-denied') {
-          initErrorPopUp('Для данного пользователя нет доступа!');
+          initErrorPopUp('Пользователь не авторизован!');
         } else {
           initErrorPopUp(e.message);
         }
@@ -73,8 +63,11 @@ export const initFetchLists = createAsyncThunk(
 
 export const initCreateList = createAsyncThunk(
   'list/initCreateList',
-  async (newList, { rejectWithValue, dispatch }) => {
-    return await addDoc(listsColRef, newList)
+  async (newList, { rejectWithValue, dispatch, getState }) => {
+    const { user } = getState();
+    const userColRef = collection(database, user.id);
+
+    return await addDoc(userColRef, newList)
       .then(({ id }) => dispatch(addList({ ...newList, id, tasks: [] })))
       .catch((e) => {
         initErrorPopUp(e.message);
@@ -86,17 +79,21 @@ export const initCreateList = createAsyncThunk(
 
 export const initRemoveList = createAsyncThunk(
   'list/initRemoveList',
-  async (listId, { rejectWithValue, dispatch }) => {
-    const listsDocRef = doc(database, 'lists', listId);
-    const queryTasks = query(tasksColRef, where('listId', '==', listId));
+  async (listId, { rejectWithValue, dispatch, getState }) => {
+    const { user } = getState();
+    const listsDocRef = doc(database, user.id, listId);
+    const tasksColRef = collection(database, user.id, listId, 'tasks');
+
+    await getDocs(tasksColRef)
+      .then((docs) => docs.forEach((doc) => deleteDoc(doc.ref)))
+      .catch((e) => {
+        initErrorPopUp(e.message);
+
+        return rejectWithValue(e.message);
+      });
 
     return await deleteDoc(listsDocRef)
-      .then(() => {
-        dispatch(removeList({ listId }));
-        getDocs(queryTasks).then((docs) => {
-          docs.forEach((doc) => deleteDoc(doc.ref));
-        });
-      })
+      .then(() => dispatch(removeList({ listId })))
       .catch((e) => {
         initErrorPopUp(e.message);
 
@@ -107,8 +104,9 @@ export const initRemoveList = createAsyncThunk(
 
 export const initEditTaskTitle = createAsyncThunk(
   'list/initEditTaskTitle',
-  async ({ listId, newName, newColor }, { rejectWithValue, dispatch }) => {
-    const listsDocRef = doc(database, 'lists', listId);
+  async ({ listId, newName, newColor }, { rejectWithValue, dispatch, getState }) => {
+    const { user } = getState();
+    const listsDocRef = doc(database, user.id, listId);
 
     return await updateDoc(listsDocRef, {
       name: newName,
@@ -125,8 +123,11 @@ export const initEditTaskTitle = createAsyncThunk(
 
 export const initAddTask = createAsyncThunk(
   'list/initAddTask',
-  async ({ listId, newTask }, { rejectWithValue, dispatch }) => {
-    return await addDoc(tasksColRef, { ...newTask, listId })
+  async ({ listId, newTask }, { rejectWithValue, dispatch, getState }) => {
+    const { user } = getState();
+    const tasksColRef = collection(database, user.id, listId, 'tasks');
+
+    return await addDoc(tasksColRef, newTask)
       .then(({ id: taskId }) => dispatch(addTask({ listId, taskId, newTask })))
       .catch((e) => {
         initErrorPopUp(e.message);
@@ -138,8 +139,9 @@ export const initAddTask = createAsyncThunk(
 
 export const initEditTask = createAsyncThunk(
   'list/initEditTask',
-  async ({ listId, taskId, newText }, { rejectWithValue, dispatch }) => {
-    const tasksDocRef = doc(database, 'tasks', taskId);
+  async ({ listId, taskId, newText }, { rejectWithValue, dispatch, getState }) => {
+    const { user } = getState();
+    const tasksDocRef = doc(database, user.id, listId, 'tasks', taskId);
 
     return await updateDoc(tasksDocRef, {
       text: newText,
@@ -155,8 +157,9 @@ export const initEditTask = createAsyncThunk(
 
 export const initRemoveTask = createAsyncThunk(
   'list/initRemoveTask',
-  async ({ listId, taskId }, { rejectWithValue, dispatch }) => {
-    const tasksDocRef = doc(database, 'tasks', taskId);
+  async ({ listId, taskId }, { rejectWithValue, dispatch, getState }) => {
+    const { user } = getState();
+    const tasksDocRef = doc(database, user.id, listId, 'tasks', taskId);
 
     return await deleteDoc(tasksDocRef)
       .then(() => dispatch(removeTask({ listId, taskId })))
@@ -170,10 +173,11 @@ export const initRemoveTask = createAsyncThunk(
 
 export const initRemoveAllTask = createAsyncThunk(
   'list/initRemoveAllTask',
-  async ({ listId }, { rejectWithValue, dispatch }) => {
-    const queryTasks = query(tasksColRef, where('listId', '==', listId));
+  async ({ listId }, { rejectWithValue, dispatch, getState }) => {
+    const { user } = getState();
+    const tasksColRef = collection(database, user.id, listId, 'tasks');
 
-    return await getDocs(queryTasks)
+    return await getDocs(tasksColRef)
       .then((docs) => {
         docs.forEach((doc) => deleteDoc(doc.ref));
 
@@ -189,12 +193,10 @@ export const initRemoveAllTask = createAsyncThunk(
 
 export const initRemoveAllCompletedTasks = createAsyncThunk(
   'list/initRemoveAllCompletedTasks',
-  async ({ listId }, { rejectWithValue, dispatch }) => {
-    const queryTasks = query(
-      tasksColRef,
-      where('listId', '==', listId),
-      where('isCompleted', '==', true),
-    );
+  async ({ listId }, { rejectWithValue, dispatch, getState }) => {
+    const { user } = getState();
+    const tasksColRef = collection(database, user.id, listId, 'tasks');
+    const queryTasks = query(tasksColRef, where('isCompleted', '==', true));
 
     return await getDocs(queryTasks)
       .then((docs) => {
@@ -212,8 +214,9 @@ export const initRemoveAllCompletedTasks = createAsyncThunk(
 
 export const initToggleTask = createAsyncThunk(
   'list/initToggleTask',
-  async ({ taskId, listId, isCompleted }, { rejectWithValue, dispatch }) => {
-    const tasksDocRef = doc(database, 'tasks', taskId);
+  async ({ taskId, listId, isCompleted }, { rejectWithValue, dispatch, getState }) => {
+    const { user } = getState();
+    const tasksDocRef = doc(database, user.id, listId, 'tasks', taskId);
     dispatch(toggleStatusTask({ taskId, listId, isCompleted }));
 
     return await updateDoc(tasksDocRef, { isCompleted }).catch((e) => {
@@ -337,6 +340,7 @@ const listSlice = createSlice({
       state.error = null;
     },
     [initFetchLists.fulfilled]: (state, action) => {
+      console.log('action.payload', action.payload);
       state.lists = action.payload;
       state.status = 'resolved';
       state.error = null;
