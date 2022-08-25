@@ -69,7 +69,7 @@ const Form = ({ isLoginForm }) => {
               placeholder="Введите E-mail"
               {...register('email', {
                 required: 'Введите E-mail',
-                pattern: !isLoginForm && validateRules.patternEmail,
+                pattern: validateRules.patternEmail,
               })}
             />
           </label>
@@ -105,6 +105,9 @@ const Form = ({ isLoginForm }) => {
         </div>
         <Link to={isLoginForm ? '/reg' : '/sign-in'} className="form__link">
           {isLoginForm ? 'Регистрация' : 'Войти в свой аккаунт'}
+        </Link>
+        <Link to="/recovery" className="form__link">
+          Забыли пароль?
         </Link>
       </form>
     </>

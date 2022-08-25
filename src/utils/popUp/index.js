@@ -32,6 +32,10 @@ const popUpError = popUpDefault.mixin({
   showLoaderOnConfirm: false,
 });
 
+const popUpSuccess = popUpError.mixin({
+  icon: 'success',
+});
+
 const popUpInput = popUpDefault.mixin({
   input: 'text',
   confirmButtonText: 'Изменить',
@@ -63,6 +67,12 @@ const initEmailErrorPopUp = () => {
   });
 };
 
+const initResetPasswordPopUp = () => {
+  popUpSuccess.fire({
+    titleText: 'Письмо для сброса пароля отправлено на почту!',
+  });
+};
+
 export {
   popUp,
   popUpDefault,
@@ -72,4 +82,5 @@ export {
   initUserErrorPopUp,
   initEmailErrorPopUp,
   initPassErrorPopUp,
+  initResetPasswordPopUp,
 };

@@ -4,6 +4,7 @@ import {
   signOut,
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
+  sendPasswordResetEmail,
 } from 'firebase/auth';
 
 import {
@@ -33,6 +34,26 @@ export const initSignInUser = createAsyncThunk(
           initUserErrorPopUp();
         } else if (e.code === 'auth/wrong-password') {
           initPassErrorPopUp();
+        } else {
+          initErrorPopUp(e.message);
+        }
+
+        return rejectWithValue(e.message);
+      });
+  },
+);
+
+export const initResetPassword = createAsyncThunk(
+  'user/initResetPassword',
+  async ({ email }, { rejectWithValue, dispatch }) => {
+    const auth = getAuth();
+    auth.languageCode = 'ru';
+
+    return await sendPasswordResetEmail(auth, email)
+      .then(() => dispatch(removeUser()))
+      .catch((e) => {
+        if (e.code === 'auth/user-not-found') {
+          initUserErrorPopUp();
         } else {
           initErrorPopUp(e.message);
         }

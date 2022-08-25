@@ -48,5 +48,9 @@
     color: #000;
     margin-top: 15px;
     font-size: 0.9rem;
+
+    &:last-child {
+      margin-top: 10px;
+    }
   }
 }

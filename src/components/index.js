@@ -8,5 +8,6 @@ import Button from './Button/Button';
 import Spinner from './Spinner/Spinner';
 import Error from './Error/Error';
 import Form from './Form/Form';
+import FormRecovery from './Form/FormRecovery';
 
-export { Task, AddTask, List, AddList, AddBtn, Input, Button, Spinner, Error, Form };
+export { Task, AddTask, List, AddList, AddBtn, Input, Button, Spinner, Error, Form, FormRecovery };
