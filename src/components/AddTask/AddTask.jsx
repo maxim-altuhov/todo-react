@@ -31,7 +31,7 @@ const AddTask = () => {
 
     dispatch(initAddTask({ listId, newTask }))
       .unwrap()
-      .then(() => onToggleForm())
+      .then(() => setInputValue(''))
       .finally(() => setLoadingStatus(false));
   };
 
