@@ -2,8 +2,8 @@ import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Routes, Route, BrowserRouter } from 'react-router-dom';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
-import { setUser } from 'store/slices/userSlice';
 
+import { setUser } from 'store/slices/userSlice';
 import { HomePage, LoginPage, RecoveryPage, RegisterPage } from 'pages';
 
 const App = () => {

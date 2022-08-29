@@ -7,7 +7,7 @@ import classNames from 'classnames';
 
 import { initFetchLists, setActiveList, toggleMenu } from 'store/slices/listSlice';
 import { initRemoveUser } from 'store/slices/userSlice';
-import { AddList, List, Task, Spinner } from 'components';
+import { AddList, List, Task, Spinner, Error } from 'components';
 import { popUp, popUpDefault } from 'utils/popUp';
 
 import './HomePage.scss';
@@ -78,7 +78,7 @@ const HomePage = () => {
             className="todo__sidebar-menu"
           />
           <List />
-          {!error && <AddList />}
+          {error ? <Error /> : <AddList />}
         </div>
         <div className="todo__tasks">
           <button className="todo__user" onClick={onLogOutUser}>

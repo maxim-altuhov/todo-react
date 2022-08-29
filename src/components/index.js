@@ -9,5 +9,19 @@ import Spinner from './Spinner/Spinner';
 import Error from './Error/Error';
 import Form from './Form/Form';
 import FormRecovery from './Form/FormRecovery';
+import Checkbox from './Checkbox/Checkbox';
 
-export { Task, AddTask, List, AddList, AddBtn, Input, Button, Spinner, Error, Form, FormRecovery };
+export {
+  Task,
+  AddTask,
+  List,
+  AddList,
+  AddBtn,
+  Input,
+  Button,
+  Spinner,
+  Error,
+  Form,
+  FormRecovery,
+  Checkbox,
+};

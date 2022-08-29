@@ -8,8 +8,8 @@
   cursor: pointer;
   transition: background-color 0.2s linear;
 
-  &_color {
-    &_green {
+  &_type {
+    &_confirm {
       background-color: #4dd599;
       color: #fff;
 
@@ -23,7 +23,7 @@
       }
     }
 
-    &_gray {
+    &_cancel {
       background-color: #ffc4c4;
       color: #ffffff;
 

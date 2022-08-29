@@ -6,11 +6,12 @@ import classNames from 'classnames';
 
 import { initResetPassword } from 'store/slices/userSlice';
 import { initResetPasswordPopUp } from 'utils/popUp';
+import { validateRules } from './utils/validateRules.js';
 import { Button, Input } from '..';
 
 import './Form.scss';
 
-const FormRecovery = ({ isLoginForm }) => {
+const FormRecovery = () => {
   const [isLoading, setLoadingStatus] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -24,13 +25,6 @@ const FormRecovery = ({ isLoginForm }) => {
   } = useForm({
     mode: 'onChange',
   });
-
-  const validateRules = {
-    patternEmail: {
-      value: /^[-\w.]+@([A-z0-9][-A-z0-9]+\.)+[A-z]{2,4}$/,
-      message: 'Некорректный E-mail',
-    },
-  };
 
   const resetPassword = (email) => {
     dispatch(initResetPassword({ email }))
@@ -61,7 +55,7 @@ const FormRecovery = ({ isLoginForm }) => {
               placeholder="Введите E-mail"
               {...register('email', {
                 required: 'Введите E-mail',
-                pattern: !isLoginForm && validateRules.patternEmail,
+                pattern: validateRules.patternEmail,
               })}
             />
           </label>

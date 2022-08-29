@@ -11,11 +11,11 @@ const AddTask = () => {
   const [isOpenForm, setStatusForm] = useState(false);
   const [inputValue, setInputValue] = useState('');
   const [isLoading, setLoadingStatus] = useState(false);
-  const dispatch = useDispatch();
   const { id: listId } = activeList;
+  const dispatch = useDispatch();
 
   const onToggleForm = () => {
-    setStatusForm(!isOpenForm);
+    setStatusForm((isOpenForm) => !isOpenForm);
     setInputValue('');
   };
 
@@ -58,7 +58,7 @@ const AddTask = () => {
               />
             </div>
             <div className="task-form__btn-block-item">
-              <Button onClick={onToggleForm} text="Отмена" theme="gray" />
+              <Button onClick={onToggleForm} text="Отмена" typeBtn="cancel" />
             </div>
           </div>
         </form>

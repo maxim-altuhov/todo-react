@@ -3,10 +3,10 @@ import { HexColorPicker } from 'react-colorful';
 import { TbTrashX } from 'react-icons/tb';
 import { MdRemoveDone } from 'react-icons/md';
 import { CgPlayListRemove } from 'react-icons/cg';
-import { CgEditFlipH, CgCheck } from 'react-icons/cg';
+import { CgEditFlipH } from 'react-icons/cg';
 
 import { popUpDefault, popUpInput } from 'utils/popUp';
-import { AddTask } from '../';
+import { AddTask, Checkbox } from '../';
 import {
   initEditTaskTitle,
   initEditTask,
@@ -137,20 +137,12 @@ const Task = () => {
         {tasks &&
           [...tasks].sort(initCustomSort).map(({ id: taskId, text, isCompleted }) => (
             <div key={taskId} className="task__item">
-              <div className="checkbox">
-                <input
-                  className="checkbox__input"
-                  type="checkbox"
-                  name={`name-${taskId}`}
-                  id={`task-${taskId}`}
-                  onChange={() => onToggleStatus(taskId, activeList.id, !isCompleted)}
-                  defaultChecked={isCompleted}
-                />
-                <label className="checkbox__label" htmlFor={`task-${taskId}`}>
-                  <CgCheck size={20} color={'#fff'} />
-                </label>
-                <span className="task__text">{text}</span>
-              </div>
+              <Checkbox
+                id={taskId}
+                text={text}
+                onChange={() => onToggleStatus(taskId, activeList.id, !isCompleted)}
+                isCompleted={isCompleted}
+              />
               <div className="task__control">
                 {!isCompleted && (
                   <CgEditFlipH

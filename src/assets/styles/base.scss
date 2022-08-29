@@ -5,6 +5,10 @@
   align-items: center;
   padding: 50px 0;
   min-width: 320px;
+
+  &__title {
+    margin-bottom: 25px;
+  }
 }
 
 .loader-block {

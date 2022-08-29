@@ -5,6 +5,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import classNames from 'classnames';
 
 import { initSignInUser, initCreateUser } from 'store/slices/userSlice';
+import { validateRules } from './utils/validateRules.js';
 import { Button, Input } from '../';
 
 import './Form.scss';
@@ -23,21 +24,6 @@ const Form = ({ isLoginForm }) => {
   } = useForm({
     mode: 'onChange',
   });
-
-  const validateRules = {
-    length: {
-      value: 6,
-      message: 'Должно быть минимум 6 символов',
-    },
-    patternEmail: {
-      value: /^[-\w.]+@([A-z0-9][-A-z0-9]+\.)+[A-z]{2,4}$/,
-      message: 'Некорректный E-mail',
-    },
-    patternPassword: {
-      value: /^(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9]+)$/,
-      message: 'Пароль должен состоять из латинских букв и цифр',
-    },
-  };
 
   const initSubmitUserInfo = (email, password) => {
     dispatch(

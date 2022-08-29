@@ -6,7 +6,7 @@ const Button = ({
   onClick,
   type = 'button',
   text = '',
-  theme = 'green',
+  typeBtn = 'confirm',
   isDisabled = false,
   children,
   ...rest
@@ -14,8 +14,8 @@ const Button = ({
   return (
     <button
       className={classNames('button', {
-        button_color_green: theme === 'green',
-        button_color_gray: theme === 'gray',
+        button_type_confirm: typeBtn === 'confirm',
+        button_type_cancel: typeBtn === 'cancel',
       })}
       type={type}
       onClick={onClick}
