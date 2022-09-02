@@ -26,7 +26,7 @@ const AddTask = () => {
     const newTask = {
       text: inputValue,
       isCompleted: false,
-      controlTime: new Date().getTime(),
+      controlTime: Date.now(),
     };
 
     dispatch(initAddTask({ listId, newTask }))

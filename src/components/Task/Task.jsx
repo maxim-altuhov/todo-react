@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { HexColorPicker } from 'react-colorful';
 import { TbTrashX } from 'react-icons/tb';
@@ -22,6 +23,13 @@ const Task = () => {
   const { activeList, error } = useSelector((state) => state.list);
   const { id: listId, tasks, color, name } = activeList;
   const dispatch = useDispatch();
+
+  const initCustomSort = (firstEl, secondEl) => {
+    return (
+      (secondEl.isCompleted < firstEl.isCompleted) - (firstEl.isCompleted < secondEl.isCompleted) ||
+      (firstEl.controlTime < secondEl.controlTime) - (secondEl.controlTime < firstEl.controlTime)
+    );
+  };
 
   const onEditTitle = () => {
     let newColor = color;
@@ -86,12 +94,9 @@ const Task = () => {
     dispatch(initToggleTask({ taskId, listId, isCompleted }));
   };
 
-  const initCustomSort = (firstEl, secondEl) => {
-    return (
-      (secondEl.isCompleted < firstEl.isCompleted) - (firstEl.isCompleted < secondEl.isCompleted) ||
-      (firstEl.controlTime < secondEl.controlTime) - (secondEl.controlTime < firstEl.controlTime)
-    );
-  };
+  const sortedTasks = useMemo(() => {
+    return [...tasks].sort(initCustomSort);
+  }, [tasks]);
 
   return (
     <>
@@ -135,7 +140,7 @@ const Task = () => {
           </div>
         )}
         {tasks &&
-          [...tasks].sort(initCustomSort).map(({ id: taskId, text, isCompleted }) => (
+          sortedTasks.map(({ id: taskId, text, isCompleted }) => (
             <div key={taskId} className="task__item">
               <Checkbox
                 id={taskId}

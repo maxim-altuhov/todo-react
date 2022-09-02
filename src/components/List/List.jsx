@@ -35,8 +35,8 @@ const List = (props) => {
             <li
               key={`list-${id}`}
               tabIndex={0}
-              onClick={() => navigate(`/list/${id}`, { replace: true })}
-              onKeyPress={(e) => e.key === 'Enter' && navigate(`/list/${id}`, { replace: true })}
+              onClick={() => navigate(`/${id}`, { replace: true })}
+              onKeyPress={(e) => e.key === 'Enter' && navigate(`/${id}`, { replace: true })}
               className={classNames('list__item', {
                 list__item_active: activeList && activeList.id === id,
               })}

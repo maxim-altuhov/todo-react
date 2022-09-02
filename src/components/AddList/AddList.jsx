@@ -38,7 +38,7 @@ const AddList = () => {
     const newList = {
       name: inputValue,
       color: selectedColor || customColor,
-      controlTime: new Date().getTime(),
+      controlTime: Date.now(),
     };
 
     dispatch(initCreateList(newList))
@@ -48,7 +48,7 @@ const AddList = () => {
         setInputValue('');
         setCustomColor(DEFAULT_CUSTOM_COLOR);
         setChangeColorStatus(false);
-        navigate(`/list/${payload.id}`, { replace: true });
+        navigate(`/${payload.id}`, { replace: true });
       })
       .finally(() => setLoadingStatus(false));
   };
