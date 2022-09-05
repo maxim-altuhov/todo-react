@@ -46,7 +46,6 @@ const FormRecovery = () => {
   return (
     <>
       <form className="form" autoComplete="off" onSubmit={handleSubmit(onSubmit)}>
-        <p className="form__title">Сбросить пароль</p>
         <div className="form__group">
           <label className={classNames('form__label', { form__label_type_error: errors?.email })}>
             E-mail
