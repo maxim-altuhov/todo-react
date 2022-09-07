@@ -4,6 +4,7 @@ import { Routes, Route, BrowserRouter } from 'react-router-dom';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 
 import { setUser } from 'store/slices/userSlice';
+import { initFetchLists } from 'store/slices/listSlice';
 import { HomePage, LoginPage, RecoveryPage, RegisterPage } from 'pages';
 
 const App = () => {
@@ -22,6 +23,8 @@ const App = () => {
             token: user.accessToken,
           }),
         );
+
+        dispatch(initFetchLists());
       }
 
       setLoadingStatus(false);
@@ -30,6 +33,8 @@ const App = () => {
     return () => observerAuthUser();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  console.log('App');
 
   return isLoading ? (
     <div className="loader-block">Загрузка данных...</div>

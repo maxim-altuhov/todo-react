@@ -35,6 +35,8 @@ const AddTask = () => {
       .finally(() => setLoadingStatus(false));
   };
 
+  console.log('AddTask');
+
   return (
     <>
       {!isOpenForm ? (
@@ -42,23 +44,24 @@ const AddTask = () => {
       ) : (
         <form className="task-form" autoComplete="off" onSubmit={onAddNewTask}>
           <Input
+            required
+            autoFocus
+            autoComplete="off"
             placeholder="Текст задачи"
             value={inputValue}
             name="task-name"
-            isRequired
-            isAutofocus
             onChange={(e) => setInputValue(e.target.value.trimStart())}
           />
           <div className="task-form__btn-block">
             <div className="task-form__btn-block-item">
-              <Button
-                type="submit"
-                text={isLoading ? 'Добавление...' : 'Добавить'}
-                isDisabled={isLoading}
-              />
+              <Button type="submit" disabled={isLoading}>
+                {isLoading ? 'Добавление...' : 'Добавить'}
+              </Button>
             </div>
             <div className="task-form__btn-block-item">
-              <Button onClick={onToggleForm} text="Отмена" typeBtn="cancel" />
+              <Button onClick={onToggleForm} typeBtn="cancel">
+                Отмена
+              </Button>
             </div>
           </div>
         </form>

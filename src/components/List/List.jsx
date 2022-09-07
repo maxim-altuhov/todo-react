@@ -25,6 +25,8 @@ const List = (props) => {
     });
   };
 
+  console.log('List');
+
   return (
     <ul {...props} className="list">
       {status === 'resolved' &&

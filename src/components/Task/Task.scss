@@ -20,6 +20,10 @@
       text-transform: uppercase;
     }
 
+    @media (max-width: 900px) {
+      font-size: 2rem;
+    }
+
     @media (max-width: 575px) {
       font-size: 1.6rem;
     }

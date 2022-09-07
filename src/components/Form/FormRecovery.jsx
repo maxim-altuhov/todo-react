@@ -50,6 +50,8 @@ const FormRecovery = () => {
           <label className={classNames('form__label', { form__label_type_error: errors?.email })}>
             E-mail
             <Input
+              required
+              autoComplete="off"
               type="email"
               placeholder="Введите E-mail"
               {...register('email', {
@@ -61,11 +63,9 @@ const FormRecovery = () => {
           <>{errors?.email && <p className="form__error">{errors?.email?.message}</p>}</>
         </div>
         <div className="form__btn">
-          <Button
-            type="submit"
-            disabled={isLoading}
-            text={isLoading ? 'Отправка...' : 'Сбросить пароль'}
-          />
+          <Button type="submit" disabled={isLoading}>
+            {isLoading ? 'Отправка...' : 'Сбросить пароль'}
+          </Button>
         </div>
         <Link to="/sign-in" className="form__link">
           Войти в свой аккаунт

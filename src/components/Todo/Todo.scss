@@ -1,0 +1,25 @@
+.todo {
+  position: relative;
+  padding: 50px 25px 45px 35px;
+  width: 600px;
+  overflow-y: auto;
+
+  @media (max-width: 900px) {
+    width: 100%;
+    padding: 50px 15px 45px 90px;
+  }
+
+  @media (max-width: 575px) {
+    padding: 50px 10px 30px 55px;
+  }
+
+  &__title {
+    color: #c9d1d3;
+    font-size: 1.8rem;
+    font-weight: 500;
+
+    @media (max-width: 575px) {
+      font-size: 1.6rem;
+    }
+  }
+}

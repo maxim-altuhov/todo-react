@@ -63,6 +63,8 @@ const AddList = () => {
     setChangeColorStatus((isOpenChangeColor) => !isOpenChangeColor);
   };
 
+  console.log('AddList');
+
   return (
     <div className="add-list">
       <AddBtn onClick={onTogglePopup} text="Добавить список" title="Добавить список" />
@@ -78,8 +80,9 @@ const AddList = () => {
           />
           <form onSubmit={onCreateList} autoComplete="off">
             <Input
-              isRequired
-              isAutofocus
+              required
+              autoFocus
+              autoComplete="off"
               placeholder="Название списка"
               value={inputValue}
               name="list-name"
@@ -120,11 +123,9 @@ const AddList = () => {
               />
             )}
 
-            <Button
-              type="submit"
-              text={isLoading ? 'Добавление...' : 'Добавить'}
-              isDisabled={isLoading}
-            />
+            <Button type="submit" disabled={isLoading}>
+              {isLoading ? 'Добавление...' : 'Добавить'}
+            </Button>
           </form>
         </div>
       )}

@@ -50,6 +50,8 @@ const Form = ({ isLoginForm }) => {
           <label className={classNames('form__label', { form__label_type_error: errors?.email })}>
             E-mail
             <Input
+              required
+              autoComplete="off"
               type="email"
               placeholder="Введите E-mail"
               {...register('email', {
@@ -68,6 +70,8 @@ const Form = ({ isLoginForm }) => {
           >
             Пароль
             <Input
+              required
+              autoComplete="off"
               type={isLoginForm ? 'password' : 'text'}
               placeholder="Введите пароль"
               {...register('password', {
@@ -80,13 +84,9 @@ const Form = ({ isLoginForm }) => {
           <>{errors?.password && <p className="form__error">{errors?.password?.message}</p>}</>
         </div>
         <div className="form__btn">
-          <Button
-            type="submit"
-            disabled={isLoading}
-            text={
-              isLoading ? 'Отправка...' : isLoginForm ? 'Войти в аккаунт' : 'Зарегистрироваться'
-            }
-          />
+          <Button type="submit" disabled={isLoading}>
+            {isLoading ? 'Отправка...' : isLoginForm ? 'Войти в аккаунт' : 'Зарегистрироваться'}
+          </Button>
         </div>
         <Link to={isLoginForm ? '/reg' : '/sign-in'} className="form__link">
           {isLoginForm ? 'Регистрация' : 'Войти в свой аккаунт'}

@@ -1,17 +1,23 @@
+import UserInfo from './UserInfo/UserInfo';
+import Sidebar from './Sidebar/Sidebar';
+import Todo from './Todo/Todo';
 import Task from './Task/Task';
 import AddTask from './AddTask/AddTask';
 import List from './List/List';
 import AddList from './AddList/AddList';
 import AddBtn from './AddBtn/AddBtn';
-import Input from './Input/Input';
-import Button from './Button/Button';
-import Spinner from './Spinner/Spinner';
-import Error from './Error/Error';
 import Form from './Form/Form';
 import FormRecovery from './Form/FormRecovery';
-import Checkbox from './Checkbox/Checkbox';
+import Input from './UI/Input/Input';
+import Button from './UI/Button/Button';
+import Spinner from './UI/Spinner/Spinner';
+import Error from './UI/Error/Error';
+import Checkbox from './UI/Checkbox/Checkbox';
 
 export {
+  UserInfo,
+  Sidebar,
+  Todo,
   Task,
   AddTask,
   List,

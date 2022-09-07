@@ -5,6 +5,7 @@ import './popUp.scss';
 
 const popUp = withReactContent(Swal);
 const TABLET_WIDTH = 900;
+const isDesktop = window.innerWidth >= TABLET_WIDTH;
 
 const popUpDefault = popUp.mixin({
   width: 320,
@@ -22,7 +23,7 @@ const popUpDefault = popUp.mixin({
   denyButtonText: 'Отмена',
   confirmButtonText: 'Удалить',
   showLoaderOnConfirm: true,
-  scrollbarPadding: window.innerWidth >= TABLET_WIDTH ? true : false,
+  scrollbarPadding: isDesktop,
 });
 
 const popUpError = popUpDefault.mixin({

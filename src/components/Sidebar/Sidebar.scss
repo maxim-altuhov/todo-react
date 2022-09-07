@@ -1,0 +1,121 @@
+.sidebar {
+  background-color: #f4f6f8;
+  width: 285px;
+  padding: 70px 20px;
+  border-right: 1px solid #f1f1f1;
+  border-radius: 10px 0px 0px 10px;
+  overflow-y: auto;
+  transition: width 0.2s linear;
+
+  @media (max-width: 900px) {
+    padding: 70px 25px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 5;
+    min-width: auto;
+    width: 75px;
+    flex: 0 0 auto;
+
+    .list__item {
+      background-color: rgba(255, 255, 255, 0.8);
+      &_active {
+        border-width: 1px;
+        border-style: solid;
+        border-color: var(--color-border);
+      }
+    }
+
+    .list__close {
+      opacity: 1;
+    }
+
+    &_close {
+      padding: 70px 0;
+
+      @media (max-width: 575px) {
+        width: 45px;
+      }
+
+      .list__item,
+      .add-btn {
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        border-radius: 100%;
+        padding: 0;
+        margin: 0 auto;
+        margin-bottom: 5px;
+
+        @media (max-width: 575px) {
+          width: 30px;
+          height: 30px;
+          margin: 10px auto;
+        }
+      }
+
+      .add-list .add-btn {
+        display: block;
+        margin: 0;
+        margin: 0 auto;
+      }
+
+      .list__icon {
+        margin: 0;
+        left: 0;
+      }
+
+      .list__label,
+      .add-btn__text {
+        display: none;
+      }
+
+      .list__close {
+        display: none;
+      }
+    }
+
+    &_open {
+      width: 320px;
+
+      @media (max-width: 375px) {
+        width: 100%;
+      }
+
+      .sidebar__menu {
+        right: 15px;
+        transform: translateX(0) rotate(180deg);
+      }
+
+      .list__close {
+        display: block;
+      }
+    }
+  }
+
+  &__title {
+    font-size: 1.14rem;
+    font-weight: 500;
+    margin: 0px 0px 20px 15px;
+
+    @media (max-width: 900px) {
+      display: none;
+    }
+  }
+
+  &__menu {
+    display: none;
+    transition: transform 0.3s linear, right 0.3s linear;
+    cursor: pointer;
+
+    @media (max-width: 900px) {
+      display: block;
+      position: absolute;
+      top: 20px;
+      right: 50%;
+      transform: translateX(50%);
+    }
+  }
+}
