@@ -11,8 +11,6 @@ const Sidebar = () => {
   const { isOpenMenu, error } = useSelector((state) => state.list);
   const dispatch = useDispatch();
 
-  console.log('Sidebar');
-
   return (
     <div
       className={classNames('sidebar', {

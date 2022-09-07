@@ -6,6 +6,7 @@ import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { setUser } from 'store/slices/userSlice';
 import { initFetchLists } from 'store/slices/listSlice';
 import { HomePage, LoginPage, RecoveryPage, RegisterPage } from 'pages';
+import { Loader } from 'components';
 
 const App = () => {
   const { isAuth } = useSelector((state) => state.user);
@@ -34,10 +35,10 @@ const App = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  console.log('App');
-
   return isLoading ? (
-    <div className="loader-block">Загрузка данных...</div>
+    <div className="loader-block">
+      <Loader />
+    </div>
   ) : (
     <BrowserRouter>
       <Routes>

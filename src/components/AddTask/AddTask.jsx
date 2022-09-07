@@ -35,8 +35,6 @@ const AddTask = () => {
       .finally(() => setLoadingStatus(false));
   };
 
-  console.log('AddTask');
-
   return (
     <>
       {!isOpenForm ? (
@@ -59,7 +57,7 @@ const AddTask = () => {
               </Button>
             </div>
             <div className="task-form__btn-block-item">
-              <Button onClick={onToggleForm} typeBtn="cancel">
+              <Button type="button" onClick={onToggleForm} typeBtn="cancel">
                 Отмена
               </Button>
             </div>

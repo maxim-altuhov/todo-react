@@ -13,6 +13,7 @@ import Button from './UI/Button/Button';
 import Spinner from './UI/Spinner/Spinner';
 import Error from './UI/Error/Error';
 import Checkbox from './UI/Checkbox/Checkbox';
+import Loader from './UI/Loader/Loader';
 
 export {
   UserInfo,
@@ -23,11 +24,12 @@ export {
   List,
   AddList,
   AddBtn,
+  Form,
+  FormRecovery,
   Input,
   Button,
   Spinner,
   Error,
-  Form,
-  FormRecovery,
   Checkbox,
+  Loader,
 };

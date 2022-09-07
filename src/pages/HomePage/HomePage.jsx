@@ -22,8 +22,6 @@ const HomePage = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [lists, location.pathname]);
 
-  console.log('HomePage');
-
   return status === 'loading' ? (
     <div className="loader-block">
       <Spinner />

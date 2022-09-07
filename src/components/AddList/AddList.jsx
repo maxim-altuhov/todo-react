@@ -63,8 +63,6 @@ const AddList = () => {
     setChangeColorStatus((isOpenChangeColor) => !isOpenChangeColor);
   };
 
-  console.log('AddList');
-
   return (
     <div className="add-list">
       <AddBtn onClick={onTogglePopup} text="Добавить список" title="Добавить список" />

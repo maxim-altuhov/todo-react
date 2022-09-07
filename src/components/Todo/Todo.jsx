@@ -8,8 +8,6 @@ import './Todo.scss';
 const Todo = () => {
   const { lists, activeList } = useSelector((state) => state.list);
 
-  console.log('Todo');
-
   return (
     <div className="todo">
       <UserInfo />

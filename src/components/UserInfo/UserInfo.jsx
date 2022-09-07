@@ -24,10 +24,8 @@ const UserInfo = () => {
     });
   };
 
-  console.log('UserInfo');
-
   return (
-    <button className="user-info" onClick={onLogOutUser}>
+    <button type="button" className="user-info" onClick={onLogOutUser}>
       <span className="user-info__name">{email}</span>
       <RiLogoutCircleRLine className="user-info__exit" size={20} title="Выйти" />
     </button>

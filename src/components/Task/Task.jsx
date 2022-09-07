@@ -98,8 +98,6 @@ const Task = () => {
     return [...tasks].sort(initCustomSort);
   }, [tasks]);
 
-  console.log('Task');
-
   return (
     <>
       <div className="task">
