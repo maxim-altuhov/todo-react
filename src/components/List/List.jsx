@@ -7,7 +7,7 @@ import { popUpDefault } from 'utils/popUp';
 import { initRemoveList } from 'store/slices/listSlice';
 import './List.scss';
 
-const List = (props) => {
+const List = () => {
   const { lists, activeList, status } = useSelector((state) => state.list);
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -26,11 +26,9 @@ const List = (props) => {
   };
 
   return (
-    <ul {...props} className="list">
+    <ul className="list">
       {status === 'resolved' &&
-        lists.map((item) => {
-          const { id, color, name, tasks } = item;
-
+        lists.map(({ id, color, name, tasks }) => {
           return (
             <li
               key={`list-${id}`}

@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import { GrAdd } from 'react-icons/gr';
 
 import './AddBtn.scss';
@@ -11,4 +12,4 @@ const AddBtn = ({ onClick, size = 20, title = 'Add', type = 'button', text = '' 
   );
 };
 
-export default AddBtn;
+export default memo(AddBtn);

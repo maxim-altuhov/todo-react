@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { HexColorPicker } from 'react-colorful';
@@ -53,10 +53,11 @@ const AddList = () => {
       .finally(() => setLoadingStatus(false));
   };
 
-  const onTogglePopup = () => {
+  const onTogglePopup = useCallback(() => {
     setChangeColorStatus(false);
     dispatch(togglePopup());
-  };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const onOpenCustomColorPopUp = () => {
     setSelectedColorId(colors.length);

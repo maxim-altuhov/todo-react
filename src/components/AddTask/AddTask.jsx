@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { AddBtn, Input, Button } from '../';
@@ -14,10 +14,10 @@ const AddTask = () => {
   const { id: listId } = activeList;
   const dispatch = useDispatch();
 
-  const onToggleForm = () => {
+  const onToggleForm = useCallback(() => {
     setStatusForm((isOpenForm) => !isOpenForm);
     setInputValue('');
-  };
+  }, []);
 
   const onAddNewTask = (e) => {
     e.preventDefault();
