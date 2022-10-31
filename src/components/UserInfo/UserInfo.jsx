@@ -2,6 +2,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { RiLogoutCircleRLine } from 'react-icons/ri';
 
+import { LOGIN_ROUTE } from 'routes';
 import { initRemoveUser } from 'store/slices/userSlice';
 import { popUpDefault } from 'utils/popUp';
 
@@ -19,7 +20,7 @@ const UserInfo = () => {
       preConfirm: () => {
         dispatch(initRemoveUser())
           .unwrap()
-          .then(() => navigate('/sign-in', { replace: true }));
+          .then(() => navigate(LOGIN_ROUTE, { replace: true }));
       },
     });
   };

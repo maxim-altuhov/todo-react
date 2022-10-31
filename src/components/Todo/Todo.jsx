@@ -2,6 +2,7 @@ import { useSelector } from 'react-redux';
 import { Routes, Route } from 'react-router-dom';
 
 import { Task, UserInfo } from 'components';
+import { TASK_ROUTE } from 'routes';
 
 import './Todo.scss';
 
@@ -13,7 +14,7 @@ const Todo = () => {
       <UserInfo />
       {lists && activeList ? (
         <Routes>
-          <Route path=":id" element={<Task />}></Route>
+          <Route path={TASK_ROUTE} element={<Task />}></Route>
         </Routes>
       ) : (
         <p className="todo__title">Список не выбран</p>

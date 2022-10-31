@@ -1,7 +1,17 @@
 import './Loader.scss';
 
-const Loader = ({ color = '#8463ff' }) => {
-  return <div className="loader" style={{ '--loader-var': color }}></div>;
+const Loader = () => {
+  return (
+    <div className="loader">
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+  );
 };
 
 export default Loader;

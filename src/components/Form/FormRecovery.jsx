@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
 import classNames from 'classnames';
 
+import { LOGIN_ROUTE, REGISTRATION_ROUTE } from 'routes/index.js';
 import { initResetPassword } from 'store/slices/userSlice';
 import { initResetPasswordPopUp } from 'utils/popUp';
 import { validateRules } from './utils/validateRules.js';
@@ -67,10 +68,10 @@ const FormRecovery = () => {
             {isLoading ? 'Отправка...' : 'Сбросить пароль'}
           </Button>
         </div>
-        <Link to="/sign-in" className="form__link">
+        <Link to={LOGIN_ROUTE} className="form__link">
           Войти в свой аккаунт
         </Link>
-        <Link to="/reg" className="form__link">
+        <Link to={REGISTRATION_ROUTE} className="form__link">
           Регистрация
         </Link>
       </form>

@@ -6,6 +6,7 @@ import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { setUser } from 'store/slices/userSlice';
 import { initFetchLists } from 'store/slices/listSlice';
 import { HomePage, LoginPage, RecoveryPage, RegisterPage } from 'pages';
+import { MAIN_ROUTE, RECOVERY_ROUTE, REGISTRATION_ROUTE } from 'routes';
 import { Loader } from 'components';
 
 const App = () => {
@@ -43,12 +44,12 @@ const App = () => {
     <BrowserRouter>
       <Routes>
         {isAuth ? (
-          <Route path="/*" element={<HomePage />} />
+          <Route path={MAIN_ROUTE} element={<HomePage />} />
         ) : (
           <>
-            <Route path="/*" element={<LoginPage />} />
-            <Route path="/reg" element={<RegisterPage />} />
-            <Route path="/recovery" element={<RecoveryPage />} />
+            <Route path={MAIN_ROUTE} element={<LoginPage />} />
+            <Route path={REGISTRATION_ROUTE} element={<RegisterPage />} />
+            <Route path={RECOVERY_ROUTE} element={<RecoveryPage />} />
           </>
         )}
       </Routes>

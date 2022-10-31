@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
 import classNames from 'classnames';
 
+import { RECOVERY_ROUTE, REGISTRATION_ROUTE, LOGIN_ROUTE } from 'routes/index.js';
 import { initSignInUser, initCreateUser } from 'store/slices/userSlice';
 import { validateRules } from './utils/validateRules.js';
 import { Button, Input } from '../';
@@ -88,10 +89,10 @@ const Form = ({ isLoginForm }) => {
             {isLoading ? 'Отправка...' : isLoginForm ? 'Войти в аккаунт' : 'Зарегистрироваться'}
           </Button>
         </div>
-        <Link to={isLoginForm ? '/reg' : '/sign-in'} className="form__link">
+        <Link to={isLoginForm ? REGISTRATION_ROUTE : LOGIN_ROUTE} className="form__link">
           {isLoginForm ? 'Регистрация' : 'Войти в свой аккаунт'}
         </Link>
-        <Link to="/recovery" className="form__link">
+        <Link to={RECOVERY_ROUTE} className="form__link">
           Забыли пароль?
         </Link>
       </form>
